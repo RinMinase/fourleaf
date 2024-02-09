@@ -1,21 +1,24 @@
 import { Router, Route } from "preact-router";
+import AsyncRoute from "preact-async-route";
 
 import Login from "./login";
-import Gas from "./gas";
 import Notes from "./notes";
-import Journal from "./journal";
 import Page404 from "./common/Page404";
 
 type Props = {
   onChange: () => void;
 };
 
+const Journal = () => import("./journal").then((c) => c.default);
+const Gas = () => import("./gas").then((c) => c.default);
+
 const Routes = ({ onChange }: Props) => (
   <Router onChange={onChange}>
     <Route path="/" component={Notes} />
-    <Route path="/journal" component={Journal} />
-    <Route path="/gas" component={Gas} />
     <Route path="/login" component={Login} />
+
+    <AsyncRoute path="/journal" getComponent={Journal} />
+    <AsyncRoute path="/gas" getComponent={Gas} />
 
     <Route default component={Page404} />
   </Router>
