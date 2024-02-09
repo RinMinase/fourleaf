@@ -19,6 +19,7 @@ const Layout = () => {
         setAuth(true);
       }
 
+      // redirect to landing page if user is already logged in
       if (user && window.location.pathname.includes("login")) {
         route("/");
       }

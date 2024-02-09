@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 let app = null;
+let auth: any = null;
 
 if (
   import.meta.env.VITE_FIREBASE_PROJECT_ID &&
@@ -15,8 +16,9 @@ if (
   };
 
   app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
 }
 
-export const auth: any = app !== null ? getAuth(app) : null;
+export { auth };
 
 export default app;

@@ -7,10 +7,8 @@ type Props = {
 };
 
 export default function App({ isAuth }: Props) {
-  const handleLogout = async () => {
-    signOut(auth)
-      .then(() => {})
-      .catch(() => {});
+  const handleLogout = () => {
+    signOut(auth);
   };
 
   return (
