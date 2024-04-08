@@ -18,6 +18,9 @@ export default function App({ isAuth }: Props) {
           <a href="/">Notes</a>
         </li>
         <li>
+          <a href="/bills">Bills</a>
+        </li>
+        <li>
           <a href="/journal">Journal</a>
         </li>
         <li>

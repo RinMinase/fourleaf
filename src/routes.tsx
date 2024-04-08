@@ -11,12 +11,14 @@ type Props = {
 
 const Journal = () => import("./journal").then((c) => c.default);
 const Gas = () => import("./gas").then((c) => c.default);
+const Bills = () => import("./bills").then((c) => c.default);
 
 const Routes = ({ onChange }: Props) => (
   <Router onChange={onChange}>
     <Route path="/" component={Notes} />
     <Route path="/login" component={Login} />
 
+    <AsyncRoute path="/bills" getComponent={Bills} />
     <AsyncRoute path="/journal" getComponent={Journal} />
     <AsyncRoute path="/gas" getComponent={Gas} />
 
