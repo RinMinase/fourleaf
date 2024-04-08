@@ -23,7 +23,7 @@
     "@babel/core": "^7.24.4",
     "@preact/preset-vite": "^2.8.2",
     "typescript": "^5.2.2",
-    "vite": "^5.1.2"
+    "vite": "^5.2.8"
   },
   "resolutions": {
     "react-hook-form/react": "^18.0.0"
