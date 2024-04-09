@@ -1,6 +1,9 @@
 #nav {
   display: flex;
+  align-items: center;
+
   padding: 8px 16px;
+  max-height: 40px;
 
   background-color: #111827;
   color: #fff;
@@ -9,7 +12,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    max-height: 28px;
+    height: 28px;
 
     img {
       height: 100%;
@@ -28,9 +31,11 @@
     gap: 8px;
     justify-content: center;
 
+    list-style: none;
+
     a {
       display: inline-block;
-      padding: 4px 16px;
+      padding: 8px 16px;
     }
 
     a.active {
@@ -51,11 +56,26 @@
     gap: 8px;
     cursor: pointer;
 
-    max-height: 32px;
+    height: 32px;
     padding: 4px 16px;
 
     &:hover {
       background-color: rgba(51, 65, 85, 0.4);
+    }
+  }
+
+  .user-image {
+    border-radius: 100px;
+    background-color: #d1d5db;
+    height: 20px;
+
+    margin-left: 12px;
+    padding: 4px;
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: #7dd3fc;
     }
 
     img {

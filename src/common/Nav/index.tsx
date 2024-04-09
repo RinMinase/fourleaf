@@ -61,13 +61,16 @@ export default function App({ isAuth, currRoute }: Props) {
         </li>
       </ul>
       {isAuth ? (
-        <div class="logout-button">
-          <img src="/favicon.png" />
-
-          <a href="#" onClick={handleLogout}>
-            Logout
-          </a>
-        </div>
+        <>
+          <div class="logout-button">
+            <a href="#" onClick={handleLogout}>
+              Logout
+            </a>
+          </div>
+          <div class="user-image">
+            <img src="/favicon.png" />
+          </div>
+        </>
       ) : (
         <a href="/login">Login</a>
       )}
