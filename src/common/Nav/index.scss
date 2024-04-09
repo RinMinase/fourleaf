@@ -1,0 +1,65 @@
+#nav {
+  display: flex;
+  padding: 8px 16px;
+
+  background-color: #111827;
+  color: #fff;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-height: 28px;
+
+    img {
+      height: 100%;
+    }
+
+    span {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+    }
+  }
+
+  .menu {
+    display: flex;
+    flex-grow: 1;
+    gap: 8px;
+    justify-content: center;
+
+    a {
+      display: inline-block;
+      padding: 4px 16px;
+    }
+
+    a.active {
+      color: rgb(59, 130, 246);
+      cursor: default;
+    }
+
+    a:hover:not(.active) {
+      color: rgb(6, 182, 212);
+      background-color: rgba(8, 51, 68, 0.35);
+    }
+  }
+
+  .logout-button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    max-height: 32px;
+    padding: 4px 16px;
+
+    &:hover {
+      background-color: rgba(51, 65, 85, 0.4);
+    }
+
+    img {
+      height: 100%;
+    }
+  }
+}

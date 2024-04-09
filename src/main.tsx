@@ -12,6 +12,7 @@ import "./index.css";
 
 const Layout = () => {
   const [isAuth, setAuth] = useState(false);
+  const [currRoute, setRoute] = useState("/");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -35,11 +36,13 @@ const Layout = () => {
     if (!isAuth) {
       route("/login");
     }
+
+    setRoute(window.location.pathname);
   };
 
   return (
     <>
-      <Nav isAuth={isAuth} />
+      <Nav isAuth={isAuth} currRoute={currRoute} />
       <Routes onChange={handleRouteChange} />
     </>
   );
