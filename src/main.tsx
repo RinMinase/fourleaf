@@ -9,7 +9,7 @@ import Routes from "./routes";
 import Nav from "./common/Nav";
 
 import "modern-normalize/modern-normalize.css";
-import "./index.css";
+import "./main.scss";
 
 const Layout = () => {
   const [isAuth, setAuth] = useState(false);
