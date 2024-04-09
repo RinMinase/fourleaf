@@ -1,4 +1,17 @@
-a, a:hover, a:focus, a:active {
+a,
+a:hover,
+a:focus,
+a:active {
   text-decoration: none;
   color: inherit;
+}
+
+main.content {
+  padding: 15px;
+}
+
+@media screen and (max-width: 900px) {
+  main.content {
+    padding: 8px;
+  }
 }
