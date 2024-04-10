@@ -15,7 +15,7 @@
     "firebase": "^10.8.0",
     "lodash-es": "^4.17.21",
     "modern-normalize": "^2.0.0",
-    "preact": "^10.20.1",
+    "preact": "^10.20.2",
     "preact-async-route": "^2.2.1",
     "preact-router": "^4.1.2",
     "react-hook-form": "^7.51.2",
