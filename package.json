@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "chart.js": "^4.4.2",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "clsx": "^2.1.0",
     "firebase": "^10.8.0",
     "lodash-es": "^4.17.21",
