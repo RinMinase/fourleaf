@@ -1,0 +1,30 @@
+main.gas {
+  .chart {
+    max-width: 100%;
+  }
+
+  .button-container {
+    height: 100px;
+
+    button {
+      width: 200px;
+      height: 40px;
+      border-radius: 12px;
+      border: 0;
+    }
+
+    .button-fuel {
+      background-color: #38bdf8;
+    }
+
+    .button-maintenance {
+      background-color: #f87171;
+    }
+  }
+
+  .table-fuel {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
