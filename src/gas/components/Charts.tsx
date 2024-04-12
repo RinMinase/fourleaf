@@ -20,7 +20,7 @@ export default function Charts() {
         labels: ["j", "f", "m", "a", "m", "j", "j"],
         datasets: [
           {
-            label: "Efficiency",
+            label: "Efficiency over fuel refills",
             data: [65, 59, 80, 81, 56, 55, 40],
             borderColor: "rgb(2, 132, 199)",
           },
@@ -34,7 +34,7 @@ export default function Charts() {
         labels: ["j", "f", "m", "a", "m", "j", "j"],
         datasets: [
           {
-            label: "Gas",
+            label: "Gas price over time",
             data: [65, 59, 80, 81, 56, 55, 40],
             borderColor: "rgb(101, 163, 13)",
           },
