@@ -14,8 +14,8 @@ import "./index.scss";
 export default function App() {
   const [isLoading, setLoading] = useState(false);
 
-  const [stats, setStats] = useState<{} | Stats>({});
-  const [maintenance, setMaintenance] = useState<{} | Maintenance>({});
+  const [stats, setStats] = useState<null | Stats>(null);
+  const [maintenance, setMaintenance] = useState<Maintenance>({});
   const [graphEfficiency, setGraphEfficiency] = useState({});
   const [graphGas, setGraphGas] = useState({});
 
@@ -60,23 +60,23 @@ export default function App() {
           <div class="flex gap-row-md overview">
             <div class="col-6">
               <h3>Average Efficiency</h3>
-              <p>{stats.averageEfficiency || <Skeleton />}</p>
+              <p>{stats?.averageEfficiency || <Skeleton />}</p>
             </div>
             <div class="col-6">
               <h3>Last Efficiency</h3>
-              <p>{stats.lastEfficiency || <Skeleton />}</p>
+              <p>{stats?.lastEfficiency || <Skeleton />}</p>
             </div>
             <div class="col-4">
               <h3>Mileage</h3>
-              <p>{stats.mileage || <Skeleton />}</p>
+              <p>{stats?.mileage || <Skeleton />}</p>
             </div>
             <div class="col-4">
               <h3>Age</h3>
-              <p>{stats.age || <Skeleton />}</p>
+              <p>{stats?.age || <Skeleton />}</p>
             </div>
             <div class="col-4">
               <h3>KM / Month</h3>
-              <p>{stats.kmPerMonth || <Skeleton />}</p>
+              <p>{stats?.kmPerMonth || <Skeleton />}</p>
             </div>
           </div>
           <div class="flex flex-col">

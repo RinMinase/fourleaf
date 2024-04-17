@@ -7,7 +7,7 @@ export type Stats = {
 };
 
 export type Maintenance = {
-  km: {
+  km?: {
     brakeFluid: string;
     engineOil: string;
     powerSteeringFluid: string;
@@ -16,7 +16,7 @@ export type Maintenance = {
     tires: string;
     transmissionFluid: string;
   };
-  year: {
+  year?: {
     acCoolant: string;
     battery: string;
     brakeFluid: string;
