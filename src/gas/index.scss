@@ -1,4 +1,20 @@
 main.gas {
+  .overview {
+    h3 {
+      margin-top: 8px;
+      margin-bottom: 0;
+    }
+
+    p {
+      display: inline-block;
+
+      margin-top: 8px;
+      margin-bottom: 0;
+
+      width: 180px;
+    }
+  }
+
   .chart {
     max-width: 100%;
   }
@@ -26,5 +42,9 @@ main.gas {
     width: 300px;
     margin: 0 auto;
     text-align: center;
+  }
+
+  .maintenance-status {
+    text-transform: capitalize;
   }
 }
