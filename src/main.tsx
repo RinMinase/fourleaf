@@ -8,7 +8,11 @@ import { auth } from "./firebase";
 import Routes from "./routes";
 import Nav from "./common/Nav";
 
+import "./http";
+
 import "modern-normalize/modern-normalize.css";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import "./main.scss";
 
 const Layout = () => {
