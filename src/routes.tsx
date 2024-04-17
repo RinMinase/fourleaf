@@ -10,7 +10,10 @@ type Props = {
 };
 
 const Journal = () => import("./journal").then((c) => c.default);
+
 const Gas = () => import("./gas").then((c) => c.default);
+const GasAddFuel = () => import("./gas/add-fuel").then((c) => c.default);
+
 const Bills = () => import("./bills").then((c) => c.default);
 
 const Routes = ({ onChange }: Props) => (
@@ -20,7 +23,9 @@ const Routes = ({ onChange }: Props) => (
 
     <AsyncRoute path="/bills" getComponent={Bills} />
     <AsyncRoute path="/journal" getComponent={Journal} />
+
     <AsyncRoute path="/gas" getComponent={Gas} />
+    <AsyncRoute path="/gas/add-fuel" getComponent={GasAddFuel} />
 
     <Route default component={Page404} />
   </Router>
