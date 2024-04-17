@@ -86,8 +86,12 @@ export default function App() {
         </div>
         <div class="flex flex-col col-5">
           <div class="flex flex-center flex-no-grow gap-lg button-container">
-            <button class="button-fuel">Add Fuel Data</button>
-            <button class="button-maintenance">Add Maintenance Data</button>
+            <a href="/gas/add-fuel" class="button button-fuel">
+              Add Fuel Data
+            </a>
+            <a href="/gas/add-fuel" class="button button-maintenance">
+              Add Maintenance Data
+            </a>
           </div>
           <div class="flex flex-col">
             <h2 class="center">Maintenance</h2>
