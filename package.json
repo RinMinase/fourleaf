@@ -19,15 +19,15 @@
     "preact": "^10.20.2",
     "preact-async-route": "^2.2.1",
     "preact-router": "^4.1.2",
-    "react-hook-form": "^7.51.2",
+    "react-hook-form": "^7.51.3",
     "react-loading-skeleton": "^3.4.0",
-    "sass": "^1.74.1"
+    "sass": "^1.75.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@preact/preset-vite": "^2.8.2",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.8"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.9"
   },
   "resolutions": {
     "react-hook-form/react": "^18.0.0"
