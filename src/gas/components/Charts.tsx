@@ -77,11 +77,11 @@ export default function Charts(props: Props) {
       type: "line",
       options: chartOptions,
       data: {
-        labels: ["j", "f", "m", "a", "m", "j", "j"],
+        labels: [],
         datasets: [
           {
             label: "Efficiency",
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: [],
             borderColor: "rgb(2, 132, 199)",
           },
         ],
@@ -92,11 +92,11 @@ export default function Charts(props: Props) {
       type: "line",
       options: chartOptions,
       data: {
-        labels: ["j", "f", "m", "a", "m", "j", "j"],
+        labels: [],
         datasets: [
           {
             label: "Price",
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: [],
             borderColor: "rgb(101, 163, 13)",
           },
         ],
