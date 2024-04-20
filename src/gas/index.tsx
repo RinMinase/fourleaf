@@ -105,7 +105,7 @@ export default function App() {
             </a>
           </div>
           <div class="flex flex-col">
-            <h2 class="center">Maintenance</h2>
+            <h2 class="center mb-sm-0">Maintenance</h2>
             <MaintenanceTable maintenance={maintenance} />
           </div>
           <div class="flex flex-col">

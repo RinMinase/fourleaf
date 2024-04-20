@@ -71,6 +71,8 @@ export default function Charts(props: Props) {
   }, [props.graphEfficiency, props.graphGas]);
 
   useEffect(() => {
+    const isMobile = checkDeviceIfMobile();
+
     const canvasEfficiency = document.getElementById("efficiency_graph") as any;
     const ctxEfficiency = canvasEfficiency.getContext("2d") as any;
 
@@ -101,6 +103,9 @@ export default function Charts(props: Props) {
         },
         legend: {
           display: false,
+        },
+        tooltip: {
+          enabled: !isMobile,
         },
       },
     };
