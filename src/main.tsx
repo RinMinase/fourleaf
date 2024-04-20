@@ -12,6 +12,7 @@ import "./http";
 
 import "modern-normalize/modern-normalize.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "animate.css";
 
 import "./main.scss";
 
