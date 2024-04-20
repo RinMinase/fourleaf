@@ -115,47 +115,53 @@ export default function App() {
         </div>
       </div>
 
-      <div class="custom-input">
-        <input
-          type="date"
-          class={clsx({
-            error: errors.date,
-          })}
-          max={dateNow}
-          {...register("date")}
-        />
-        <label>Date</label>
-        <span class="error-message">{errors.date?.message}</span>
-      </div>
+      <div class="flex gap-md mb-3">
+        <div class="col-4 col-md-12">
+          <div class="custom-input">
+            <input
+              type="date"
+              class={clsx({
+                error: errors.date,
+              })}
+              max={dateNow}
+              {...register("date")}
+            />
+            <label>Date</label>
+            <span class="error-message">{errors.date?.message}</span>
+          </div>
+        </div>
 
-      <div class="custom-input">
-        <input
-          type="number"
-          class={clsx({
-            error: errors.from_bars,
-          })}
-          onKeyPress={handleKeypressOnlyNumbers}
-          {...register("from_bars")}
-        />
-        <label>From Bars</label>
-        <span class="error-message">{errors.from_bars?.message}</span>
-      </div>
-      <div class="custom-input">
-        <input
-          type="number"
-          class={clsx({
-            error: errors.to_bars,
-          })}
-          disabled={isDisabledToBars}
-          onKeyPress={handleKeypressOnlyNumbers}
-          {...register("to_bars")}
-        />
-        <label>To Bars</label>
-        <span class="error-message">{errors.to_bars?.message}</span>
-      </div>
+        <div class="col-2 col-md-6 col-sm-12">
+          <div class="custom-input">
+            <input
+              type="number"
+              class={clsx({
+                error: errors.from_bars,
+              })}
+              onKeyPress={handleKeypressOnlyNumbers}
+              {...register("from_bars")}
+            />
+            <label>From Bars</label>
+            <span class="error-message">{errors.from_bars?.message}</span>
+          </div>
+        </div>
+        <div class="col-2 col-md-6 col-sm-12">
+          <div class="custom-input">
+            <input
+              type="number"
+              class={clsx({
+                error: errors.to_bars,
+              })}
+              disabled={isDisabledToBars}
+              onKeyPress={handleKeypressOnlyNumbers}
+              {...register("to_bars")}
+            />
+            <label>To Bars</label>
+            <span class="error-message">{errors.to_bars?.message}</span>
+          </div>
+        </div>
 
-      <div class="flex flex-col">
-        <div class="flex">
+        <div class="col-2 col-md-6 col-sm-12">
           <div class="custom-checkbox">
             <input
               type="checkbox"
@@ -167,7 +173,7 @@ export default function App() {
             <label for="first_click">First Click</label>
           </div>
         </div>
-        <div class="flex">
+        <div class="col-2 col-md-6 col-sm-12">
           <div class="custom-checkbox">
             <input
               type="checkbox"
@@ -179,45 +185,56 @@ export default function App() {
             <label for="full_tank">Fullest Tank</label>
           </div>
         </div>
+
+        <div class="col-4 col-md-12">
+          <div class="custom-input">
+            <input
+              type="number"
+              class={clsx({
+                error: errors.odometer,
+              })}
+              onKeyPress={handleKeypressOnlyNumbers}
+              {...register("odometer")}
+            />
+            <label>Odometer</label>
+            <span class="error-message">{errors.odometer?.message}</span>
+          </div>
+        </div>
+
+        <div class="col-4 col-md-12">
+          <div class="custom-input">
+            <input
+              type="number"
+              class={clsx({
+                error: errors.price_per_liter,
+              })}
+              onKeyPress={handleKeypressOnlyNumbersAndPeriod}
+              {...register("price_per_liter")}
+            />
+            <label>Price Per Liter</label>
+            <span class="error-message">{errors.price_per_liter?.message}</span>
+          </div>
+        </div>
+
+        <div class="col-4 col-md-12">
+          <div class="custom-input">
+            <input
+              type="number"
+              class={clsx({
+                error: errors.liters_filled,
+              })}
+              onKeyPress={handleKeypressOnlyNumbersAndPeriod}
+              {...register("liters_filled")}
+            />
+            <label>Liters Filled</label>
+            <span class="error-message">{errors.liters_filled?.message}</span>
+          </div>
+        </div>
       </div>
 
-      <div class="custom-input mt-3">
-        <input
-          type="number"
-          class={clsx({
-            error: errors.odometer,
-          })}
-          onKeyPress={handleKeypressOnlyNumbers}
-          {...register("odometer")}
-        />
-        <label>Odometer</label>
-        <span class="error-message">{errors.odometer?.message}</span>
-      </div>
-
-      <div class="custom-input">
-        <input
-          type="number"
-          class={clsx({
-            error: errors.price_per_liter,
-          })}
-          onKeyPress={handleKeypressOnlyNumbersAndPeriod}
-          {...register("price_per_liter")}
-        />
-        <label>Price Per Liter</label>
-        <span class="error-message">{errors.price_per_liter?.message}</span>
-      </div>
-
-      <div class="custom-input">
-        <input
-          type="number"
-          class={clsx({
-            error: errors.liters_filled,
-          })}
-          onKeyPress={handleKeypressOnlyNumbersAndPeriod}
-          {...register("liters_filled")}
-        />
-        <label>Liters Filled</label>
-        <span class="error-message">{errors.liters_filled?.message}</span>
+      <div class="flex flex-col">
+        <div class="flex"></div>
+        <div class="flex"></div>
       </div>
 
       <div class="col-12">
