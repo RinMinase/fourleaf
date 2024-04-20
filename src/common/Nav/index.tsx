@@ -12,6 +12,25 @@ type Props = {
   currRoute: string;
 };
 
+const menu: Array<{ route: string; name: string }> = [
+  {
+    route: "/",
+    name: "Notes",
+  },
+  {
+    route: "/bills",
+    name: "Bills",
+  },
+  {
+    route: "/journal",
+    name: "Journal",
+  },
+  {
+    route: "/gas",
+    name: "Gas Monitoring",
+  },
+];
+
 export default function App({ isAuth, currRoute }: Props) {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -32,38 +51,17 @@ export default function App({ isAuth, currRoute }: Props) {
         </a>
 
         <ul class="menu flex hide-md">
-          <li>
-            <a
-              href={isRoute("/") ? "#" : "/"}
-              class={clsx({ active: isRoute("/") })}
-            >
-              Notes
-            </a>
-          </li>
-          <li>
-            <a
-              href={isRoute("/bills") ? "#" : "/bills"}
-              class={clsx({ active: isRoute("/bills") })}
-            >
-              Bills
-            </a>
-          </li>
-          <li>
-            <a
-              href={isRoute("/journal") ? "#" : "/journal"}
-              class={clsx({ active: isRoute("/journal") })}
-            >
-              Journal
-            </a>
-          </li>
-          <li>
-            <a
-              href={isRoute("/gas") ? "#" : "/gas"}
-              class={clsx({ active: isRoute("/gas") })}
-            >
-              Gas Monitoring
-            </a>
-          </li>
+          {menu.map((item) => (
+            <li>
+              <a
+                href={isRoute(item.route) ? "#" : item.route}
+                class={clsx({ active: isRoute(item.route) })}
+                onClick={() => setMenuOpen(false)}
+              >
+                {item.name}
+              </a>
+            </li>
+          ))}
         </ul>
 
         {isAuth ? (
@@ -91,7 +89,7 @@ export default function App({ isAuth, currRoute }: Props) {
       </nav>
       {isMenuOpen && (
         <div id="mobile_menu" class="mobile-menu-overlay">
-          <div class="mobile-menu-close flex">
+          <div class="animate__animated flex mobile-menu-close">
             <img
               src="/xmark-solid.svg"
               alt="X"
@@ -99,39 +97,18 @@ export default function App({ isAuth, currRoute }: Props) {
               onClick={() => setMenuOpen(false)}
             />
           </div>
-          <ul class="mobile-menu">
-            <li>
-              <a
-                href={isRoute("/") ? "#" : "/"}
-                class={clsx({ active: isRoute("/") })}
-              >
-                Notes
-              </a>
-            </li>
-            <li>
-              <a
-                href={isRoute("/bills") ? "#" : "/bills"}
-                class={clsx({ active: isRoute("/bills") })}
-              >
-                Bills
-              </a>
-            </li>
-            <li>
-              <a
-                href={isRoute("/journal") ? "#" : "/journal"}
-                class={clsx({ active: isRoute("/journal") })}
-              >
-                Journal
-              </a>
-            </li>
-            <li>
-              <a
-                href={isRoute("/gas") ? "#" : "/gas"}
-                class={clsx({ active: isRoute("/gas") })}
-              >
-                Gas Monitoring
-              </a>
-            </li>
+          <ul class="animate__animated animate__fadeInRight mobile-menu">
+            {menu.map((item) => (
+              <li>
+                <a
+                  href={isRoute(item.route) ? "#" : item.route}
+                  class={clsx({ active: isRoute(item.route) })}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       )}
