@@ -5,6 +5,8 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash-es";
 
+import { checkDeviceIfMobile } from "../../common/functions";
+
 type Props = {
   graphEfficiency: object;
   graphGas: object;
@@ -18,21 +20,51 @@ Chart.register(...registerables, ChartDataLabels);
 export default function Charts(props: Props) {
   useEffect(() => {
     if (!isEmpty(props.graphEfficiency)) {
-      chartEfficiency.data.datasets[0].data = Object.values(
-        props.graphEfficiency,
+      const isMobile = checkDeviceIfMobile();
+
+      const values = Object.values(props.graphEfficiency);
+      const keys = Object.keys(props.graphEfficiency).map((date: string) =>
+        format(parseISO(date), "MMM d"),
       );
-      chartEfficiency.data.labels = Object.keys(props.graphEfficiency).map(
-        (date: string) => format(parseISO(date), "MMM d"),
-      );
+
+      let chartData: Array<number>;
+      let chartLabels: Array<string>;
+
+      if (isMobile) {
+        chartData = values.slice(Math.max(values.length - 7, 0));
+        chartLabels = keys.slice(Math.max(values.length - 7, 0));
+      } else {
+        chartData = values;
+        chartLabels = keys;
+      }
+
+      chartEfficiency.data.datasets[0].data = chartData;
+      chartEfficiency.data.labels = chartLabels;
 
       chartEfficiency.update();
     }
 
     if (!isEmpty(props.graphGas)) {
-      chartGas.data.datasets[0].data = Object.values(props.graphGas);
-      chartGas.data.labels = Object.keys(props.graphGas).map((date: string) =>
+      const isMobile = checkDeviceIfMobile();
+
+      const values = Object.values(props.graphGas);
+      const keys = Object.keys(props.graphGas).map((date: string) =>
         format(parseISO(date), "MMM d"),
       );
+
+      let chartData: Array<number>;
+      let chartLabels: Array<string>;
+
+      if (isMobile) {
+        chartData = values.slice(Math.max(values.length - 7, 0));
+        chartLabels = keys.slice(Math.max(values.length - 7, 0));
+      } else {
+        chartData = values;
+        chartLabels = keys;
+      }
+
+      chartGas.data.datasets[0].data = chartData;
+      chartGas.data.labels = chartLabels;
 
       chartGas.update();
     }
