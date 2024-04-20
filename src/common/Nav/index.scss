@@ -8,6 +8,8 @@
   background-color: #111827;
   color: #fff;
 
+  z-index: 99950;
+
   .brand {
     display: flex;
     align-items: center;
@@ -89,6 +91,11 @@
     justify-content: space-between;
 
     padding: 0;
+
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
 
     .brand {
       order: 1;
