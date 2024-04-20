@@ -51,6 +51,14 @@ main.gas {
 
   .maintenance-status {
     text-transform: capitalize;
+
+    &.nearing {
+      background-color: #FFB74D;
+    }
+
+    &.limit {
+      background-color: #E57373;
+    }
   }
 
   @media screen and (max-width: 992px) {
