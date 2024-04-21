@@ -84,14 +84,14 @@ export default function App({ isAuth, currRoute }: Props) {
           class="hide block-md pointer mobile-menu-trigger "
           onClick={() => setMenuOpen(true)}
         >
-          <img src="/bars-solid.svg" />
+          <img src="/icons/bars-solid.svg" />
         </div>
       </nav>
       {isMenuOpen && (
         <div id="mobile_menu" class="mobile-menu-overlay">
           <div class="animate__animated flex mobile-menu-close">
             <img
-              src="/xmark-solid.svg"
+              src="/icons/xmark-solid.svg"
               alt="X"
               class="pointer"
               onClick={() => setMenuOpen(false)}
