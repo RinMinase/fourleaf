@@ -4,20 +4,16 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../firebase";
-
-type LoginForm = {
-  email: string;
-  password: string;
-};
+import { defaultValues, Form, resolver } from "./validation";
 
 export default function App() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>();
+  } = useForm<Form>({ defaultValues, resolver, mode: "onChange" });
 
-  const handleSubmitForm: SubmitHandler<LoginForm> = async (data) => {
+  const handleSubmitForm: SubmitHandler<Form> = async (data) => {
     await signInWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
         route("/");
@@ -28,26 +24,39 @@ export default function App() {
   };
 
   return (
-    <>
-      <h1>Login</h1>
+    <div>
+      <h2 class="center mb-3 mt-3">Login</h2>
 
-      <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <input
-          type="text"
-          {...register("email", { required: true })}
-          autocomplete="username"
-        />
-        {errors.email && <span>This field is required</span>}
+      <div class="flex col-3 col-md-12 gap-md ml-auto mr-auto">
+        <div class="col-12">
+          <div class="custom-input">
+            <input type="text" autocomplete="username" {...register("email")} />
+            <label>Email</label>
+            <span class="error-message">{errors.email?.message}</span>
+          </div>
+        </div>
 
-        <input
-          type="password"
-          {...register("password", { required: true })}
-          autocomplete="current-password"
-        />
-        {errors.password && <span>This field is required</span>}
+        <div class="col-12">
+          <div class="custom-input">
+            <input
+              type="password"
+              autocomplete="current-password"
+              {...register("password")}
+            />
+            <label>Password</label>
+            <span class="error-message">{errors.password?.message}</span>
+          </div>
+        </div>
 
-        <button type="submit">Login</button>
-      </form>
-    </>
+        <div class="col-12">
+          <button
+            class="button green full-width pointer"
+            onClick={handleSubmit(handleSubmitForm)}
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

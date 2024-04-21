@@ -20,8 +20,6 @@ const defaultValues: Form = {
   odometer: null,
 };
 
-// const now = format(new Date(), "yyyy-MM-dd");
-
 const schema = object({
   date: date().max(new Date()).required("Date is required"),
   from_bars: number()
