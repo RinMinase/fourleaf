@@ -55,6 +55,8 @@ export default function App() {
     <main class="content gas">
       <h1 class="mb-2 mt-0">Gas</h1>
 
+      <div>{isLoading && "API Loading"}</div>
+
       <div class="flex">
         <div class="d-flex-md hide flex-center button-container-md">
           <div class="flex flex-center flex-no-grow gap-lg button-container">

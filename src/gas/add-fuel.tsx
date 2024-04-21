@@ -115,6 +115,8 @@ export default function App() {
         </div>
       </div>
 
+      <div>{isLoading && "API Loading"}</div>
+
       <div class="flex gap-md mb-3">
         <div class="col-4 col-md-12">
           <div class="custom-input">
