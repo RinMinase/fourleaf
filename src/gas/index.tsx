@@ -7,7 +7,7 @@ import FuelTable from "./components/FuelTable";
 import MaintenanceTable from "./components/MaintenanceTable";
 import Charts from "./components/Charts";
 
-import { Maintenance, Stats } from "./types";
+import { LastMaintenance, Maintenance, Stats } from "./types";
 
 import "./index.scss";
 
@@ -16,6 +16,7 @@ export default function App() {
 
   const [stats, setStats] = useState<null | Stats>(null);
   const [maintenance, setMaintenance] = useState<Maintenance>({});
+  const [lastMaintenance, setLastMaintenance] = useState<LastMaintenance>({});
   const [graphEfficiency, setGraphEfficiency] = useState({});
   const [graphGas, setGraphGas] = useState({});
 
@@ -37,6 +38,7 @@ export default function App() {
 
       setStats(() => data.stats);
       setMaintenance(() => data.maintenance);
+      setLastMaintenance(() => data.lastMaintenance);
 
       setGraphEfficiency(() => data.graph.efficiency);
       setGraphGas(() => data.graph.gas);
@@ -108,7 +110,10 @@ export default function App() {
           </div>
           <div class="flex flex-col">
             <h2 class="center mb-sm-0">Maintenance</h2>
-            <MaintenanceTable maintenance={maintenance} />
+            <MaintenanceTable
+              maintenance={maintenance}
+              lastMaintenance={lastMaintenance}
+            />
           </div>
           <div class="flex flex-col">
             <h2 class="center">Fuel Guide</h2>

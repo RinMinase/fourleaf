@@ -1,8 +1,9 @@
 import clsx from "clsx";
-import { Maintenance } from "../types";
+import { LastMaintenance, Maintenance } from "../types";
 
 type Props = {
   maintenance: Maintenance;
+  lastMaintenance: LastMaintenance;
 };
 
 export default function MaintenanceTable(props: Props) {
@@ -14,6 +15,7 @@ export default function MaintenanceTable(props: Props) {
           <th>Every</th>
           <th></th>
           <th>Status</th>
+          <th>Last Changed</th>
         </tr>
         <tr>
           <td class="center">8,000</td>
@@ -27,6 +29,9 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.km?.engineOil || "-"}
           </td>
+          <td class="center">
+            {props?.lastMaintenance?.engineOil?.odometer || "-"}
+          </td>
         </tr>
         <tr>
           <td class="center">20,000</td>
@@ -39,6 +44,9 @@ export default function MaintenanceTable(props: Props) {
             )}
           >
             {props?.maintenance?.km?.tires || "-"}
+          </td>
+          <td class="center">
+            {props?.lastMaintenance?.tires?.odometer || "-"}
           </td>
         </tr>
         <tr>
@@ -55,6 +63,9 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.km?.transmissionFluid || "-"}
           </td>
+          <td class="center">
+            {props?.lastMaintenance?.transmissionFluid?.odometer || "-"}
+          </td>
         </tr>
         <tr>
           <td>Brake Fluid</td>
@@ -66,6 +77,9 @@ export default function MaintenanceTable(props: Props) {
             )}
           >
             {props?.maintenance?.km?.brakeFluid || "-"}
+          </td>
+          <td class="center">
+            {props?.lastMaintenance?.brakeFluid?.odometer || "-"}
           </td>
         </tr>
         <tr>
@@ -79,6 +93,9 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.km?.radiatorFluid || "-"}
           </td>
+          <td class="center">
+            {props?.lastMaintenance?.radiatorFluid?.odometer || "-"}
+          </td>
         </tr>
         <tr>
           <td>Spark Plugs</td>
@@ -90,6 +107,9 @@ export default function MaintenanceTable(props: Props) {
             )}
           >
             {props?.maintenance?.km?.sparkPlugs || "-"}
+          </td>
+          <td class="center">
+            {props?.lastMaintenance?.sparkPlugs?.odometer || "-"}
           </td>
         </tr>
         <tr>
@@ -104,6 +124,9 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.km?.powerSteeringFluid || "-"}
           </td>
+          <td class="center">
+            {props?.lastMaintenance?.powerSteeringFluid?.odometer || "-"}
+          </td>
         </tr>
       </table>
 
@@ -113,6 +136,7 @@ export default function MaintenanceTable(props: Props) {
           <th>Every</th>
           <th></th>
           <th>Status</th>
+          <th>Last Changed</th>
         </tr>
         <tr>
           <td class="center">1</td>
@@ -125,6 +149,9 @@ export default function MaintenanceTable(props: Props) {
             )}
           >
             {props?.maintenance?.year?.engineOil || "-"}
+          </td>
+          <td class="center">
+            {props?.lastMaintenance?.engineOil?.date || "-"}
           </td>
         </tr>
         <tr>
@@ -141,6 +168,9 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.year?.transmissionFluid || "-"}
           </td>
+          <td class="center">
+            {props?.lastMaintenance?.transmissionFluid?.date || "-"}
+          </td>
         </tr>
         <tr>
           <td>Brake Fluid</td>
@@ -152,6 +182,9 @@ export default function MaintenanceTable(props: Props) {
             )}
           >
             {props?.maintenance?.year?.brakeFluid || "-"}
+          </td>
+          <td class="center">
+            {props?.lastMaintenance?.brakeFluid?.date || "-"}
           </td>
         </tr>
         <tr>
@@ -168,6 +201,7 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.year?.battery || "-"}
           </td>
+          <td class="center">{props?.lastMaintenance?.battery?.date || "-"}</td>
         </tr>
         <tr>
           <td>Radiator Fluid</td>
@@ -180,6 +214,9 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.year?.radiatorFluid || "-"}
           </td>
+          <td class="center">
+            {props?.lastMaintenance?.radiatorFluid?.date || "-"}
+          </td>
         </tr>
         <tr>
           <td>A/C Coolant</td>
@@ -191,6 +228,9 @@ export default function MaintenanceTable(props: Props) {
             )}
           >
             {props?.maintenance?.year?.acCoolant || "-"}
+          </td>
+          <td class="center">
+            {props?.lastMaintenance?.acCoolant?.date || "-"}
           </td>
         </tr>
         <tr>
@@ -207,6 +247,9 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.year?.powerSteeringFluid || "-"}
           </td>
+          <td class="center">
+            {props?.lastMaintenance?.powerSteeringFluid?.date || "-"}
+          </td>
         </tr>
         <tr>
           <td>Tires</td>
@@ -219,6 +262,7 @@ export default function MaintenanceTable(props: Props) {
           >
             {props?.maintenance?.year?.tires || "-"}
           </td>
+          <td class="center">{props?.lastMaintenance?.tires?.date || "-"}</td>
         </tr>
       </table>
     </>

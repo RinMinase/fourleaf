@@ -27,3 +27,42 @@ export type Maintenance = {
     transmissionFluid: string;
   };
 };
+
+export type LastMaintenance = {
+  acCoolant: {
+    date: string;
+    odometer: number;
+  };
+  battery: {
+    date: string;
+    odometer: number;
+  };
+  brakeFluid: {
+    date: string;
+    odometer: number;
+  };
+  engineOil: {
+    date: string;
+    odometer: number;
+  };
+  powerSteeringFluid: {
+    date: string;
+    odometer: number;
+  };
+  radiatorFluid: {
+    date: string;
+    odometer: number;
+  };
+  sparkPlugs: {
+    date: string;
+    odometer: number;
+  };
+  tires: {
+    date: string;
+    odometer: number;
+  };
+  transmissionFluid: {
+    date: string;
+    odometer: number;
+  };
+};
