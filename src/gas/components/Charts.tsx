@@ -143,13 +143,15 @@ export default function Charts(props: Props) {
 
   return (
     <>
-      <div class="p-2">
-        <h3 class="center">Efficiency over fuel refills</h3>
-        <canvas id="efficiency_graph" class="chart"></canvas>
+      <div>
+        <h3 class="text-lg font-bold text-center mt-6">
+          Efficiency over fuel refills
+        </h3>
+        <canvas id="efficiency_graph" class="w-full"></canvas>
       </div>
-      <div class="p-2">
-        <h3 class="center">Gas price over time</h3>
-        <canvas id="gas_graph" class="chart"></canvas>
+      <div>
+        <h3 class="text-lg font-bold text-center mt-6">Gas price over time</h3>
+        <canvas id="gas_graph" class="w-full"></canvas>
       </div>
     </>
   );

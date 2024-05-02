@@ -1,5 +1,9 @@
+import { useEffect, useState } from "preact/hooks";
+
+import { isEmpty } from "lodash-es";
 import clsx from "clsx";
-import { LastMaintenance, Maintenance } from "../types";
+
+import { LastMaintenance, Maintenance, TableData } from "../types";
 
 type Props = {
   maintenance: Maintenance;
@@ -7,264 +11,210 @@ type Props = {
 };
 
 export default function MaintenanceTable(props: Props) {
+  const [tableDataKM, setTableDataKM] = useState<TableData>([
+    {
+      key: "engineOil",
+      every: 8000,
+      label: "Engine Oil",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "tires",
+      every: 20000,
+      label: "Tires",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "transmissionFluid",
+      every: 50000,
+      label: "Transmission Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "brakeFluid",
+      every: 50000,
+      label: "Brake Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "radiatorFluid",
+      every: 50000,
+      label: "Radiator Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "sparkPlugs",
+      every: 50000,
+      label: "Spark Plugs",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "powerSteeringFluid",
+      every: 100000,
+      label: "Power Steering Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+  ]);
+
+  const [tableDataYear, setTableDataYear] = useState<TableData>([
+    {
+      key: "engineOil",
+      every: 1,
+      label: "Engine Oil",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "transmissionFluid",
+      every: 2,
+      label: "Transmission Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "brakeFluid",
+      every: 2,
+      label: "Brake Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "battery",
+      every: 3,
+      label: "Battery",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "radiatorFluid",
+      every: 3,
+      label: "Radiator Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "acCoolant",
+      every: 3,
+      label: "A/C Coolant",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "powerSteeringFluid",
+      every: 5,
+      label: "Power Steering Fluid",
+      status: "-",
+      lastChanged: "-",
+    },
+    {
+      key: "tires",
+      every: 5,
+      label: "Tires",
+      status: "-",
+      lastChanged: "-",
+    },
+  ]);
+
+  useEffect(() => {
+    if (!isEmpty(props.maintenance) && !isEmpty(props.lastMaintenance)) {
+      const { km, year } = props.maintenance;
+      const { lastMaintenance } = props;
+
+      const dataKM = [...tableDataKM];
+      const dataYear = [...tableDataYear];
+
+      if (!isEmpty(km)) {
+        Object.keys(km).forEach((key) => {
+          const index = dataKM.findIndex((item) => item.key === key);
+          dataKM[index].status = (km as any)[key];
+          dataKM[index].lastChanged = (lastMaintenance as any)[key].odometer;
+        });
+
+        setTableDataKM(() => dataKM);
+      }
+
+      if (!isEmpty(year)) {
+        Object.keys(year).forEach((key) => {
+          const index = dataYear.findIndex((item) => item.key === key);
+          dataYear[index].status = (year as any)[key];
+          dataYear[index].lastChanged = (lastMaintenance as any)[key].date;
+        });
+
+        setTableDataYear(() => dataYear);
+      }
+    }
+  }, [props.maintenance, props.lastMaintenance]);
+
   return (
     <>
-      <h4 class="mb-1">By KMs</h4>
-      <table class="table">
-        <tr>
-          <th>Every</th>
-          <th></th>
-          <th>Status</th>
-          <th>Last Changed</th>
-        </tr>
-        <tr>
-          <td class="center">8,000</td>
-          <td>Engine Oil</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.km?.engineOil,
-            )}
-          >
-            {props?.maintenance?.km?.engineOil || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.engineOil?.odometer || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td class="center">20,000</td>
-          <td>Tires</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.km?.tires,
-            )}
-          >
-            {props?.maintenance?.km?.tires || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.tires?.odometer || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td class="center" rowSpan={4}>
-            50,000
-          </td>
-          <td>Transmission Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.km?.transmissionFluid,
-            )}
-          >
-            {props?.maintenance?.km?.transmissionFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.transmissionFluid?.odometer || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td>Brake Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.km?.brakeFluid,
-            )}
-          >
-            {props?.maintenance?.km?.brakeFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.brakeFluid?.odometer || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td>Radiator Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.km?.radiatorFluid,
-            )}
-          >
-            {props?.maintenance?.km?.radiatorFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.radiatorFluid?.odometer || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td>Spark Plugs</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.km?.sparkPlugs,
-            )}
-          >
-            {props?.maintenance?.km?.sparkPlugs || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.sparkPlugs?.odometer || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td class="center">100,000</td>
-          <td>Power Steering Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.km?.powerSteeringFluid,
-            )}
-          >
-            {props?.maintenance?.km?.powerSteeringFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.powerSteeringFluid?.odometer || "-"}
-          </td>
-        </tr>
-      </table>
+      <p class="text-md font-bold mb-3">By KMs</p>
 
-      <h4 class="mb-1">By Year</h4>
-      <table class="table">
-        <tr>
-          <th>Every</th>
-          <th></th>
-          <th>Status</th>
-          <th>Last Changed</th>
-        </tr>
-        <tr>
-          <td class="center">1</td>
-          <td>Engine Oil</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.engineOil,
-            )}
-          >
-            {props?.maintenance?.year?.engineOil || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.engineOil?.date || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td class="center" rowSpan={2}>
-            2
-          </td>
-          <td>Transmission Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.transmissionFluid,
-            )}
-          >
-            {props?.maintenance?.year?.transmissionFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.transmissionFluid?.date || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td>Brake Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.brakeFluid,
-            )}
-          >
-            {props?.maintenance?.year?.brakeFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.brakeFluid?.date || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td class="center" rowSpan={3}>
-            3
-          </td>
-          <td>Battery</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.battery,
-            )}
-          >
-            {props?.maintenance?.year?.battery || "-"}
-          </td>
-          <td class="center">{props?.lastMaintenance?.battery?.date || "-"}</td>
-        </tr>
-        <tr>
-          <td>Radiator Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.radiatorFluid,
-            )}
-          >
-            {props?.maintenance?.year?.radiatorFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.radiatorFluid?.date || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td>A/C Coolant</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.acCoolant,
-            )}
-          >
-            {props?.maintenance?.year?.acCoolant || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.acCoolant?.date || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td class="center" rowSpan={2}>
-            5
-          </td>
-          <td>Power Steering Fluid</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.powerSteeringFluid,
-            )}
-          >
-            {props?.maintenance?.year?.powerSteeringFluid || "-"}
-          </td>
-          <td class="center">
-            {props?.lastMaintenance?.powerSteeringFluid?.date || "-"}
-          </td>
-        </tr>
-        <tr>
-          <td>Tires</td>
-          <td
-            class={clsx(
-              "center",
-              "maintenance-status",
-              props?.maintenance?.year?.tires,
-            )}
-          >
-            {props?.maintenance?.year?.tires || "-"}
-          </td>
-          <td class="center">{props?.lastMaintenance?.tires?.date || "-"}</td>
-        </tr>
-      </table>
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead class="text-xs uppercase">
+            <tr>
+              <th class="px-3 py-2 text-center">Every</th>
+              <th class="px-3 py-2"></th>
+              <th class="px-3 py-2 text-center">Status</th>
+              <th class="px-3 py-2 text-center">Last Changed</th>
+            </tr>
+          </thead>
+
+          {tableDataKM.map((data) => (
+            <tr class="even:bg-gray-200">
+              <td class="px-3 py-2 text-center">{data.every}</td>
+              <td class="px-3 py-2">{data.label}</td>
+              <td
+                class={clsx("px-3 py-2 text-center capitalize", {
+                  "bg-red": data.status === "limit",
+                  "bg-orange": data.status === "nearing",
+                })}
+              >
+                {data.status}
+              </td>
+              <td class="text-center">{data.lastChanged || "-"}</td>
+            </tr>
+          ))}
+        </table>
+      </div>
+
+      <p class="text-md font-bold mb-3 mt-8">By Year</p>
+
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead class="text-xs uppercase">
+            <tr>
+              <th class="px-3 py-2 text-center">Every</th>
+              <th class="px-3 py-2"></th>
+              <th class="px-3 py-2 text-center">Status</th>
+              <th class="px-3 py-2 text-center">Last Changed</th>
+            </tr>
+          </thead>
+
+          {tableDataYear.map((data) => (
+            <tr class="even:bg-gray-200">
+              <td class="px-3 py-2 text-center">{data.every}</td>
+              <td class="px-3 py-2">{data.label}</td>
+              <td
+                class={clsx("px-3 py-2 text-center capitalize", {
+                  "bg-red": data.status === "limit",
+                  "bg-orange": data.status === "nearing",
+                })}
+              >
+                {data.status}
+              </td>
+              <td class="text-center">{data.lastChanged || "-"}</td>
+            </tr>
+          ))}
+        </table>
+      </div>
     </>
   );
 }

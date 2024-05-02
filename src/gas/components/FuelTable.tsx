@@ -1,61 +1,65 @@
 export default function FuelTable() {
   return (
-    <table class="table table-fuel">
-      <tr>
-        <th>Bars</th>
-        <th>Liters</th>
-        <th>Tank Percent</th>
-      </tr>
-      <tr>
-        <td>Empty</td>
-        <td>3</td>
-        <td>12%</td>
-      </tr>
-      <tr>
-        <td>1 bar</td>
-        <td>6</td>
-        <td>23%</td>
-      </tr>
-      <tr>
-        <td>2 bars</td>
-        <td>9</td>
-        <td>35%</td>
-      </tr>
-      <tr>
-        <td>3 bars</td>
-        <td>11</td>
-        <td>42%</td>
-      </tr>
-      <tr>
-        <td>4 bars</td>
-        <td>14</td>
-        <td>54%</td>
-      </tr>
-      <tr>
-        <td>5 bars</td>
-        <td>17</td>
-        <td>65%</td>
-      </tr>
-      <tr>
-        <td>6 bars</td>
-        <td>20</td>
-        <td>77%</td>
-      </tr>
-      <tr>
-        <td>7 bars</td>
-        <td>23</td>
-        <td>88%</td>
-      </tr>
-      <tr>
-        <td>8 bars</td>
-        <td>26</td>
-        <td>100%</td>
-      </tr>
-      <tr>
-        <td>8+ bars</td>
-        <td>28</td>
-        <td>108%</td>
-      </tr>
-    </table>
+    <div class="flex">
+      <table class="w-full sm:w-auto text-sm text-center">
+        <thead class="text-xs uppercase">
+          <tr>
+            <th class="px-3 py-2">Bars</th>
+            <th class="px-3 py-2">Liters</th>
+            <th class="px-3 py-">Tank Percent</th>
+          </tr>
+        </thead>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">Empty</td>
+          <td class="px-3 py-2">3</td>
+          <td class="px-3 py-2">12%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">1 bar</td>
+          <td class="px-3 py-2">6</td>
+          <td class="px-3 py-2">23%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">2 bars</td>
+          <td class="px-3 py-2">9</td>
+          <td class="px-3 py-2">35%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">3 bars</td>
+          <td class="px-3 py-2">11</td>
+          <td class="px-3 py-2">42%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">4 bars</td>
+          <td class="px-3 py-2">14</td>
+          <td class="px-3 py-2">54%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">5 bars</td>
+          <td class="px-3 py-2">17</td>
+          <td class="px-3 py-2">65%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">6 bars</td>
+          <td class="px-3 py-2">20</td>
+          <td class="px-3 py-2">77%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">7 bars</td>
+          <td class="px-3 py-2">23</td>
+          <td class="px-3 py-2">88%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">8 bars</td>
+          <td class="px-3 py-2">26</td>
+          <td class="px-3 py-2">100%</td>
+        </tr>
+        <tr class="even:bg-gray-200">
+          <td class="px-3 py-2">8+ bars</td>
+          <td class="px-3 py-2">28</td>
+          <td class="px-3 py-2">108%</td>
+        </tr>
+      </table>
+    </div>
   );
 }

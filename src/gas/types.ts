@@ -29,40 +29,57 @@ export type Maintenance = {
 };
 
 export type LastMaintenance = {
-  acCoolant: {
+  acCoolant?: {
     date: string;
     odometer: number;
   };
-  battery: {
+  battery?: {
     date: string;
     odometer: number;
   };
-  brakeFluid: {
+  brakeFluid?: {
     date: string;
     odometer: number;
   };
-  engineOil: {
+  engineOil?: {
     date: string;
     odometer: number;
   };
-  powerSteeringFluid: {
+  powerSteeringFluid?: {
     date: string;
     odometer: number;
   };
-  radiatorFluid: {
+  radiatorFluid?: {
     date: string;
     odometer: number;
   };
-  sparkPlugs: {
+  sparkPlugs?: {
     date: string;
     odometer: number;
   };
-  tires: {
+  tires?: {
     date: string;
     odometer: number;
   };
-  transmissionFluid: {
+  transmissionFluid?: {
     date: string;
     odometer: number;
   };
 };
+
+export type TableData = Array<{
+  key:
+    | "engineOil"
+    | "tires"
+    | "transmissionFluid"
+    | "brakeFluid"
+    | "radiatorFluid"
+    | "sparkPlugs"
+    | "powerSteeringFluid"
+    | "acCoolant"
+    | "battery";
+  every: number;
+  label: string;
+  status: "-" | "normal" | "nearing" | "limit";
+  lastChanged: string;
+}>;
