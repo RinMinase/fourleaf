@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-// a,
-// a:hover,
-// a:focus,
-// a:active {
-//   text-decoration: none;
-//   color: inherit;
-// }
-
 .custom-input {
   margin-bottom: 8px;
 
@@ -123,4 +115,12 @@
 
 .bg-blue {
   background-color: #38bdf8;
+}
+
+.bg-blue-dark {
+  background-color: #111827;
+}
+
+.animate__animated.animate__fadeInRight {
+  --animate-duration: 0.25s;
 }
