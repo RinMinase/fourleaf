@@ -55,7 +55,7 @@ export default function App() {
     <main class="p-4">
       <h1 class="text-3xl font-bold mb-3">Gas</h1>
 
-      {/* <div>{isLoading && "API Loading"}</div> */}
+      <div class="hidden">{isLoading && "API Loading"}</div>
 
       <div class="flex flex-wrap">
         <div class="flex sm:hidden justify-center items-center w-full pt-6 pb-12">
