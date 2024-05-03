@@ -88,7 +88,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
                 Logout
               </a>
             </div>
-            <div class="hidden sm:flex rounded-full bg-gray-200 h-7 w-7 ml-3 mr-2 p-1 cursor-pointer hover:bg-gray-400 user-image d-flex hide-md">
+            <div class="hidden sm:flex rounded-full bg-gray-200 h-7 w-7 ml-3 mr-2 p-1 cursor-pointer hover:bg-gray-400">
               <img src="/favicon.png" class="h-full" />
             </div>
           </>
@@ -99,7 +99,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
         )}
 
         {/* Buffer element */}
-        <div class="flex sm:hide w-12 h-px order-1"></div>
+        <div class="flex sm:hidden w-12 h-px order-1"></div>
 
         {/* Mobile Hamburger */}
         <div
