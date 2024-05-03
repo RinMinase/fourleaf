@@ -9,8 +9,6 @@ import Charts from "./components/Charts";
 
 import { LastMaintenance, Maintenance, Stats } from "./types";
 
-import "./index.scss";
-
 export default function App() {
   const [isLoading, setLoading] = useState(false);
 
@@ -60,8 +58,8 @@ export default function App() {
       {/* <div>{isLoading && "API Loading"}</div> */}
 
       <div class="flex flex-wrap">
-        <div class="flex sm:hidden justify-center align-middle w-full pt-6 pb-12">
-          <div class="flex flex-col align-middle gap-4">
+        <div class="flex sm:hidden justify-center items-center w-full pt-6 pb-12">
+          <div class="flex flex-col items-center gap-4">
             <a
               href="/gas/add-fuel"
               class="flex items-center justify-center w-52 h-11 rounded-xl border-none bg-blue"
@@ -90,7 +88,8 @@ export default function App() {
                 {stats?.averageEfficiency ? (
                   `${stats.averageEfficiency} KM / Liter`
                 ) : (
-                  <Skeleton className="max-w-48" />
+                  <Skeleton className="max-w-32 sm:max-w-48" />
+                  // "test"
                 )}
               </p>
             </div>
@@ -102,7 +101,7 @@ export default function App() {
                 {stats?.lastEfficiency ? (
                   `${stats.lastEfficiency} KM / Liter`
                 ) : (
-                  <Skeleton className="max-w-48" />
+                  <Skeleton className="max-w-32 sm:max-w-48" />
                 )}
               </p>
             </div>
@@ -112,17 +111,23 @@ export default function App() {
                 {stats?.mileage ? (
                   `${stats.mileage} KM`
                 ) : (
-                  <Skeleton className="max-w-36" />
+                  <Skeleton className="max-w-28 sm:max-w-36" />
                 )}
               </p>
             </div>
             <div class="w-1/2 sm:w-1/3 text-center sm:text-left">
               <p class="text-xl font-bold">Age</p>
-              <p>{stats?.age || <Skeleton className="max-w-36" />}</p>
+              <p>
+                {stats?.age || <Skeleton className="max-w-32 sm:max-w-36" />}
+              </p>
             </div>
             <div class="w-1/2 sm:w-1/3 text-center sm:text-left">
               <p class="text-xl font-bold">KM / Month</p>
-              <p>{stats?.kmPerMonth || <Skeleton className="max-w-36" />}</p>
+              <p>
+                {stats?.kmPerMonth || (
+                  <Skeleton className="max-w-32 sm:max-w-36" />
+                )}
+              </p>
             </div>
           </div>
 
