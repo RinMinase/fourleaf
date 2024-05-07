@@ -14,6 +14,8 @@ import "modern-normalize/modern-normalize.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "animate.css";
 
+import "@fontsource/inter/latin.css";
+
 import "./main.scss";
 
 const Layout = () => {
