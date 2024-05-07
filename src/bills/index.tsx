@@ -1,7 +1,7 @@
 export default function App() {
   return (
-    <>
-      <h1 className="text-3xl">Bills</h1>
-    </>
+    <div>
+      <h1 class="text-3xl font-bold mb-3">Bills</h1>
+    </div>
   );
 }

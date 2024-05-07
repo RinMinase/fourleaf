@@ -52,7 +52,7 @@ export default function App() {
   }, []);
 
   return (
-    <main class="p-4">
+    <div>
       <h1 class="text-3xl font-bold mb-3">Gas</h1>
 
       <div class="hidden">{isLoading && "API Loading"}</div>
@@ -167,6 +167,6 @@ export default function App() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

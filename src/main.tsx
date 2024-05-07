@@ -51,7 +51,10 @@ const Layout = () => {
   return (
     <>
       <Nav isAuth={isAuth} currRoute={currRoute} />
-      <Routes onChange={handleRouteChange} />
+
+      <main class="p-4">
+        <Routes onChange={handleRouteChange} />
+      </main>
     </>
   );
 };

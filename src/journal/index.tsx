@@ -1,7 +1,7 @@
 export default function App() {
   return (
-    <>
-      <h1>Journal</h1>
-    </>
+    <div>
+      <h1 class="text-3xl font-bold mb-3">Journal</h1>
+    </div>
   );
 }
