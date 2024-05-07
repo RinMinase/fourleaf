@@ -9,7 +9,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Swal from "../common/Swal";
 import { defaultValues, Form, resolver } from "./validation";
 
-import "./add-fuel.scss";
+import "./add-fuel.css";
 
 const dateNow = format(new Date(), "yyyy-MM-dd");
 
