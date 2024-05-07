@@ -16,7 +16,7 @@ import "animate.css";
 
 import "@fontsource/inter/latin.css";
 
-import "./main.scss";
+import "./main.css";
 
 const Layout = () => {
   const [isAuth, setAuth] = useState(false);
