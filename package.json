@@ -35,7 +35,6 @@
     "@preact/preset-vite": "^2.8.2",
     "@types/lodash-es": "^4.17.12",
     "autoprefixer": "^10.4.19",
-    "lightningcss": "^1.24.1",
     "postcss": "^8.4.38",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
@@ -43,9 +42,6 @@
   "resolutions": {
     "react-hook-form/react": "^18.3.1"
   },
-  "browserslist": [
-    "defaults and supports es6-module"
-  ],
   "prettier": {
     "printWidth": 80,
     "bracketSpacing": true,
