@@ -53,16 +53,16 @@ export default function Nav({ isAuth, currRoute }: Props) {
     <>
       <nav
         id="nav"
-        class="flex items-center sm:py-2 sm:px-4 justify-between sm:justify-center max-h-14 h-14 sm:max-h-10 sm:h-10 text-white z-9999 bg-blue-dark sticky sm:relative top-0 inset-x-0"
+        class="flex items-center sm:py-2 sm:px-4 justify-between md:justify-center max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-blue-dark sticky md:relative top-0 inset-x-0"
       >
-        <a href="#" class="flex items-center gap-4 h-7 order-2 sm:order-none">
+        <a href="#" class="flex items-center gap-4 h-7 order-2 md:order-none">
           <img src="/favicon.png" class="h-full" />
-          <span class="hidden sm:inline-block text-xl text-white font-bold">
+          <span class="hidden md:inline-block text-xl text-white font-bold">
             Fourleaf
           </span>
         </a>
 
-        <ul class="hidden sm:flex flex-grow gap-2 justify-center list-none">
+        <ul class="hidden md:flex flex-grow gap-2 justify-center list-none">
           {menu.map((item) => (
             <li>
               <a
@@ -83,27 +83,27 @@ export default function Nav({ isAuth, currRoute }: Props) {
 
         {isAuth ? (
           <>
-            <div class="hidden sm:flex justify-end items-center gap-2 cursor-pointer h-8 text-white hover:text-sky-300 hover:bg-slate-800">
+            <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 text-white hover:text-sky-300 hover:bg-slate-800">
               <a href="#" class="py-1 px-4" onClick={handleLogout}>
                 Logout
               </a>
             </div>
-            <div class="hidden sm:flex rounded-full bg-gray-200 h-7 w-7 ml-3 mr-2 p-1 cursor-pointer hover:bg-gray-400">
+            <div class="hidden md:flex rounded-full bg-gray-200 h-7 w-7 ml-3 mr-2 p-1 cursor-pointer hover:bg-gray-400">
               <img src="/favicon.png" class="h-full" />
             </div>
           </>
         ) : (
-          <a href="/login" class="hidden sm:flex">
+          <a href="/login" class="hidden md:flex">
             Login
           </a>
         )}
 
         {/* Buffer element */}
-        <div class="flex sm:hidden w-12 h-px order-1"></div>
+        <div class="flex md:hidden w-12 h-px order-1"></div>
 
         {/* Mobile Hamburger */}
         <div
-          class="block sm:hidden cursor-pointer order-3 p-3 pr-5"
+          class="block md:hidden cursor-pointer order-3 p-3 pr-5"
           onClick={() => setMenuOpen(true)}
         >
           <img src="/icons/bars-solid.svg" class="w-6" />
@@ -112,9 +112,9 @@ export default function Nav({ isAuth, currRoute }: Props) {
 
       {/* Mobile navigation */}
       {isMenuOpen && (
-        <div
+        <nav
           id="mobile_menu"
-          class="flex flex-col sm:hidden fixed z-9999 text-center w-full h-full top-0 left-0"
+          class="flex flex-col md:hidden fixed z-9999 text-center w-full h-full top-0 left-0"
         >
           <div class="animate__animated flex justify-end h-14 bg-blue-dark">
             <div
@@ -165,7 +165,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
               )}
             </ul>
           </div>
-        </div>
+        </nav>
       )}
     </>
   );
