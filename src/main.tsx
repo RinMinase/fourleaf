@@ -6,7 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "./firebase";
 import Routes from "./routes";
-import Nav from "./common/Nav";
+import Nav from "./common/sections/Nav";
 
 import "./http";
 

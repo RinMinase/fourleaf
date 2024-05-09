@@ -3,7 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import clsx from "clsx";
 import { signOut } from "firebase/auth";
 
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 
 type Props = {
   isAuth: boolean;

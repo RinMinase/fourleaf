@@ -3,7 +3,7 @@ import AsyncRoute from "preact-async-route";
 
 import Login from "./login";
 import Notes from "./notes";
-import Page404 from "./common/Page404";
+import Page404 from "./common/pages/Page404";
 
 type Props = {
   onChange: () => void;

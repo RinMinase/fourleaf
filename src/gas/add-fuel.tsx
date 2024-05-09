@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import Swal from "../common/Swal";
+import Swal from "../common/components/Swal";
 import { defaultValues, Form, resolver } from "./validation";
 import FuelCheckbox from "./components/FuelCheckbox";
 
