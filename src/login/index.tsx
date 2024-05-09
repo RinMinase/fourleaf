@@ -24,38 +24,48 @@ export default function App() {
   };
 
   return (
-    <div>
-      <h2 class="center mb-3 mt-3">Login</h2>
+    <div class="flex h-full flex-col">
+      <div class="flex flex-grow flex-col w-full gap-y-4 justify-center items-center">
+        <h1 class="text-2xl font-bold mb-3 text-center">
+          Login to Fourleaf 🍀
+        </h1>
 
-      <div class="flex col-3 col-md-12 gap-md ml-auto mr-auto">
-        <div class="col-12">
-          <div class="custom-input">
-            <input type="text" autocomplete="username" {...register("email")} />
-            <label>Email</label>
-            <span class="error-message">{errors.email?.message}</span>
+        <form
+          class="flex flex-col w-full items-center"
+          novalidate
+          onSubmit={handleSubmit(handleSubmitForm)}
+        >
+          <div class="flex flex-col gap-y-4 w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
+            <div class="custom-input">
+              <input
+                type="email"
+                autocomplete="username"
+                {...register("email")}
+              />
+              <label>Email</label>
+              <span class="error-message">{errors.email?.message}</span>
+            </div>
+
+            <div class="custom-input">
+              <input
+                type="password"
+                autocomplete="current-password"
+                {...register("password")}
+              />
+              <label>Password</label>
+              <span class="error-message">{errors.password?.message}</span>
+            </div>
           </div>
-        </div>
 
-        <div class="col-12">
-          <div class="custom-input">
-            <input
-              type="password"
-              autocomplete="current-password"
-              {...register("password")}
-            />
-            <label>Password</label>
-            <span class="error-message">{errors.password?.message}</span>
+          <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
+            <button
+              class="w-full h-11 rounded-xl border-none bg-green mt-4 font-bold uppercase text-white"
+              type="submit"
+            >
+              Login
+            </button>
           </div>
-        </div>
-
-        <div class="col-12">
-          <button
-            class="button green full-width pointer"
-            onClick={handleSubmit(handleSubmitForm)}
-          >
-            Login
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );
