@@ -13,7 +13,9 @@ const defaultValues: Form = {
 };
 
 const schema = object({
-  email: string().required("Email is required"),
+  email: string()
+    .email("This is an invalid email")
+    .required("Email is required"),
   password: string().required("Password is required"),
 });
 
