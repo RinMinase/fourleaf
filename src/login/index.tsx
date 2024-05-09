@@ -19,16 +19,18 @@ export default function App() {
   const handleSubmitForm: SubmitHandler<Form> = async (data) => {
     setLoading(true);
 
-    await signInWithEmailAndPassword(auth, data.email, data.password)
-      .then(() => {
-        route("/");
-      })
-      .catch((error) => {
-        console.log(error.code, error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (auth) {
+      await signInWithEmailAndPassword(auth, data.email, data.password)
+        .then(() => {
+          route("/");
+        })
+        .catch((error) => {
+          console.log(error.code, error.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   return (

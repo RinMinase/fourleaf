@@ -1,9 +1,11 @@
 import { useEffect, useState } from "preact/hooks";
 
 import clsx from "clsx";
-import { signOut } from "firebase/auth";
+import { isSignInWithEmailLink, signOut } from "firebase/auth";
 
-import { auth } from "../../firebase";
+import app, { auth } from "../../firebase";
+import { getDownloadURL, listAll, ref } from "firebase/storage";
+import axios from "axios";
 
 type Props = {
   isAuth: boolean;
@@ -33,7 +35,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    signOut(auth);
+    if (auth) signOut(auth);
     setMenuOpen(false);
   };
 
@@ -131,9 +133,11 @@ export default function Nav({ isAuth, currRoute }: Props) {
                   <a
                     href={isRoute(item.route) ? "#" : item.route}
                     class={clsx("block py-5 px-4", {
-                      active: isRoute(item.route),
+                      "bg-slate-200 active": isRoute(item.route),
                     })}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={
+                      isRoute(item.route) ? undefined : () => setMenuOpen(false)
+                    }
                   >
                     {item.name}
                   </a>
