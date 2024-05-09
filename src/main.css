@@ -17,6 +17,19 @@ body {
   flex-grow: 1;
 }
 
+.spinner.bubble {
+  width: 15px;
+  height: 15px;
+  background: #fff;
+}
+
+.spinner.bubble::before,
+.spinner.bubble::after {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
