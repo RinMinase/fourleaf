@@ -2042,6 +2042,11 @@ safe-buffer@>=5.1.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
+scss-spinners@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/scss-spinners/-/scss-spinners-2.1.3.tgz#b9f5efe2b564c87f3e7ed93941924f3f9f77845c"
+  integrity sha512-Nx1Y7mvCb9QUG2CXob2N3pAW4zKMPfwN8a81/NDFrEqlonHNWY2H3oODfmEdIwYmT4YVn4pcyR9+9S6XPQ96zg==
+
 semver@^6.3.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.1.tgz#556d2ef8689146e46dcea4bfdd095f3434dffcb4"
