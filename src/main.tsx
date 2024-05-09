@@ -52,7 +52,7 @@ const Layout = () => {
     <>
       <Nav isAuth={isAuth} currRoute={currRoute} />
 
-      <main class="p-4">
+      <main class="p-4 flex-grow">
         <Routes onChange={handleRouteChange} />
       </main>
     </>
