@@ -1,8 +1,8 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { FirebaseApp, initializeApp } from "firebase/app";
+import { Auth, getAuth } from "firebase/auth";
 
-let app = null;
-let auth: any = null;
+let app: null | FirebaseApp = null;
+let auth: null | Auth = null;
 
 if (
   import.meta.env.VITE_FIREBASE_PROJECT_ID &&
