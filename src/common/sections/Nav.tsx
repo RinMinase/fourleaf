@@ -1,11 +1,9 @@
 import { useEffect, useState } from "preact/hooks";
 
 import clsx from "clsx";
-import { isSignInWithEmailLink, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 
-import app, { auth } from "../../firebase";
-import { getDownloadURL, listAll, ref } from "firebase/storage";
-import axios from "axios";
+import { auth } from "../../firebase";
 
 type Props = {
   isAuth: boolean;
@@ -84,16 +82,11 @@ export default function Nav({ isAuth, currRoute }: Props) {
         </ul>
 
         {isAuth ? (
-          <>
-            <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 text-white hover:text-sky-300 hover:bg-slate-800">
-              <a href="#" class="py-1 px-4" onClick={handleLogout}>
-                Logout
-              </a>
-            </div>
-            <div class="hidden md:flex rounded-full bg-gray-200 h-7 w-7 ml-3 mr-2 p-1 cursor-pointer hover:bg-gray-400">
-              <img src="/favicon.png" class="h-full" />
-            </div>
-          </>
+          <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 text-white hover:text-sky-300 hover:bg-slate-800">
+            <a href="#" class="py-1 px-4" onClick={handleLogout}>
+              Logout
+            </a>
+          </div>
         ) : (
           <a href="/login" class="hidden md:flex">
             Login
@@ -101,7 +94,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
         )}
 
         {/* Buffer element */}
-        <div class="flex md:hidden w-12 h-px order-1"></div>
+        <div class="flex md:hidden w-14 h-px order-1"></div>
 
         {/* Mobile Hamburger */}
         <div
@@ -144,18 +137,11 @@ export default function Nav({ isAuth, currRoute }: Props) {
                 </li>
               ))}
               {isAuth ? (
-                <>
-                  <li class="border-t-4 border-b border-gray-300">
-                    <a href="#" class="block py-5 px-4">
-                      Profile
-                    </a>
-                  </li>
-                  <li class="border-y border-gray-300">
-                    <a href="#" class="block py-5 px-4" onClick={handleLogout}>
-                      Logout
-                    </a>
-                  </li>
-                </>
+                <li class="border-y border-gray-300">
+                  <a href="#" class="block py-5 px-4" onClick={handleLogout}>
+                    Logout
+                  </a>
+                </li>
               ) : (
                 <li>
                   <a
