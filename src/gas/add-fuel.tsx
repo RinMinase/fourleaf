@@ -8,8 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import Swal from "../common/Swal";
 import { defaultValues, Form, resolver } from "./validation";
-
-import "./add-fuel.css";
+import FuelCheckbox from "./components/FuelCheckbox";
 
 const dateNow = format(new Date(), "yyyy-MM-dd");
 
@@ -103,151 +102,125 @@ export default function App() {
   };
 
   return (
-    <main class="content gas-add">
-      <div class="flex">
-        <div class="col-12">
-          <a href="/gas" class="back-button">
-            Back
-          </a>
-        </div>
-        <div class="col-12">
-          <h2>Add Fuel</h2>
-        </div>
-      </div>
-
-      <div>{isLoading && "API Loading"}</div>
-
-      <div class="flex gap-md mb-3">
-        <div class="col-4 col-md-12">
-          <div class="custom-input">
-            <input
-              type="date"
-              class={clsx({
-                error: errors.date,
-              })}
-              max={dateNow}
-              {...register("date")}
-            />
-            <label>Date</label>
-            <span class="error-message">{errors.date?.message}</span>
-          </div>
-        </div>
-
-        <div class="col-2 col-md-6 col-sm-12">
-          <div class="custom-input">
-            <input
-              type="number"
-              class={clsx({
-                error: errors.from_bars,
-              })}
-              onKeyPress={handleKeypressOnlyNumbers}
-              {...register("from_bars")}
-            />
-            <label>From Bars</label>
-            <span class="error-message">{errors.from_bars?.message}</span>
-          </div>
-        </div>
-        <div class="col-2 col-md-6 col-sm-12">
-          <div class="custom-input">
-            <input
-              type="number"
-              class={clsx({
-                error: errors.to_bars,
-              })}
-              disabled={isDisabledToBars}
-              onKeyPress={handleKeypressOnlyNumbers}
-              {...register("to_bars")}
-            />
-            <label>To Bars</label>
-            <span class="error-message">{errors.to_bars?.message}</span>
-          </div>
-        </div>
-
-        <div class="col-2 col-md-6 col-sm-12">
-          <div class="custom-checkbox">
-            <input
-              type="checkbox"
-              name=""
-              id="first_click"
-              disabled={isDisabledFirstClick}
-              onChange={onchangeFirstClick}
-            />
-            <label for="first_click">First Click</label>
-          </div>
-        </div>
-        <div class="col-2 col-md-6 col-sm-12">
-          <div class="custom-checkbox">
-            <input
-              type="checkbox"
-              name=""
-              id="full_tank"
-              disabled={isDisabledFullestTank}
-              onChange={onchangeFullestTank}
-            />
-            <label for="full_tank">Fullest Tank</label>
-          </div>
-        </div>
-
-        <div class="col-4 col-md-12">
-          <div class="custom-input">
-            <input
-              type="number"
-              class={clsx({
-                error: errors.odometer,
-              })}
-              onKeyPress={handleKeypressOnlyNumbers}
-              {...register("odometer")}
-            />
-            <label>Odometer</label>
-            <span class="error-message">{errors.odometer?.message}</span>
-          </div>
-        </div>
-
-        <div class="col-4 col-md-12">
-          <div class="custom-input">
-            <input
-              type="number"
-              class={clsx({
-                error: errors.price_per_liter,
-              })}
-              onKeyPress={handleKeypressOnlyNumbersAndPeriod}
-              {...register("price_per_liter")}
-            />
-            <label>Price Per Liter</label>
-            <span class="error-message">{errors.price_per_liter?.message}</span>
-          </div>
-        </div>
-
-        <div class="col-4 col-md-12">
-          <div class="custom-input">
-            <input
-              type="number"
-              class={clsx({
-                error: errors.liters_filled,
-              })}
-              onKeyPress={handleKeypressOnlyNumbersAndPeriod}
-              {...register("liters_filled")}
-            />
-            <label>Liters Filled</label>
-            <span class="error-message">{errors.liters_filled?.message}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex flex-col">
-        <div class="flex"></div>
-        <div class="flex"></div>
-      </div>
-
-      <div class="col-12">
+    <div class="flex flex-wrap gap-3">
+      <div class="flex gap-2 sm:gap-4 flex-row-reverse sm:flex-row w-full items-center mb-4">
         <a
-          href=""
-          class="submit-button"
-          onClick={handleSubmit(handleSubmitForm)}
+          href="/gas"
+          class="flex items-center justify-center w-32 h-11 rounded-xl border-none bg-red"
         >
-          Submit
+          Back
         </a>
+        <h1 class="text-3xl font-bold flex-grow">Add Fuel</h1>
       </div>
-    </main>
+
+      <p class="hidden">{isLoading && "API Loading"}</p>
+
+      <div class="flex w-full flex-wrap gap-y-3">
+        <div class="custom-input w-full lg:w-1/3 sm:pr-3">
+          <input
+            type="date"
+            class={clsx({
+              error: errors.date,
+            })}
+            max={dateNow}
+            {...register("date")}
+          />
+          <label>Date</label>
+          <span class="error-message">{errors.date?.message}</span>
+        </div>
+
+        <div class="custom-input w-full sm:w-1/2 md:w-1/4 lg:1/6 sm:pr-3">
+          <input
+            type="number"
+            class={clsx({
+              error: errors.from_bars,
+            })}
+            onKeyPress={handleKeypressOnlyNumbers}
+            {...register("from_bars")}
+          />
+          <label>From Bars</label>
+          <span class="error-message">{errors.from_bars?.message}</span>
+        </div>
+
+        <div class="custom-input w-full sm:w-1/2 md:w-1/4 lg:w-1/6 sm:pr-3">
+          <input
+            type="number"
+            class={clsx({
+              error: errors.to_bars,
+            })}
+            disabled={isDisabledToBars}
+            onKeyPress={handleKeypressOnlyNumbers}
+            {...register("to_bars")}
+          />
+          <label>To Bars</label>
+          <span class="error-message">{errors.to_bars?.message}</span>
+        </div>
+
+        <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 sm:pr-3">
+          <FuelCheckbox
+            id="first_click"
+            label="First Click"
+            disabled={isDisabledFirstClick}
+            onChange={onchangeFirstClick}
+          />
+        </div>
+
+        <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 sm:pr-3 mb-4 md:mb-0">
+          <FuelCheckbox
+            id="full_tank"
+            label="Full Tank"
+            disabled={isDisabledFullestTank}
+            onChange={onchangeFullestTank}
+          />
+        </div>
+
+        <div class="custom-input w-full sm:w-1/3 sm:pr-3">
+          <input
+            type="number"
+            class={clsx({
+              error: errors.odometer,
+            })}
+            onKeyPress={handleKeypressOnlyNumbers}
+            {...register("odometer")}
+          />
+          <label>Odometer</label>
+          <span class="error-message">{errors.odometer?.message}</span>
+        </div>
+
+        <div class="custom-input w-full sm:w-1/3 sm:pr-3">
+          <input
+            type="number"
+            class={clsx({
+              error: errors.price_per_liter,
+            })}
+            onKeyPress={handleKeypressOnlyNumbersAndPeriod}
+            {...register("price_per_liter")}
+          />
+          <label>Price Per Liter</label>
+          <span class="error-message">{errors.price_per_liter?.message}</span>
+        </div>
+
+        <div class="custom-input w-full sm:w-1/3 sm:pr-3">
+          <input
+            type="number"
+            class={clsx({
+              error: errors.liters_filled,
+            })}
+            onKeyPress={handleKeypressOnlyNumbersAndPeriod}
+            {...register("liters_filled")}
+          />
+          <label>Liters Filled</label>
+          <span class="error-message">{errors.liters_filled?.message}</span>
+        </div>
+      </div>
+
+      <a
+        href=""
+        class="flex items-center justify-center w-full sm:w-44 sm:ml-auto h-11 rounded-xl border-none bg-green mt-4"
+        onClick={handleSubmit(handleSubmitForm)}
+      >
+        Submit
+      </a>
+    </div>
   );
 }
