@@ -1,3 +1,4 @@
+import { useState } from "preact/hooks";
 import { route } from "preact-router";
 
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -7,6 +8,8 @@ import { auth } from "../firebase";
 import { defaultValues, Form, resolver } from "./validation";
 
 export default function App() {
+  const [isLoading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -14,12 +17,17 @@ export default function App() {
   } = useForm<Form>({ defaultValues, resolver, mode: "onChange" });
 
   const handleSubmitForm: SubmitHandler<Form> = async (data) => {
+    setLoading(true);
+
     await signInWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
         route("/");
       })
       .catch((error) => {
         console.log(error.code, error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -58,12 +66,24 @@ export default function App() {
           </div>
 
           <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
-            <button
-              class="w-full h-11 rounded-xl border-none bg-green mt-4 font-bold uppercase text-white"
-              type="submit"
-            >
-              Login
-            </button>
+            {isLoading ? (
+              <button
+                class="w-full h-11 rounded-xl border-none mt-4 bg-slate-300"
+                disabled
+              >
+                <div>
+                  <div class="spinner bubble"></div>
+                </div>
+              </button>
+            ) : (
+              <button
+                class="w-full h-11 rounded-xl border-none bg-green mt-4 font-bold uppercase text-white"
+                type="submit"
+                disabled={isLoading}
+              >
+                Login
+              </button>
+            )}
           </div>
         </form>
       </div>
