@@ -25,21 +25,23 @@ const Layout = () => {
   const [currRoute, setRoute] = useState("/");
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuth(true);
-      }
+    if (auth) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setAuth(true);
+        }
 
-      // redirect to landing page if user is already logged in
-      if (user && window.location.pathname.includes("login")) {
-        route("/");
-      }
+        // redirect to landing page if user is already logged in
+        if (user && window.location.pathname.includes("login")) {
+          route("/");
+        }
 
-      if (!user) {
-        route("/login");
-        setAuth(false);
-      }
-    });
+        if (!user) {
+          route("/login");
+          setAuth(false);
+        }
+      });
+    }
   }, []);
 
   const handleRouteChange = () => {
