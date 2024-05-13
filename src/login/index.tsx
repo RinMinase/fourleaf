@@ -9,6 +9,7 @@ import { defaultValues, Form, resolver } from "./validation";
 
 export default function App() {
   const [isLoading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const {
     register,
@@ -25,7 +26,13 @@ export default function App() {
           route("/");
         })
         .catch((error) => {
-          console.log(error.code, error.message);
+          console.error(error.code, error.message);
+
+          if (error.code === "auth/invalid-credential") {
+            setLoginError("Invalid credentials");
+          } else {
+            setLoginError("Unknown error");
+          }
         })
         .finally(() => {
           setLoading(false);
@@ -66,6 +73,14 @@ export default function App() {
               <span class="error-message">{errors.password?.message}</span>
             </div>
           </div>
+
+          {loginError && (
+            <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
+              <p class="text-sm text-red-500 border-red-300 rounded-md border w-full h-8 flex items-center justify-center">
+                Error: {loginError}
+              </p>
+            </div>
+          )}
 
           <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
             {isLoading ? (
