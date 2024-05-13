@@ -141,13 +141,13 @@ export default function App() {
           <div class="hidden sm:flex gap-3 justify-center">
             <a
               href="/gas/add-fuel"
-              class="flex items-center justify-center w-52 h-11 rounded-xl border-none bg-blue"
+              class="flex items-center justify-center text-center w-52 min-h-11 p-2 rounded-xl border-none bg-blue"
             >
               Add Fuel Data
             </a>
             <a
               href="/gas/add-fuel"
-              class="flex items-center justify-center w-52 h-11 rounded-xl border-none bg-red"
+              class="flex items-center justify-center text-center w-52 min-h-11 p-2 rounded-xl border-none bg-red"
             >
               Add Maintenance Data
             </a>
