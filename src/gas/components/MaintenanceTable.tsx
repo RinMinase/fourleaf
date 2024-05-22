@@ -153,35 +153,37 @@ export default function MaintenanceTable(props: Props) {
   }, [props.maintenance, props.lastMaintenance]);
 
   return (
-    <>
+    <div class="w-full">
       <p class="text-md font-bold mb-3">By KMs</p>
 
       <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left">
           <thead class="text-xs uppercase">
             <tr>
-              <th class="px-3 py-2 text-center">Every</th>
-              <th class="px-3 py-2"></th>
-              <th class="px-3 py-2 text-center">Status</th>
-              <th class="px-3 py-2 text-center">Last Changed</th>
+              <th class="p-2 text-center">Every</th>
+              <th class="p-2"></th>
+              <th class="p-2 text-center">Status</th>
+              <th class="p-2 text-center">Last Changed</th>
             </tr>
           </thead>
 
-          {tableDataKM.map((data) => (
-            <tr class="even:bg-gray-200">
-              <td class="px-3 py-2 text-center">{data.every}</td>
-              <td class="px-3 py-2">{data.label}</td>
-              <td
-                class={clsx("px-3 py-2 text-center capitalize", {
-                  "bg-red": data.status === "limit",
-                  "bg-orange": data.status === "nearing",
-                })}
-              >
-                {data.status}
-              </td>
-              <td class="text-center">{data.lastChanged || "-"}</td>
-            </tr>
-          ))}
+          <tbody>
+            {tableDataKM.map((data) => (
+              <tr class="even:bg-gray-200">
+                <td class="p-2 text-center">{data.every}</td>
+                <td class="p-2">{data.label}</td>
+                <td
+                  class={clsx("p-2 text-center capitalize", {
+                    "bg-red": data.status === "limit",
+                    "bg-orange": data.status === "nearing",
+                  })}
+                >
+                  {data.status}
+                </td>
+                <td class="text-center">{data.lastChanged || "-"}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
 
@@ -191,30 +193,32 @@ export default function MaintenanceTable(props: Props) {
         <table class="w-full text-sm text-left">
           <thead class="text-xs uppercase">
             <tr>
-              <th class="px-3 py-2 text-center">Every</th>
-              <th class="px-3 py-2"></th>
-              <th class="px-3 py-2 text-center">Status</th>
-              <th class="px-3 py-2 text-center">Last Changed</th>
+              <th class="p-2 text-center">Every</th>
+              <th class="p-2"></th>
+              <th class="p-2 text-center">Status</th>
+              <th class="p-2 text-center">Last Changed</th>
             </tr>
           </thead>
 
-          {tableDataYear.map((data) => (
-            <tr class="even:bg-gray-200">
-              <td class="px-3 py-2 text-center">{data.every}</td>
-              <td class="px-3 py-2">{data.label}</td>
-              <td
-                class={clsx("px-3 py-2 text-center capitalize", {
-                  "bg-red": data.status === "limit",
-                  "bg-orange": data.status === "nearing",
-                })}
-              >
-                {data.status}
-              </td>
-              <td class="text-center">{data.lastChanged || "-"}</td>
-            </tr>
-          ))}
+          <tbody>
+            {tableDataYear.map((data) => (
+              <tr class="even:bg-gray-200">
+                <td class="p-2 text-center">{data.every}</td>
+                <td class="p-2">{data.label}</td>
+                <td
+                  class={clsx("p-2 text-center capitalize", {
+                    "bg-red": data.status === "limit",
+                    "bg-orange": data.status === "nearing",
+                  })}
+                >
+                  {data.status}
+                </td>
+                <td class="text-center">{data.lastChanged || "-"}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }
