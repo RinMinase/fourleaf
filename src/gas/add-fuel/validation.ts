@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Resolver } from "react-hook-form";
 import { date, number, object, ref } from "yup";
 
-import { emptyStringToNull } from "../common/functions";
+import { emptyStringToNull } from "../../common/functions";
 
 export type Form = {
   date: Date;
