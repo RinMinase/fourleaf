@@ -67,7 +67,7 @@ export default function App() {
               Add Fuel Data
             </a>
             <a
-              href="/gas/add-fuel"
+              href="/gas/add-maintenance"
               class="flex items-center justify-center w-52 h-11 rounded-xl border-none bg-red"
             >
               Add Maintenance Data
@@ -146,7 +146,7 @@ export default function App() {
               Add Fuel Data
             </a>
             <a
-              href="/gas/add-fuel"
+              href="/gas/add-maintenance"
               class="flex items-center justify-center text-center w-52 min-h-11 p-2 rounded-xl border-none bg-red"
             >
               Add Maintenance Data

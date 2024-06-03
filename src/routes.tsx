@@ -13,6 +13,8 @@ const Journal = () => import("./journal").then((c) => c.default);
 
 const Gas = () => import("./gas").then((c) => c.default);
 const GasAddFuel = () => import("./gas/add-fuel").then((c) => c.default);
+const GasAddMaintenance = () =>
+  import("./gas/add-maintenance").then((c) => c.default);
 
 const Bills = () => import("./bills").then((c) => c.default);
 
@@ -26,6 +28,7 @@ const Routes = ({ onChange }: Props) => (
 
     <AsyncRoute path="/gas" getComponent={Gas} />
     <AsyncRoute path="/gas/add-fuel" getComponent={GasAddFuel} />
+    <AsyncRoute path="/gas/add-maintenance" getComponent={GasAddMaintenance} />
 
     <Route default component={Page404} />
   </Router>
