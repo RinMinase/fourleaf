@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import Swal from "../../common/components/Swal";
 import { defaultValues, Form, resolver } from "./validation";
-import FuelCheckbox from "../components/FuelCheckbox";
+import LargeCheckbox from "../components/LargeCheckbox";
 
 const dateNow = format(new Date(), "yyyy-MM-dd");
 
@@ -157,7 +157,7 @@ export default function App() {
         </div>
 
         <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 sm:pr-3">
-          <FuelCheckbox
+          <LargeCheckbox
             id="first_click"
             label="First Click"
             disabled={isDisabledFirstClick}
@@ -166,7 +166,7 @@ export default function App() {
         </div>
 
         <div class="w-full sm:w-1/2 md:w-1/4 lg:w-1/6 sm:pr-3 mb-4 md:mb-0">
-          <FuelCheckbox
+          <LargeCheckbox
             id="full_tank"
             label="Full Tank"
             disabled={isDisabledFullestTank}
