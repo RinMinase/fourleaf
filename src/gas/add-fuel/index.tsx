@@ -3,7 +3,7 @@ import { route } from "preact-router";
 
 import axios from "axios";
 import clsx from "clsx";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import Swal from "../../common/components/Swal";
@@ -33,10 +33,12 @@ export default function App() {
     setLoading(true);
 
     try {
-      await axios.post("/gas/fuel", {
-        ...data,
-        date: format(data.date, "yyyy-MM-dd"),
-      });
+      const date = format(
+        new Date(data.date).toLocaleDateString(),
+        "yyyy-MM-dd",
+      );
+
+      await axios.post("/gas/fuel", { ...data, date });
 
       await Swal.fire({
         title: "Success!",
