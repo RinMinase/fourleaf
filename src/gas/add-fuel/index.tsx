@@ -131,7 +131,7 @@ export default function App() {
           <span class="error-message">{errors.date?.message}</span>
         </div>
 
-        <div class="custom-input w-full sm:w-1/2 md:w-1/4 lg:1/6 sm:pr-3">
+        <div class="custom-input w-full sm:w-1/2 md:w-1/4 lg:w-1/6 sm:pr-3">
           <input
             type="number"
             class={clsx({
