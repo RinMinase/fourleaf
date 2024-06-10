@@ -4,6 +4,7 @@ import { isEmpty } from "lodash-es";
 import clsx from "clsx";
 
 import { LastMaintenance, Maintenance, TableData } from "../types";
+import { format, parseISO } from "date-fns";
 
 type Props = {
   maintenance: Maintenance;
@@ -144,7 +145,12 @@ export default function MaintenanceTable(props: Props) {
         Object.keys(year).forEach((key) => {
           const index = dataYear.findIndex((item) => item.key === key);
           dataYear[index].status = (year as any)[key];
-          dataYear[index].lastChanged = (lastMaintenance as any)[key].date;
+          if ((lastMaintenance as any)[key].date) {
+            dataYear[index].lastChanged = format(
+              parseISO((lastMaintenance as any)[key].date),
+              "yyyy-MM-dd",
+            );
+          }
         });
 
         setTableDataYear(() => dataYear);
