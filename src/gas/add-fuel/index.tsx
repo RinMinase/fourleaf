@@ -3,7 +3,7 @@ import { route } from "preact-router";
 
 import axios from "axios";
 import clsx from "clsx";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import Swal from "../../common/components/Swal";
