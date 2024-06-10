@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Resolver } from "react-hook-form";
 import { date, number, object, ref } from "yup";
+import { format } from "date-fns";
 
 import { emptyStringToNull } from "../../common/functions";
 
 export type Form = {
-  date: Date;
+  date: string;
   from_bars: null | number;
   to_bars: null | number;
   odometer: null | number;
@@ -14,7 +15,7 @@ export type Form = {
 };
 
 const defaultValues: Form = {
-  date: new Date(),
+  date: format(new Date(), "yyyy-MM-dd"),
   from_bars: null,
   to_bars: null,
   odometer: null,
