@@ -9,10 +9,12 @@ import { checkDeviceIfMobile } from "../../common/functions";
 
 type Props = {
   graphEfficiency: object;
+  graphOdo: Array<number>;
   graphGas: object;
 };
 
 let chartEfficiency: Chart;
+let chartOdo: Chart;
 let chartGas: Chart;
 
 Chart.register(...registerables, ChartDataLabels);
@@ -44,6 +46,31 @@ export default function Charts(props: Props) {
       chartEfficiency.update();
     }
 
+    if (!isEmpty(props.graphOdo)) {
+      const isMobile = checkDeviceIfMobile();
+
+      if (!isMobile) {
+        chartOdo.data.labels = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+      }
+
+      chartOdo.data.datasets[0].data = props.graphOdo;
+
+      chartOdo.update();
+    }
+
     if (!isEmpty(props.graphGas)) {
       const isMobile = checkDeviceIfMobile();
 
@@ -68,7 +95,7 @@ export default function Charts(props: Props) {
 
       chartGas.update();
     }
-  }, [props.graphEfficiency, props.graphGas]);
+  }, [props.graphEfficiency, props.graphOdo, props.graphGas]);
 
   useEffect(() => {
     const isMobile = checkDeviceIfMobile();
@@ -76,10 +103,13 @@ export default function Charts(props: Props) {
     const canvasEfficiency = document.getElementById("efficiency_graph") as any;
     const ctxEfficiency = canvasEfficiency.getContext("2d") as any;
 
+    const canvasOdo = document.getElementById("odo_graph") as any;
+    const ctxOdo = canvasOdo.getContext("2d") as any;
+
     const canvasGas = document.getElementById("gas_graph") as any;
     const ctxGas = canvasGas.getContext("2d") as any;
 
-    const chartOptions: ChartOptions = {
+    const lineChartOptions: ChartOptions = {
       scales: {
         x: {
           ticks: {
@@ -110,9 +140,31 @@ export default function Charts(props: Props) {
       },
     };
 
+    const barChartOptions: ChartOptions = {
+      scales: {
+        y: {
+          grace: "20%",
+        },
+      },
+      plugins: {
+        datalabels: {
+          anchor: "end",
+          align: "top",
+          clamp: true,
+          color: "#000",
+        },
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          enabled: false,
+        },
+      },
+    };
+
     chartEfficiency = new Chart(ctxEfficiency, {
       type: "line",
-      options: chartOptions,
+      options: lineChartOptions,
       data: {
         labels: [],
         datasets: [
@@ -125,9 +177,24 @@ export default function Charts(props: Props) {
       },
     });
 
+    chartOdo = new Chart(ctxOdo, {
+      type: "bar",
+      options: barChartOptions,
+      data: {
+        labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+        datasets: [
+          {
+            label: "Odometer per Month",
+            data: [],
+            borderColor: "rgb(101, 163, 13)",
+          },
+        ],
+      },
+    });
+
     chartGas = new Chart(ctxGas, {
       type: "line",
-      options: chartOptions,
+      options: lineChartOptions,
       data: {
         labels: [],
         datasets: [
@@ -148,6 +215,10 @@ export default function Charts(props: Props) {
           Efficiency over fuel refills
         </h3>
         <canvas id="efficiency_graph" class="w-full"></canvas>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-center mt-6">Odometer per Month</h3>
+        <canvas id="odo_graph" class="w-full"></canvas>
       </div>
       <div>
         <h3 class="text-lg font-bold text-center mt-6">Gas price over time</h3>
