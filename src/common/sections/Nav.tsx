@@ -56,7 +56,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
         class="flex items-center sm:py-2 sm:px-4 justify-between md:justify-center max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-blue-dark sticky md:relative top-0 inset-x-0"
       >
         <a href="#" class="flex items-center gap-4 h-7 order-2 md:order-none">
-          <img src="/favicon.png" class="h-full" />
+          <img src="/favicon.png" class="h-full w-7" />
           <span class="hidden md:inline-block text-xl text-white font-bold">
             Fourleaf
           </span>
@@ -81,16 +81,18 @@ export default function Nav({ isAuth, currRoute }: Props) {
           ))}
         </ul>
 
-        {isAuth ? (
-          <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 text-white hover:text-sky-300 hover:bg-slate-800">
-            <a href="#" class="py-1 px-4" onClick={handleLogout}>
+        {!isAuth ? (
+          <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 w-24 text-white hover:text-sky-300 hover:bg-slate-800">
+            <a href="#" class="py-1 px-4 inline-block" onClick={handleLogout}>
               Logout
             </a>
           </div>
         ) : (
-          <a href="/login" class="hidden md:flex">
-            Login
-          </a>
+          <div class="hidden md:flex justify-end w-24">
+            <a href="/login" class="py-1 px-4 inline-block">
+              Login
+            </a>
+          </div>
         )}
 
         {/* Buffer element */}
