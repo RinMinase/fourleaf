@@ -15,6 +15,17 @@ body {
   flex-grow: 1;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .spinner.bubble {
   width: 15px;
   height: 15px;
@@ -107,16 +118,23 @@ input[type="number"]::-webkit-outer-spin-button {
   --animate-duration: 0.25s;
 }
 
-/* Lacking Tailwind utils from Alpha 23 */
-.flex-grow {
-  flex-grow: 1;
+/* Bugs found in Alpha 23 */
+* {
+  font-family: Inter, sans-serif;
 }
 
-/* Bugs found in Alpha 23 */
-* { font-family: Inter, sans-serif; }
-
-z-9999 { z-index: 9999; }
-z-9990 { z-index: 9990; }
-z-9980 { z-index: 9980; }
-z-9970 { z-index: 9970; }
-z-9960 { z-index: 9960; }
+z-9999 {
+  z-index: 9999;
+}
+z-9990 {
+  z-index: 9990;
+}
+z-9980 {
+  z-index: 9980;
+}
+z-9970 {
+  z-index: 9970;
+}
+z-9960 {
+  z-index: 9960;
+}
