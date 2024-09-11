@@ -83,7 +83,7 @@ export default function App() {
         >
           Back
         </a>
-        <h1 class="text-3xl font-bold flex-grow">Add Maintenance</h1>
+        <h1 class="text-3xl font-bold grow">Add Maintenance</h1>
       </div>
 
       <p class="hidden">{isLoading && "API Loading"}</p>

@@ -15,6 +15,7 @@ import "animate.css";
 import "scss-spinners";
 
 import "@fontsource/inter/latin-400.css";
+import "@fontsource/inter/latin-500.css";
 import "@fontsource/inter/latin-700.css";
 
 import "./main.css";
@@ -55,7 +56,7 @@ const Layout = () => {
     <>
       <Nav isAuth={isAuth} currRoute={currRoute} />
 
-      <main class="p-4 flex-grow">
+      <main class="p-4 grow">
         <Routes onChange={handleRouteChange} />
       </main>
     </>
