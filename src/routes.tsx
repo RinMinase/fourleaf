@@ -18,10 +18,16 @@ const GasAddMaintenance = () =>
 
 const Bills = () => import("./bills").then((c) => c.default);
 
+const Grocery = () => import("./grocery").then((c) => c.default);
+const GroceryList = () => import("./grocery/list").then((c) => c.default);
+
 const Routes = ({ onChange }: Props) => (
   <Router onChange={onChange}>
     <Route path="/" component={Notes} />
     <Route path="/login" component={Login} />
+
+    <AsyncRoute path="/grocery" getComponent={Grocery} />
+    <AsyncRoute path="/grocery/:id" getComponent={GroceryList} />
 
     <AsyncRoute path="/bills" getComponent={Bills} />
     <AsyncRoute path="/journal" getComponent={Journal} />
