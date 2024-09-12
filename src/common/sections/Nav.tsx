@@ -11,9 +11,16 @@ type Props = {
   currRoute: string;
 };
 
+type Menu = {
+  route: string;
+  name: string;
+  mobile?: boolean;
+  desktop?: boolean;
+};
+
 const isMobile = checkDeviceIfMobile();
 
-const menu: Array<{ route: string; name: string; mobile?: boolean }> = [
+const menu: Array<Menu> = [
   {
     route: "/",
     name: "Notes",
@@ -26,6 +33,7 @@ const menu: Array<{ route: string; name: string; mobile?: boolean }> = [
   {
     route: "/grocery-desktop",
     name: "Grocery",
+    desktop: true,
   },
   {
     route: "/bills",
@@ -141,21 +149,27 @@ export default function Nav({ isAuth, currRoute }: Props) {
           </div>
           <div class="grow bg-gray-100">
             <ul class="animate__animated animate__fadeInRight mobile-menu bg-white">
-              {menu.map((item) => (
-                <li class="border-b border-gray-300">
-                  <a
-                    href={isRoute(item.route) ? "#" : item.route}
-                    class={clsx("block py-5 px-4", {
-                      "bg-slate-200 active": isRoute(item.route),
-                    })}
-                    onClick={
-                      isRoute(item.route) ? undefined : () => setMenuOpen(false)
-                    }
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              ))}
+              {menu.map((item) => {
+                if (item.desktop && isMobile) return null;
+
+                return (
+                  <li class="border-b border-gray-300">
+                    <a
+                      href={isRoute(item.route) ? "#" : item.route}
+                      class={clsx("block py-5 px-4", {
+                        "bg-slate-200 active": isRoute(item.route),
+                      })}
+                      onClick={
+                        isRoute(item.route)
+                          ? undefined
+                          : () => setMenuOpen(false)
+                      }
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                );
+              })}
               {isAuth ? (
                 <li class="border-y border-gray-300">
                   <a href="#" class="block py-5 px-4" onClick={handleLogout}>
