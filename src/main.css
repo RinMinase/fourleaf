@@ -123,18 +123,22 @@ input[type="number"]::-webkit-outer-spin-button {
   font-family: Inter, sans-serif;
 }
 
-z-9999 {
+.z-9999 {
   z-index: 9999;
 }
-z-9990 {
+
+.z-9990 {
   z-index: 9990;
 }
-z-9980 {
+
+.z-9980 {
   z-index: 9980;
 }
-z-9970 {
+
+.z-9970 {
   z-index: 9970;
 }
-z-9960 {
+
+.z-9960 {
   z-index: 9960;
 }
