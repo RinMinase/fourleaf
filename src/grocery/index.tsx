@@ -1,8 +1,9 @@
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { MinusCircleIcon } from "@heroicons/react/24/outline";
 import { JSX } from "preact";
 import { useState } from "preact/hooks";
 import { route } from "preact-router";
+
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { MinusCircleIcon } from "@heroicons/react/24/outline";
 import { v4 as uuidv4 } from "uuid";
 
 import { checkDeviceIfMobile } from "../common/functions";
