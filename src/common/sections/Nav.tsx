@@ -24,6 +24,10 @@ const menu: Array<{ route: string; name: string; mobile?: boolean }> = [
     mobile: true,
   },
   {
+    route: "/grocery-desktop",
+    name: "Grocery",
+  },
+  {
     route: "/bills",
     name: "Bills",
   },

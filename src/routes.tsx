@@ -21,6 +21,7 @@ const Bills = () => import("./bills").then((c) => c.default);
 const Grocery = () => import("./grocery").then((c) => c.default);
 const GroceryList = () => import("./grocery/list").then((c) => c.default);
 const GroceryOrder = () => import("./grocery/order").then((c) => c.default);
+const GroceryDesktop = () => import("./grocery/desktop").then((c) => c.default);
 
 const Routes = ({ onChange }: Props) => (
   <Router onChange={onChange}>
@@ -30,6 +31,7 @@ const Routes = ({ onChange }: Props) => (
     <AsyncRoute path="/grocery" getComponent={Grocery} />
     <AsyncRoute path="/grocery/:id" getComponent={GroceryList} />
     <AsyncRoute path="/grocery/:id/order" getComponent={GroceryOrder} />
+    <AsyncRoute path="/grocery-desktop" getComponent={GroceryDesktop} />
 
     <AsyncRoute path="/bills" getComponent={Bills} />
     <AsyncRoute path="/journal" getComponent={Journal} />
