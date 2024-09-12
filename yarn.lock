@@ -1047,7 +1047,7 @@
     "@tailwindcss/oxide-linux-x64-musl" "4.0.0-alpha.23"
     "@tailwindcss/oxide-win32-x64-msvc" "4.0.0-alpha.23"
 
-"@tailwindcss/vite@~4.0.0-alpha.23":
+"@tailwindcss/vite@4.0.0-alpha.23":
   version "4.0.0-alpha.23"
   resolved "https://registry.yarnpkg.com/@tailwindcss/vite/-/vite-4.0.0-alpha.23.tgz#c605915fddd6250a270692be1b9f89e3b62b2588"
   integrity sha512-JEllYp6YKOl3mMpKZ4UGf9E32HBCxf/tZ1jrFORB+Sj7ng69rDHOkYyQREezPIHguHj2yeREeShIivAcLnu5tQ==

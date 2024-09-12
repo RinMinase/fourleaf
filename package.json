@@ -33,7 +33,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@preact/preset-vite": "^2.9.0",
-    "@tailwindcss/vite": "~4.0.0-alpha.23",
+    "@tailwindcss/vite": "4.0.0-alpha.23",
     "@types/lodash-es": "^4.17.12",
     "@types/uuid": "^10.0.0",
     "typescript": "^5.6.2",
