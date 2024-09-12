@@ -4,16 +4,24 @@ import clsx from "clsx";
 import { signOut } from "firebase/auth";
 
 import { auth } from "../../firebase";
+import { checkDeviceIfMobile } from "../functions";
 
 type Props = {
   isAuth: boolean;
   currRoute: string;
 };
 
-const menu: Array<{ route: string; name: string }> = [
+const isMobile = checkDeviceIfMobile();
+
+const menu: Array<{ route: string; name: string; mobile?: boolean }> = [
   {
     route: "/",
     name: "Notes",
+  },
+  {
+    route: "/grocery",
+    name: "Grocery",
+    mobile: true,
   },
   {
     route: "/bills",
@@ -62,23 +70,29 @@ export default function Nav({ isAuth, currRoute }: Props) {
           </span>
         </a>
 
-        <ul class="hidden md:flex flex-grow gap-2 justify-center list-none">
-          {menu.map((item) => (
-            <li>
-              <a
-                href={isRoute(item.route) ? "#" : item.route}
-                class={clsx(
-                  "inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
-                  {
-                    "text-blue-500 cursor-default active": isRoute(item.route),
-                  },
-                )}
-                onClick={() => setMenuOpen(false)}
-              >
-                {item.name}
-              </a>
-            </li>
-          ))}
+        <ul class="hidden md:flex grow gap-2 justify-center list-none">
+          {menu.map((item) => {
+            if (item.mobile && !isMobile) return null;
+
+            return (
+              <li>
+                <a
+                  href={isRoute(item.route) ? "#" : item.route}
+                  class={clsx(
+                    "inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
+                    {
+                      "text-blue-500 cursor-default active": isRoute(
+                        item.route,
+                      ),
+                    },
+                  )}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         {!isAuth ? (
@@ -121,7 +135,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
               <img src="/icons/xmark-solid.svg" alt="X" class="w-7 h-10" />
             </div>
           </div>
-          <div class="flex-grow bg-gray-100">
+          <div class="grow bg-gray-100">
             <ul class="animate__animated animate__fadeInRight mobile-menu bg-white">
               {menu.map((item) => (
                 <li class="border-b border-gray-300">
