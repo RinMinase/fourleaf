@@ -38,6 +38,20 @@ type Props = {
 const isMobile = checkDeviceIfMobile();
 const db = ref(getDatabase(), "grocery");
 
+const handleKeypressOnlyNumbers = (evt: JSX.TargetedKeyboardEvent<any>) => {
+  if (!/[0-9]/.test(evt.key)) {
+    evt.preventDefault();
+  }
+};
+
+const numericInput = {
+  type: "number",
+  min: "0",
+  inputmode: "numeric",
+  pattern: "[0-9]*",
+  onKeyPress: handleKeypressOnlyNumbers,
+};
+
 export default function App(props: Props) {
   const [isLoading, setLoading] = useState(true);
   const [isVirtualKeyboardOpen, setVirtualKeyboardOpen] = useState(false);
@@ -219,14 +233,6 @@ export default function App(props: Props) {
         name: "",
         qty: "",
       });
-    }
-  };
-
-  const handleKeypressOnlyNumbers = (evt: any) => {
-    const regex = new RegExp("[0-9]");
-
-    if (!regex.test(evt.key)) {
-      evt.preventDefault();
     }
   };
 
@@ -416,23 +422,15 @@ export default function App(props: Props) {
                       onBlur={(evt) => handleBlur(evt, category, item, "name")}
                     />
                     <input
-                      type="number"
-                      min="0"
-                      inputmode="numeric"
-                      pattern="[0-9]*"
+                      {...numericInput}
                       class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
                       defaultValue={`${item.qty || 0}`}
-                      onKeyPress={handleKeypressOnlyNumbers}
                       onBlur={(evt) => handleBlur(evt, category, item, "qty")}
                     />
                     <input
-                      type="number"
-                      min="0"
-                      inputmode="numeric"
-                      pattern="[0-9]*"
+                      {...numericInput}
                       defaultValue={`${item.price || 0}`}
                       class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                      onKeyPress={handleKeypressOnlyNumbers}
                       onBlur={(evt) => handleBlur(evt, category, item, "price")}
                     />
                   </div>
@@ -455,14 +453,10 @@ export default function App(props: Props) {
                         }
                       />
                       <input
-                        type="number"
-                        min="0"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
+                        {...numericInput}
                         class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
                         placeholder="Qty"
                         value={newItemData.qty}
-                        onKeyPress={handleKeypressOnlyNumbers}
                         onChange={(e) =>
                           setNewItemData((prev) => ({
                             ...prev,
