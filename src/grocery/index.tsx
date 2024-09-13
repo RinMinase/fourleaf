@@ -1,19 +1,23 @@
 import { JSX } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
+import { getDatabase, ref, get } from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
 
 import { checkDeviceIfMobile } from "../common/functions";
+import app from "../firebase";
 import Swal from "./grocery-swal";
-import { ListItem, lists as origList } from "./data";
+import { List, ListItem } from "./types";
 
 const isMobile = checkDeviceIfMobile();
+const db = ref(getDatabase(app!), "grocery");
 
 export default function App() {
-  const [lists, setLists] = useState(origList);
+  const [isLoading, setLoading] = useState(true);
+  const [lists, setLists] = useState<List>([]);
 
   const handleDeleteList = async (
     evt: JSX.TargetedMouseEvent<any>,
@@ -72,6 +76,20 @@ export default function App() {
     setLists(newList);
   };
 
+  const fetchData = async () => {
+    setLoading(true);
+    const snapshot = await get(db);
+
+    if (snapshot.exists()) {
+      setLists(snapshot.val());
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   if (!isMobile) {
     return (
       <div>
@@ -94,6 +112,8 @@ export default function App() {
       </h1>
 
       <div class="flex flex-col pr-1">
+        {isLoading && <div class="loader"></div>}
+
         {lists.map((list) => (
           <div
             key={list.id}
