@@ -8,12 +8,11 @@ import { getDatabase, ref, get } from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
 
 import { checkDeviceIfMobile } from "../common/functions";
-import app from "../firebase";
 import Swal from "./components/grocery-swal";
 import { List, ListItem } from "./types";
 
 const isMobile = checkDeviceIfMobile();
-const db = ref(getDatabase(app!), "grocery");
+const db = ref(getDatabase(), "grocery");
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -71,6 +70,7 @@ export default function App() {
       id: uuidv4(),
       name,
       date,
+      list: [],
     });
 
     setLists(newList);
