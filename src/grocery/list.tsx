@@ -431,20 +431,6 @@ export default function App() {
                           }
                         }}
                       />
-                      {/* <input
-                        type="number"
-                        min="0"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                        value={newItemData.price}
-                        onChange={(e) =>
-                          setNewItemData((prev) => ({
-                            ...prev,
-                            price: e.currentTarget.value,
-                          }))
-                        }
-                      /> */}
                     </>
                   ) : null}
 
