@@ -15,8 +15,8 @@ import {
   MinusCircleIcon,
 } from "@heroicons/react/24/outline";
 
-import Swal from "../common/components/Swal";
 import { checkDeviceIfMobile } from "../common/functions";
+import Swal from "./grocery-swal";
 import { data as origData, Category, Item } from "./data";
 
 const isMobile = checkDeviceIfMobile();

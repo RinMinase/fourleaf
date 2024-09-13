@@ -15,8 +15,8 @@ import {
   DocumentCheckIcon,
 } from "@heroicons/react/24/outline";
 
-import Swal from "../common/components/Swal";
 import { checkDeviceIfMobile } from "../common/functions";
+import Swal from "./grocery-swal";
 import { data as origData } from "./data";
 
 type Props = {

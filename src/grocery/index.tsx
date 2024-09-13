@@ -7,7 +7,7 @@ import { MinusCircleIcon } from "@heroicons/react/24/outline";
 import { v4 as uuidv4 } from "uuid";
 
 import { checkDeviceIfMobile } from "../common/functions";
-import Swal from "../common/components/Swal";
+import Swal from "./grocery-swal";
 import { ListItem, lists as origList } from "./data";
 
 const isMobile = checkDeviceIfMobile();
@@ -41,7 +41,7 @@ export default function App() {
     const today = new Date().toISOString().substring(0, 10);
 
     const { value: formValues } = await Swal.fire({
-      title: "Multiple inputs",
+      title: "Add List",
       showCancelButton: true,
       html: `
         <input id="swal-input1" placeholder="Name" class="w-full border border-slate-300 rounded p-2 !mb-4">
