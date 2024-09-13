@@ -191,38 +191,7 @@ export default function App(props: Props) {
     });
   };
 
-  const handleAddItem = (parentCategory: Category) => {
-    if (newItemData.name) {
-      const newData = structuredClone(data);
-
-      const catIndex = newData.list.findIndex((val) => {
-        return val.id === parentCategory.id;
-      });
-
-      newData.list[catIndex].items.push({
-        id: uuidv4(),
-        name: newItemData.name,
-        qty: newItemData.qty ? parseInt(newItemData.qty) : undefined,
-        price: undefined,
-      });
-
-      setData(newData);
-      setShowNewItemFields(null);
-
-      setNewItemData({
-        name: "",
-        qty: "",
-      });
-    } else {
-      setShowNewItemFields(null);
-      setNewItemData({
-        name: "",
-        qty: "",
-      });
-    }
-  };
-
-  const handleAddItemBySubmit = () => {
+  const handleAddItem = () => {
     if (newItemData.name) {
       const newData = structuredClone(data);
 
@@ -300,7 +269,7 @@ export default function App(props: Props) {
 
   useEffect(() => {
     if (!isVirtualKeyboardOpen && showNewItemFields && newItemData.name) {
-      handleAddItemBySubmit();
+      handleAddItem();
     }
   }, [isVirtualKeyboardOpen]);
 
@@ -501,9 +470,7 @@ export default function App(props: Props) {
                           }))
                         }
                         onBlur={() => {
-                          if (newItemData.name) {
-                            handleAddItem(category);
-                          }
+                          if (newItemData.name) handleAddItem();
                         }}
                       />
                     </>
@@ -512,7 +479,7 @@ export default function App(props: Props) {
                   {showNewItemFields && showNewItemFields === category.id ? (
                     <CheckCircleIcon
                       class="w-6 min-w-6 cursor-pointer"
-                      onClick={() => handleAddItem(category)}
+                      onClick={() => handleAddItem()}
                     />
                   ) : (
                     <PlusCircleIcon
