@@ -15,29 +15,46 @@ import {
   MinusCircleIcon,
 } from "@heroicons/react/24/outline";
 
+import {
+  equalTo,
+  get,
+  getDatabase,
+  limitToFirst,
+  orderByChild,
+  query,
+  ref,
+} from "firebase/database";
+
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
-import { data as origData, Category, Item } from "./data";
+import { List, ListItem, Category, Item } from "./types";
+
+type Props = {
+  matches?: {
+    id: string;
+  };
+};
 
 const isMobile = checkDeviceIfMobile();
+const db = ref(getDatabase(), "grocery");
 
-export default function App() {
+export default function App(props: Props) {
+  const [isLoading, setLoading] = useState(true);
   const [isVirtualKeyboardOpen, setVirtualKeyboardOpen] = useState(false);
 
+  const [newItemData, setNewItemData] = useState({ name: "", qty: "" });
   const [showNewItemFields, setShowNewItemFields] = useState<string | null>(
     null,
   );
 
-  const [newItemData, setNewItemData] = useState({
+  const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
+
+  const [data, setData] = useState<ListItem>({
+    id: "",
     name: "",
-    qty: "",
+    date: "",
+    list: [],
   });
-
-  const [isCollapseOpen, setIsCollapseOpen] = useState(
-    Array(origData.list.length).fill(true),
-  );
-
-  const [data, setData] = useState(origData);
 
   const isFinished = (items: Array<Item>) => {
     return items.every((item) => item.price);
@@ -244,11 +261,54 @@ export default function App() {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+
+      const snapshot = await get(
+        query(
+          db,
+          orderByChild("id"),
+          equalTo(props.matches!.id),
+          limitToFirst(1),
+        ),
+      );
+
+      if (snapshot.exists()) {
+        const list = snapshot.val() as List;
+        let newData: ListItem;
+
+        for (const prop in list) {
+          newData = list[prop];
+
+          if (!newData.list) {
+            newData.list = [];
+          }
+
+          const collapse = Array(newData.list.length).fill(true);
+
+          setData(newData);
+          setIsCollapseOpen(collapse);
+
+          break;
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!isVirtualKeyboardOpen && showNewItemFields && newItemData.name) {
       handleAddItemBySubmit();
     }
   }, [isVirtualKeyboardOpen]);
+
+  useEffect(() => {
+    if (props.matches?.id) {
+      fetchData();
+    }
+  }, []);
 
   useEffect(() => {
     function handleKeyboard(event: any) {
@@ -298,51 +358,66 @@ export default function App() {
           <ChevronLeftIcon class="w-5" />
           <span class="px-1.5">Back</span>
         </div>
-        <div>
-          <span class="pr-3">Total:</span>
-          <span class="inline-block border border-slate-300 rounded-sm px-3 py-1">
-            {calculateTotal(data.list)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-          </span>
-        </div>
+        {!isLoading ? (
+          <div>
+            <span class="pr-3">Total:</span>
+            <span class="inline-block border border-slate-300 rounded-sm px-3 py-1">
+              {calculateTotal(data.list)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </span>
+          </div>
+        ) : null}
       </div>
 
       <div class="flex my-3">
         <p class="grow font-bold my-3">{data.name || "Grocery List"}</p>
-        <div
-          class="w-7 mr-1.5 pr-1 flex items-center justify-end cursor-pointer"
-          onClick={() => route(`/grocery/${data.id}/order`)}
-          children={<ListBulletIcon class="w-6" />}
-        />
-        <div
-          class="w-7 flex items-center justify-end cursor-pointer"
-          onClick={handleAddCategory}
-          children={<PlusCircleIcon class="w-6" />}
-        />
+        {!isLoading ? (
+          <>
+            <div
+              class="w-7 mr-1.5 pr-1 flex items-center justify-end cursor-pointer"
+              onClick={() => route(`/grocery/${data.id}/order`)}
+              children={<ListBulletIcon class="w-6" />}
+            />
+            <div
+              class="w-7 flex items-center justify-end cursor-pointer"
+              onClick={handleAddCategory}
+              children={<PlusCircleIcon class="w-6" />}
+            />
+          </>
+        ) : null}
       </div>
 
       <div class="grow overflow-y-auto mt-3">
+        {isLoading && <div class="loader"></div>}
+
         {data.list.map((category, categoryIndex) => (
           <div class="pb-3">
             <p
               class={clsx(
-                "flex items-center text-sm font-bold pb-2 mb-3 border-b border-slate-300 cursor-pointer",
+                "flex items-center text-sm font-bold mb-3 border-b border-slate-300 cursor-pointer",
                 {
                   "text-green-500": isFinished(category.items),
                 },
               )}
               onClick={() => handleCollapseToggle(categoryIndex)}
             >
-              {isCollapseOpen[categoryIndex] ? (
-                <ChevronDownIcon class="w-4 inline-block" />
-              ) : (
-                <ChevronRightIcon class="w-4 inline-block" />
-              )}
-              <span class="grow pl-2 select-none">{category.category}</span>
-              <MinusCircleIcon
-                class="w-6 cursor-pointer text-red-600"
-                onClick={(evt) => handleDeleteCategory(evt, category)}
+              <div class="grow pb-2 h-8 flex items-center">
+                {isCollapseOpen[categoryIndex] ? (
+                  <ChevronDownIcon class="w-4 inline-block" />
+                ) : (
+                  <ChevronRightIcon class="w-4 inline-block" />
+                )}
+                <span class="grow pl-2 select-none">{category.category}</span>
+              </div>
+              <div
+                class="w-8 px-1 pb-2"
+                children={
+                  <MinusCircleIcon
+                    class="w-6 cursor-pointer text-red-600"
+                    onClick={(evt) => handleDeleteCategory(evt, category)}
+                  />
+                }
               />
             </p>
 
