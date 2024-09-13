@@ -16,7 +16,7 @@ export interface ListItem {
   id: string;
   name: string;
   date: string;
-  list?: Array<Category>;
+  list: Array<Category>;
 }
 
 export interface List extends Array<ListItem> {}
