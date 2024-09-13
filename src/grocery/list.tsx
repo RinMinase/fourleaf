@@ -16,7 +16,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { checkDeviceIfMobile } from "../common/functions";
-import Swal from "./grocery-swal";
+import Swal from "./components/grocery-swal";
 import { data as origData, Category, Item } from "./data";
 
 const isMobile = checkDeviceIfMobile();

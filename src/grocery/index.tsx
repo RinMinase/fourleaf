@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { checkDeviceIfMobile } from "../common/functions";
 import app from "../firebase";
-import Swal from "./grocery-swal";
+import Swal from "./components/grocery-swal";
 import { List, ListItem } from "./types";
 
 const isMobile = checkDeviceIfMobile();
