@@ -4,8 +4,16 @@ import { route } from "preact-router";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
-import { getDatabase, ref, get } from "firebase/database";
-import { v4 as uuidv4 } from "uuid";
+
+import {
+  getDatabase,
+  ref,
+  onValue,
+  push,
+  child,
+  update,
+  remove,
+} from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
@@ -25,18 +33,12 @@ export default function App() {
     evt.stopPropagation();
 
     const result = await Swal.fire({
-      text: "Are you sure?",
+      title: "Are you sure?",
       showDenyButton: true,
     });
 
     if (result.isConfirmed) {
-      const newLists: any = lists
-        .map((listItem) => {
-          if (listItem.id !== forDeleteList.id) return listItem;
-        })
-        .filter((el) => el !== undefined);
-
-      setLists(newLists);
+      remove(child(db, `/${forDeleteList.id}`));
     }
   };
 
@@ -63,27 +65,27 @@ export default function App() {
     });
 
     const [name, date] = formValues;
+    const newKey = push(db).key;
 
-    const newList = structuredClone(lists);
-
-    newList.push({
-      id: uuidv4(),
-      name,
-      date,
-      list: [],
+    update(db, {
+      [`${newKey}`]: {
+        id: newKey,
+        name,
+        date,
+        list: [],
+      },
     });
-
-    setLists(newList);
   };
 
   const fetchData = async () => {
     setLoading(true);
-    const snapshot = await get(db);
 
-    if (snapshot.exists()) {
-      setLists(snapshot.val());
-      setLoading(false);
-    }
+    onValue(db, (snapshot) => {
+      if (snapshot.exists()) {
+        setLists(Object.values(snapshot.val()));
+        setLoading(false);
+      }
+    });
   };
 
   useEffect(() => {
