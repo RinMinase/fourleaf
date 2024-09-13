@@ -17,9 +17,9 @@ import {
 
 import {
   equalTo,
-  get,
   getDatabase,
   limitToFirst,
+  onValue,
   orderByChild,
   query,
   ref,
@@ -265,34 +265,34 @@ export default function App(props: Props) {
     try {
       setLoading(true);
 
-      const snapshot = await get(
-        query(
-          db,
-          orderByChild("id"),
-          equalTo(props.matches!.id),
-          limitToFirst(1),
-        ),
+      const dbQuery = query(
+        db,
+        orderByChild("id"),
+        equalTo(props.matches!.id),
+        limitToFirst(1),
       );
 
-      if (snapshot.exists()) {
-        const list = snapshot.val() as List;
-        let newData: ListItem;
+      onValue(dbQuery, (snapshot) => {
+        if (snapshot.exists()) {
+          const list = snapshot.val() as List;
+          let newData: ListItem;
 
-        for (const prop in list) {
-          newData = list[prop];
+          for (const prop in list) {
+            newData = list[prop];
 
-          if (!newData.list) {
-            newData.list = [];
+            if (!newData.list) {
+              newData.list = [];
+            }
+
+            const collapse = Array(newData.list.length).fill(true);
+
+            setData(newData);
+            setIsCollapseOpen(collapse);
+
+            break;
           }
-
-          const collapse = Array(newData.list.length).fill(true);
-
-          setData(newData);
-          setIsCollapseOpen(collapse);
-
-          break;
         }
-      }
+      });
     } finally {
       setLoading(false);
     }
@@ -393,7 +393,7 @@ export default function App(props: Props) {
 
         {data.list.map((category, categoryIndex) => (
           <div class="pb-3">
-            <p
+            <div
               class={clsx(
                 "flex items-center text-sm font-bold mb-3 border-b border-slate-300 cursor-pointer",
                 {
@@ -419,7 +419,7 @@ export default function App(props: Props) {
                   />
                 }
               />
-            </p>
+            </div>
 
             {isCollapseOpen[categoryIndex] && (
               <div class="pl-2 pr-2">
