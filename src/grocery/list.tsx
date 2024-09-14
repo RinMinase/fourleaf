@@ -1,18 +1,10 @@
 import { useEffect, useState } from "preact/hooks";
-import { JSX } from "preact";
 import { route } from "preact-router";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import clsx from "clsx";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ListBulletIcon,
-  MinusCircleIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 
 import {
   equalTo,
@@ -26,9 +18,8 @@ import {
 
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
-import Item from "./components/list-item";
-import { ListItem, Category, Item as ItemType } from "./types";
-import AddNewItem from "./components/list-add-new-item";
+import { ListItem, Category as CategoryType } from "./types";
+import Category from "./components/list-category";
 
 type Props = {
   matches?: {
@@ -42,7 +33,6 @@ const db = ref(getDatabase(), "grocery");
 export default function App(props: Props) {
   const [isLoading, setLoading] = useState(true);
   const [isVirtualKeyboardOpen, setVirtualKeyboardOpen] = useState(false);
-
   const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
 
   const [data, setData] = useState<ListItem>({
@@ -52,20 +42,7 @@ export default function App(props: Props) {
     list: [],
   });
 
-  const isFinished = (items: Array<ItemType>) => {
-    return items.every((item) => item.price);
-  };
-
-  const handleCollapseToggle = (index: number) => {
-    setIsCollapseOpen((prev) => {
-      const newValues = [...prev];
-      newValues[index] = !prev[index];
-
-      return newValues;
-    });
-  };
-
-  const calculateTotal = (lists: Array<Category>) => {
+  const calculateTotal = (lists: Array<CategoryType>) => {
     let total = 0;
 
     lists.forEach((list) => {
@@ -75,31 +52,6 @@ export default function App(props: Props) {
     });
 
     return total;
-  };
-
-  const handleDeleteCategory = async (
-    evt: JSX.TargetedMouseEvent<SVGSVGElement>,
-    forDeleteCategory: Category,
-  ) => {
-    evt.stopPropagation();
-
-    const result = await Swal.fire({
-      text: "Are you sure?",
-      showDenyButton: true,
-    });
-
-    if (result.isConfirmed) {
-      const newCategories: any = data.list
-        .map((category) => {
-          if (category.id !== forDeleteCategory.id) return category;
-        })
-        .filter((el) => el !== undefined);
-
-      setData({
-        ...data,
-        list: newCategories,
-      });
-    }
   };
 
   const handleAddCategory = async () => {
@@ -259,60 +211,14 @@ export default function App(props: Props) {
         {isLoading && <div class="loader"></div>}
 
         {data.list.map((category, categoryIndex) => (
-          <div class="pb-3">
-            <div
-              class={clsx(
-                "flex items-center text-sm font-bold mb-3 border-b border-slate-300 cursor-pointer",
-                {
-                  "text-green-500": isFinished(category.items),
-                },
-              )}
-              onClick={() => handleCollapseToggle(categoryIndex)}
-            >
-              <div class="grow pb-2 h-8 flex items-center">
-                {isCollapseOpen[categoryIndex] ? (
-                  <ChevronDownIcon class="w-4 inline-block" />
-                ) : (
-                  <ChevronRightIcon class="w-4 inline-block" />
-                )}
-                <span class="grow pl-2 select-none">{category.category}</span>
-              </div>
-              <div
-                class="w-8 px-1 pb-2"
-                children={
-                  <MinusCircleIcon
-                    class="w-6 cursor-pointer text-red-600"
-                    onClick={(evt) => handleDeleteCategory(evt, category)}
-                  />
-                }
-              />
-            </div>
-
-            {isCollapseOpen[categoryIndex] && (
-              <div class="pl-2 pr-2">
-                {category.items.length ? (
-                  <div class="flex justify-end items-center">
-                    <span class="text-sm text-center w-12">Qty</span>
-                    <span class="text-sm text-center w-16">Price</span>
-                  </div>
-                ) : null}
-
-                {category.items.map((item) => (
-                  <Item
-                    listId={props.matches!.id}
-                    categoryId={category.id}
-                    item={item}
-                  />
-                ))}
-
-                <AddNewItem
-                  isVirtualKeyboardOpen={isVirtualKeyboardOpen}
-                  listId={props.matches!.id}
-                  categoryId={category.id}
-                />
-              </div>
-            )}
-          </div>
+          <Category
+            isVirtualKeyboardOpen={isVirtualKeyboardOpen}
+            collapseIndex={categoryIndex}
+            isCollapseOpen={isCollapseOpen[categoryIndex]}
+            setIsCollapseOpen={setIsCollapseOpen}
+            category={category}
+            listId={props.matches!.id}
+          />
         ))}
       </div>
     </div>
