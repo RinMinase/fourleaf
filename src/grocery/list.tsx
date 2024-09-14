@@ -2,18 +2,19 @@ import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { v4 as uuidv4 } from "uuid";
-
 import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 
 import {
+  child,
   equalTo,
   getDatabase,
   limitToFirst,
   onValue,
   orderByChild,
+  push,
   query,
   ref,
+  update,
 } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
@@ -66,17 +67,17 @@ export default function App(props: Props) {
           Swal.showValidationMessage(
             "Name should not have more than 32 characters",
           );
+        } else {
+          const path = `/${props.matches!.id}/list`;
+          const newKey = push(child(db, path)).key;
+
+          update(db, {
+            [`${path}/${newKey}`]: {
+              id: newKey,
+              category: name,
+            },
+          });
         }
-
-        const newData = structuredClone(data);
-
-        newData.list.push({
-          id: uuidv4(),
-          category: name,
-          items: [],
-        });
-
-        setData(newData);
       },
     });
   };
