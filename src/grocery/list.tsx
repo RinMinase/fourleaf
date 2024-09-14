@@ -71,14 +71,29 @@ export default function App(props: Props) {
           const path = `/${props.matches!.id}/list`;
           const newKey = push(child(db, path)).key;
 
+          let newOrderValue = 1;
+          data.list.forEach((list) => {
+            if (list.order && list.order >= newOrderValue) {
+              newOrderValue = list.order + 1;
+            }
+          });
+
           update(db, {
             [`${path}/${newKey}`]: {
               id: newKey,
               category: name,
+              order: newOrderValue,
             },
           });
         }
       },
+    });
+  };
+
+  const sortCategories = (lists: Array<CategoryType>): Array<CategoryType> => {
+    return lists.toSorted((a, b) => {
+      if (a.order && b.order) return a.order - b.order;
+      return 1;
     });
   };
 
@@ -111,7 +126,7 @@ export default function App(props: Props) {
             listData.list[prop].items = items;
           }
 
-          listData.list = list;
+          listData.list = sortCategories(list);
 
           const collapse = Array(listData.list.length).fill(true);
 
