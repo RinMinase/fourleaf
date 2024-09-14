@@ -1,6 +1,6 @@
 import { JSX } from "preact";
-import { MinusCircleIcon } from "@heroicons/react/24/outline";
 
+import { MinusCircleIcon } from "@heroicons/react/24/outline";
 import { child, getDatabase, ref, remove, update } from "firebase/database";
 
 import { Item as ItemType } from "../types";
