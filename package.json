@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@fontsource/inter": "^5.1.0",
-    "@hello-pangea/dnd": "^16.6.0",
+    "@hello-pangea/dnd": "^17.0.0",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.0",
     "animate.css": "^4.1.1",
@@ -20,7 +20,7 @@
     "date-fns": "^3.6.0",
     "firebase": "^10.13.1",
     "lodash-es": "^4.17.21",
-    "preact": "^10.23.2",
+    "preact": "^10.24.0",
     "preact-async-route": "^2.2.1",
     "preact-router": "^4.1.2",
     "react-hook-form": "^7.53.0",
