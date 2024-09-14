@@ -21,6 +21,7 @@ import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
 import { ListItem, Category as CategoryType } from "./types";
 import Category from "./components/list-category";
+import { sortCategories } from "./components/sort-categories";
 
 type Props = {
   matches?: {
@@ -90,53 +91,41 @@ export default function App(props: Props) {
     });
   };
 
-  const sortCategories = (lists: Array<CategoryType>): Array<CategoryType> => {
-    return lists.toSorted((a, b) => {
-      if (a.order && b.order) return a.order - b.order;
-      return 1;
-    });
-  };
-
   const fetchData = async () => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const dbQuery = query(
-        db,
-        orderByChild("id"),
-        equalTo(props.matches!.id),
-        limitToFirst(1),
-      );
+    const dbQuery = query(
+      db,
+      orderByChild("id"),
+      equalTo(props.matches!.id),
+      limitToFirst(1),
+    );
 
-      onValue(dbQuery, (snapshot) => {
-        if (snapshot.exists()) {
-          const rawData = snapshot.val();
+    onValue(dbQuery, (snapshot) => {
+      if (snapshot.exists()) {
+        const rawData = snapshot.val();
+        const listData = rawData[props.matches!.id] as ListItem;
 
-          const listData = rawData[props.matches!.id] as ListItem;
+        const list = [];
+        for (const prop in listData.list) {
+          list.push(listData.list[prop]);
 
-          const list = [];
-          for (const prop in listData.list) {
-            list.push(listData.list[prop]);
-
-            const items = [];
-            for (const _prop in listData.list[prop].items) {
-              items.push(listData.list[prop].items[_prop]);
-            }
-
-            listData.list[prop].items = items;
+          const items = [];
+          for (const _prop in listData.list[prop].items) {
+            items.push(listData.list[prop].items[_prop]);
           }
 
-          listData.list = sortCategories(list);
-
-          const collapse = Array(listData.list.length).fill(true);
-
-          setData(listData);
-          setIsCollapseOpen(collapse);
+          listData.list[prop].items = items;
         }
-      });
-    } finally {
-      setLoading(false);
-    }
+
+        listData.list = sortCategories(list);
+        const collapse = Array(listData.list.length).fill(true);
+
+        setData(listData);
+        setIsCollapseOpen(collapse);
+        setLoading(false);
+      }
+    });
   };
 
   useEffect(() => {
