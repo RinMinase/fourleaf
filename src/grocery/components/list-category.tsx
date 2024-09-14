@@ -94,6 +94,12 @@ export default function Category(props: Props) {
             </div>
           ) : null}
 
+          {props.category.items.length === 0 ? (
+            <p class="text-sm italic text-center">
+              &mdash; No items to show. &mdash;
+            </p>
+          ) : null}
+
           {props.category.items.map((item) => (
             <Item
               listId={props.listId}

@@ -215,6 +215,12 @@ export default function App(props: Props) {
       <div class="grow overflow-y-auto mt-3">
         {isLoading && <div class="loader"></div>}
 
+        {data.list.length === 0 ? (
+          <p class="text-sm italic text-center">
+            &mdash; No categories and items to show &mdash;
+          </p>
+        ) : null}
+
         {data.list.map((category, categoryIndex) => (
           <Category
             isVirtualKeyboardOpen={isVirtualKeyboardOpen}

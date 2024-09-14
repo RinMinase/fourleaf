@@ -134,6 +134,12 @@ export default function App(props: Props) {
         <span>{data.name || "..."}</span>
       </p>
 
+      {data.list.length === 0 ? (
+        <p class="text-sm italic text-center mt-12">
+          &mdash; No categories to order &mdash;
+        </p>
+      ) : null}
+
       {/* Drag and Drop content */}
       <DragDropContext onDragEnd={dragEnded}>
         {isLoading && <div class="loader"></div>}
