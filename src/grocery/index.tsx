@@ -26,22 +26,6 @@ export default function App() {
   const [isLoading, setLoading] = useState(true);
   const [lists, setLists] = useState<List>([]);
 
-  const handleDeleteList = async (
-    evt: JSX.TargetedMouseEvent<any>,
-    forDeleteList: ListItem,
-  ) => {
-    evt.stopPropagation();
-
-    const result = await Swal.fire({
-      title: "Are you sure?",
-      showDenyButton: true,
-    });
-
-    if (result.isConfirmed) {
-      remove(child(db, `/${forDeleteList.id}`));
-    }
-  };
-
   const handleAddList = async () => {
     const today = new Date().toISOString().substring(0, 10);
 
@@ -75,6 +59,22 @@ export default function App() {
         list: [],
       },
     });
+  };
+
+  const handleDeleteList = async (
+    evt: JSX.TargetedMouseEvent<any>,
+    forDeleteList: ListItem,
+  ) => {
+    evt.stopPropagation();
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      showDenyButton: true,
+    });
+
+    if (result.isConfirmed) {
+      remove(child(db, `/${forDeleteList.id}`));
+    }
   };
 
   const fetchData = async () => {
