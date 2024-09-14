@@ -27,7 +27,9 @@ import {
 
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
-import { List, ListItem, Category, Item } from "./types";
+import Item from "./components/list-item";
+import { numericInput } from "./components/numeric-input";
+import { ListItem, Category, Item as ItemType } from "./types";
 
 type Props = {
   matches?: {
@@ -37,20 +39,6 @@ type Props = {
 
 const isMobile = checkDeviceIfMobile();
 const db = ref(getDatabase(), "grocery");
-
-const handleKeypressOnlyNumbers = (evt: JSX.TargetedKeyboardEvent<any>) => {
-  if (!/[0-9]/.test(evt.key)) {
-    evt.preventDefault();
-  }
-};
-
-const numericInput = {
-  type: "number",
-  min: "0",
-  inputmode: "numeric",
-  pattern: "[0-9]*",
-  onKeyPress: handleKeypressOnlyNumbers,
-};
 
 export default function App(props: Props) {
   const [isLoading, setLoading] = useState(true);
@@ -70,7 +58,7 @@ export default function App(props: Props) {
     list: [],
   });
 
-  const isFinished = (items: Array<Item>) => {
+  const isFinished = (items: Array<ItemType>) => {
     return items.every((item) => item.price);
   };
 
@@ -95,33 +83,6 @@ export default function App(props: Props) {
     return total;
   };
 
-  const handleBlur = (
-    evt: JSX.TargetedFocusEvent<HTMLInputElement>,
-    category: Category,
-    item: Item,
-    type: "name" | "qty" | "price",
-  ) => {
-    const newData = structuredClone(data);
-
-    const catIndex = newData.list.findIndex((val) => {
-      return val.id === category.id;
-    });
-
-    const itemIndex = newData.list[catIndex].items.findIndex((val) => {
-      return val.id === item.id;
-    });
-
-    if (type === "qty" || type === "price") {
-      newData.list[catIndex].items[itemIndex][type] = parseInt(
-        evt.currentTarget.value,
-      );
-    } else {
-      newData.list[catIndex].items[itemIndex].name = evt.currentTarget.value;
-    }
-
-    setData(newData);
-  };
-
   const handleDeleteCategory = async (
     evt: JSX.TargetedMouseEvent<SVGSVGElement>,
     forDeleteCategory: Category,
@@ -144,37 +105,6 @@ export default function App(props: Props) {
         ...data,
         list: newCategories,
       });
-    }
-  };
-
-  const handleDeleteItem = async (
-    evt: JSX.TargetedMouseEvent<any>,
-    parentCategory: Category,
-    forDeleteItem: Item,
-  ) => {
-    evt.stopPropagation();
-
-    const result = await Swal.fire({
-      text: "Are you sure?",
-      showDenyButton: true,
-    });
-
-    if (result.isConfirmed) {
-      const newData = structuredClone(data);
-
-      const catIndex = newData.list.findIndex((val) => {
-        return val.id === parentCategory.id;
-      });
-
-      const newItems: any = newData.list[catIndex].items
-        .map((item) => {
-          if (item.id !== forDeleteItem.id) return item;
-        })
-        .filter((el) => el !== undefined);
-
-      newData.list[catIndex].items = newItems;
-
-      setData(newData);
     }
   };
 
@@ -249,23 +179,28 @@ export default function App(props: Props) {
 
       onValue(dbQuery, (snapshot) => {
         if (snapshot.exists()) {
-          const list = snapshot.val() as List;
-          let newData: ListItem;
+          const rawData = snapshot.val();
 
-          for (const prop in list) {
-            newData = list[prop];
+          const listData = rawData[props.matches!.id] as ListItem;
 
-            if (!newData.list) {
-              newData.list = [];
+          const list = [];
+          for (const prop in listData.list) {
+            list.push(listData.list[prop]);
+
+            const items = [];
+            for (const _prop in listData.list[prop].items) {
+              items.push(listData.list[prop].items[_prop]);
             }
 
-            const collapse = Array(newData.list.length).fill(true);
-
-            setData(newData);
-            setIsCollapseOpen(collapse);
-
-            break;
+            listData.list[prop].items = items;
           }
+
+          listData.list = list;
+
+          const collapse = Array(listData.list.length).fill(true);
+
+          setData(listData);
+          setIsCollapseOpen(collapse);
         }
       });
     } finally {
@@ -406,34 +341,11 @@ export default function App(props: Props) {
                 ) : null}
 
                 {category.items.map((item) => (
-                  <div key={item.id} class="flex items-center mb-3 gap-2">
-                    <div
-                      class="w-8 h-7 px-1 cursor-pointer flex items-center"
-                      onClick={(evt) => handleDeleteItem(evt, category, item)}
-                      children={
-                        <MinusCircleIcon class="w-5 min-w-5 text-red-600" />
-                      }
-                    />
-                    <input
-                      type="text"
-                      maxLength={32}
-                      class="w-full border-slate-300 px-2 py-1 rounded"
-                      defaultValue={item.name}
-                      onBlur={(evt) => handleBlur(evt, category, item, "name")}
-                    />
-                    <input
-                      {...numericInput}
-                      class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                      defaultValue={`${item.qty || 0}`}
-                      onBlur={(evt) => handleBlur(evt, category, item, "qty")}
-                    />
-                    <input
-                      {...numericInput}
-                      defaultValue={`${item.price || 0}`}
-                      class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                      onBlur={(evt) => handleBlur(evt, category, item, "price")}
-                    />
-                  </div>
+                  <Item
+                    listId={props.matches!.id}
+                    categoryId={category.id}
+                    item={item}
+                  />
                 ))}
 
                 <div class="flex items-center justify-end mb-2 gap-2 h-7">
