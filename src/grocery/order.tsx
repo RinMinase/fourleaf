@@ -1,6 +1,16 @@
-import { useState } from "preact/hooks";
-import { forwardRef } from "preact/compat";
+import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
+
+import {
+  equalTo,
+  getDatabase,
+  limitToFirst,
+  onValue,
+  orderByChild,
+  query,
+  ref,
+  update,
+} from "firebase/database";
 
 import {
   DragDropContext,
@@ -9,15 +19,12 @@ import {
   DropResult,
 } from "@hello-pangea/dnd";
 
-import {
-  ChevronLeftIcon,
-  ChevronUpDownIcon,
-  DocumentCheckIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 import { checkDeviceIfMobile } from "../common/functions";
-import Swal from "./components/grocery-swal";
-import { data as origData } from "./data";
+import CategoryItem from "./components/order-category-item";
+import { sortCategories } from "./components/sort-categories";
+import { Category, ListItem } from "./types";
 
 type Props = {
   matches?: {
@@ -25,50 +32,21 @@ type Props = {
   };
 };
 
-type CategoryItemProps = {
-  categoryName: string;
-};
-
 const isMobile = checkDeviceIfMobile();
-
-const CategoryItem = forwardRef<HTMLDivElement, CategoryItemProps>(
-  (props, ref) => {
-    const { categoryName, ...otherProps } = props;
-
-    return (
-      <div
-        ref={ref}
-        class="py-3 flex items-center gap-3 border-b border-slate-300 first:border-t cursor-pointer"
-        {...otherProps}
-      >
-        <ChevronUpDownIcon class="w-6" />
-        <span>{categoryName}</span>
-      </div>
-    );
-  },
-);
+const db = ref(getDatabase(), "grocery");
 
 export default function App(props: Props) {
-  const [data, setData] = useState(origData);
-
-  const handleSaveList = async () => {
-    const response = await Swal.fire({
-      text: "Are you sure?",
-      showCancelButton: true,
-    });
-
-    if (response.isConfirmed) {
-      // proceed save
-
-      route(`/grocery/${props.matches?.id}`);
-    }
-  };
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState<ListItem>({
+    id: "",
+    name: "",
+    date: "",
+    list: [],
+  });
 
   const dragEnded = (result: DropResult) => {
     // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
+    if (!result.destination) return;
 
     const { source, destination } = result;
 
@@ -80,11 +58,56 @@ export default function App(props: Props) {
     // inserting it at the destination index.
     newList.splice(destination.index, 0, _item);
 
+    const updates: any = {};
+    newList.forEach((listItem, index) => {
+      newList[index].order = index + 1;
+      updates[`/${data.id}/list/${listItem.id}/order`] = index + 1;
+    });
+
     setData({
       ...data,
       list: newList,
     });
+
+    update(db, updates);
   };
+
+  const fetchData = async () => {
+    setLoading(true);
+
+    const dbQuery = query(
+      db,
+      orderByChild("id"),
+      equalTo(props.matches!.id),
+      limitToFirst(1),
+    );
+
+    onValue(dbQuery, (snapshot) => {
+      if (snapshot.exists()) {
+        const rawData = snapshot.val();
+        const listData = rawData[props.matches!.id] as ListItem;
+
+        const list: Array<Partial<Category>> = [];
+        for (const categoryId in listData.list) {
+          list.push({
+            id: listData.list[categoryId].id,
+            category: listData.list[categoryId].category,
+            order: listData.list[categoryId].order,
+          });
+        }
+
+        listData.list = sortCategories(list as any);
+        setData(listData);
+        setLoading(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (props.matches?.id) {
+      fetchData();
+    }
+  }, []);
 
   if (!isMobile) {
     return (
@@ -106,40 +129,39 @@ export default function App(props: Props) {
         <span class="px-1.5">Back</span>
       </div>
 
-      <div class="flex items-center my-3">
-        <p class="grow font-bold my-3">Order Categories</p>
-        <div
-          class="w-7 h-7 text-right flex items-center justify-center cursor-pointer"
-          onClick={handleSaveList}
-          children={<DocumentCheckIcon class="w-6" />}
-        />
-      </div>
+      <p class="grow font-bold mt-6 mb-4">
+        <span>Order categories of </span>
+        <span>{data.name || "..."}</span>
+      </p>
 
       {/* Drag and Drop content */}
       <DragDropContext onDragEnd={dragEnded}>
-        <Droppable droppableId="lists-wrapper">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {data.list.map((list, index) => (
-                <Draggable
-                  key={list.id}
-                  draggableId={`list-${list.id}`}
-                  index={index}
-                >
-                  {(_provided, _snapshot) => (
-                    <CategoryItem
-                      ref={_provided.innerRef}
-                      {..._provided.draggableProps}
-                      {..._provided.dragHandleProps}
-                      categoryName={list.category}
-                    />
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        {isLoading && <div class="loader"></div>}
+        {!isLoading ? (
+          <Droppable droppableId="lists-wrapper">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {data.list.map((list, index) => (
+                  <Draggable
+                    key={list.id}
+                    draggableId={`list-${list.id}`}
+                    index={index}
+                  >
+                    {(_provided, _snapshot) => (
+                      <CategoryItem
+                        ref={_provided.innerRef}
+                        {..._provided.draggableProps}
+                        {..._provided.dragHandleProps}
+                        categoryName={list.category}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        ) : null}
       </DragDropContext>
     </div>
   );
