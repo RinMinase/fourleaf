@@ -7,7 +7,6 @@ import clsx from "clsx";
 import { v4 as uuidv4 } from "uuid";
 
 import {
-  CheckCircleIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -28,8 +27,8 @@ import {
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
 import Item from "./components/list-item";
-import { numericInput } from "./components/numeric-input";
 import { ListItem, Category, Item as ItemType } from "./types";
+import AddNewItem from "./components/list-add-new-item";
 
 type Props = {
   matches?: {
@@ -43,11 +42,6 @@ const db = ref(getDatabase(), "grocery");
 export default function App(props: Props) {
   const [isLoading, setLoading] = useState(true);
   const [isVirtualKeyboardOpen, setVirtualKeyboardOpen] = useState(false);
-
-  const [newItemData, setNewItemData] = useState({ name: "", qty: "" });
-  const [showNewItemFields, setShowNewItemFields] = useState<string | null>(
-    null,
-  );
 
   const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
 
@@ -135,37 +129,6 @@ export default function App(props: Props) {
     });
   };
 
-  const handleAddItem = () => {
-    if (newItemData.name) {
-      const newData = structuredClone(data);
-
-      const catIndex = newData.list.findIndex((val) => {
-        return val.id === showNewItemFields;
-      });
-
-      newData.list[catIndex].items.push({
-        id: uuidv4(),
-        name: newItemData.name,
-        qty: newItemData.qty ? parseInt(newItemData.qty) : undefined,
-        price: undefined,
-      });
-
-      setData(newData);
-      setShowNewItemFields(null);
-
-      setNewItemData({
-        name: "",
-        qty: "",
-      });
-    } else {
-      setShowNewItemFields(null);
-      setNewItemData({
-        name: "",
-        qty: "",
-      });
-    }
-  };
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -207,12 +170,6 @@ export default function App(props: Props) {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!isVirtualKeyboardOpen && showNewItemFields && newItemData.name) {
-      handleAddItem();
-    }
-  }, [isVirtualKeyboardOpen]);
 
   useEffect(() => {
     if (props.matches?.id) {
@@ -348,52 +305,11 @@ export default function App(props: Props) {
                   />
                 ))}
 
-                <div class="flex items-center justify-end mb-2 gap-2 h-7">
-                  {showNewItemFields && showNewItemFields === category.id ? (
-                    <>
-                      <input
-                        type="text"
-                        maxLength={32}
-                        class="w-full border-slate-300 px-2 py-1 rounded"
-                        value={newItemData.name}
-                        placeholder="Name"
-                        onChange={(e) =>
-                          setNewItemData((prev) => ({
-                            ...prev,
-                            name: e.currentTarget.value,
-                          }))
-                        }
-                      />
-                      <input
-                        {...numericInput}
-                        class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                        placeholder="Qty"
-                        value={newItemData.qty}
-                        onChange={(e) =>
-                          setNewItemData((prev) => ({
-                            ...prev,
-                            qty: e.currentTarget.value,
-                          }))
-                        }
-                        onBlur={() => {
-                          if (newItemData.name) handleAddItem();
-                        }}
-                      />
-                    </>
-                  ) : null}
-
-                  {showNewItemFields && showNewItemFields === category.id ? (
-                    <CheckCircleIcon
-                      class="w-6 min-w-6 cursor-pointer"
-                      onClick={() => handleAddItem()}
-                    />
-                  ) : (
-                    <PlusCircleIcon
-                      class="w-6 min-w-6 cursor-pointer"
-                      onClick={() => setShowNewItemFields(category.id)}
-                    />
-                  )}
-                </div>
+                <AddNewItem
+                  isVirtualKeyboardOpen={isVirtualKeyboardOpen}
+                  listId={props.matches!.id}
+                  categoryId={category.id}
+                />
               </div>
             )}
           </div>
