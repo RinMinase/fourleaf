@@ -210,9 +210,9 @@ export default function App(props: Props) {
         ) : null}
       </div>
 
-      <div class="grow overflow-y-auto mt-3">
-        {isLoading && <div class="loader"></div>}
+      {isLoading && <div class="loader"></div>}
 
+      <div class="grow overflow-y-auto mt-3 pr-1">
         {data.list.length === 0 ? (
           <p class="text-sm italic text-center">
             &mdash; No categories and items to show &mdash;

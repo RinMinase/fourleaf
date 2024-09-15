@@ -75,7 +75,7 @@ export default function Category(props: Props) {
           <span class="grow pl-2 select-none">{props.category.category}</span>
         </div>
         <div
-          class="w-8 px-1 pb-2"
+          class="w-10 px-2 pb-2"
           children={
             <MinusCircleIcon
               class="w-6 cursor-pointer text-red-600"
@@ -95,7 +95,7 @@ export default function Category(props: Props) {
           ) : null}
 
           {props.category.items.length === 0 ? (
-            <p class="text-sm italic text-center">
+            <p class="text-sm italic text-center pb-4 pr-1">
               &mdash; No items to show. &mdash;
             </p>
           ) : null}

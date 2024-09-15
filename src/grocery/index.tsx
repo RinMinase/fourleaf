@@ -25,8 +25,8 @@ export default function App() {
       title: "Add List",
       showCancelButton: true,
       html: `
-        <input id="swal-input1" placeholder="Name" class="w-full border border-slate-300 rounded p-2 !mb-4">
-        <input id="swal-input2" type="date" class="w-full border border-slate-300 rounded p-2" value="${today}">`,
+        <input id="swal-input1" placeholder="Name" class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3">
+        <input id="swal-input2" type="date" class="w-full border border-slate-300 rounded px-2 py-1.5 text-sm h-9 shadow-none mt-3" value="${today}">`,
       focusConfirm: false,
       preConfirm: () => {
         const name = (document.getElementById("swal-input1") as any).value;
@@ -34,23 +34,28 @@ export default function App() {
 
         if (!name) {
           Swal.showValidationMessage("Name should not be blank");
+          document
+            .getElementById("swal-input1")
+            ?.classList.add("!border-red-400");
         }
 
         return [name, date];
       },
     });
 
-    const [name, date] = formValues;
-    const newKey = push(groceryDB).key;
+    if (formValues) {
+      const [name, date] = formValues;
+      const newKey = push(groceryDB).key;
 
-    update(groceryDB, {
-      [`${newKey}`]: {
-        id: newKey,
-        name,
-        date,
-        list: [],
-      },
-    });
+      update(groceryDB, {
+        [`${newKey}`]: {
+          id: newKey,
+          name,
+          date,
+          list: [],
+        },
+      });
+    }
   };
 
   const handleDeleteList = async (
@@ -98,11 +103,14 @@ export default function App() {
     <div>
       <h1 class="text-xl font-bold mb-5 flex items-center justify-between">
         <span>Grocery Lists</span>
-        <div
-          class="w-7 h-7 text-right flex items-center justify-center cursor-pointer"
-          onClick={handleAddList}
-          children={<PlusCircleIcon class="w-7" />}
-        />
+
+        {!isLoading ? (
+          <div
+            class="w-7 h-7 text-right flex items-center justify-center cursor-pointer"
+            onClick={handleAddList}
+            children={<PlusCircleIcon class="w-7" />}
+          />
+        ) : null}
       </h1>
 
       <div class="flex flex-col pr-1">
