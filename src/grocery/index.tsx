@@ -71,6 +71,10 @@ export default function App() {
 
     if (result.isConfirmed) {
       remove(child(groceryDB, `/${forDeleteList.id}`));
+
+      if (lists.length === 1) {
+        setLists([]);
+      }
     }
   };
 
@@ -80,6 +84,8 @@ export default function App() {
     onValue(groceryDB, (snapshot) => {
       if (snapshot.exists()) {
         setLists(Object.values(snapshot.val()));
+        setLoading(false);
+      } else {
         setLoading(false);
       }
     });
