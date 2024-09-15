@@ -82,34 +82,42 @@ export default function Nav({ isAuth, currRoute }: Props) {
           </span>
         </a>
 
-        <ul class="hidden md:flex grow gap-2 justify-center list-none">
-          {menu.map((item) => {
-            if (item.mobile && !isMobile) return null;
+        {isAuth ? (
+          <ul class="hidden md:flex grow gap-2 justify-center list-none">
+            {menu.map((item) => {
+              if (item.mobile && !isMobile) return null;
 
-            return (
-              <li>
-                <a
-                  href={isRoute(item.route) ? "#" : item.route}
-                  class={clsx(
-                    "inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
-                    {
-                      "text-blue-500 cursor-default active": isRoute(
-                        item.route,
-                      ),
-                    },
-                  )}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+              return (
+                <li>
+                  <a
+                    href={isRoute(item.route) ? "#" : item.route}
+                    class={clsx(
+                      "inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
+                      {
+                        "text-blue-500 cursor-default active": isRoute(
+                          item.route,
+                        ),
+                      },
+                    )}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <div class="grow" />
+        )}
 
-        {!isAuth ? (
-          <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 w-24 text-white hover:text-sky-300 hover:bg-slate-800">
-            <a href="#" class="py-1 px-4 inline-block" onClick={handleLogout}>
+        {isAuth ? (
+          <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 w-24 text-white">
+            <a
+              href="#"
+              class="py-1 px-4 inline-block hover:text-sky-300 hover:bg-slate-800"
+              onClick={handleLogout}
+            >
               Logout
             </a>
           </div>
