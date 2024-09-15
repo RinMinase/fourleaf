@@ -7,21 +7,20 @@ import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 import {
   child,
   equalTo,
-  getDatabase,
   limitToFirst,
   onValue,
   orderByChild,
   push,
   query,
-  ref,
   update,
 } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
-import { ListItem, Category as CategoryType } from "./types";
+import { groceryDB } from "./components/db";
 import Category from "./components/list-category";
 import { sortCategories } from "./components/sort-categories";
+import { ListItem, Category as CategoryType } from "./types";
 
 type Props = {
   matches?: {
@@ -30,7 +29,6 @@ type Props = {
 };
 
 const isMobile = checkDeviceIfMobile();
-const db = ref(getDatabase(), "grocery");
 
 export default function App(props: Props) {
   const [isLoading, setLoading] = useState(true);
@@ -70,7 +68,7 @@ export default function App(props: Props) {
           );
         } else {
           const path = `/${props.matches!.id}/list`;
-          const newKey = push(child(db, path)).key;
+          const newKey = push(child(groceryDB, path)).key;
 
           let newOrderValue = 1;
           data.list.forEach((list) => {
@@ -79,7 +77,7 @@ export default function App(props: Props) {
             }
           });
 
-          update(db, {
+          update(groceryDB, {
             [`${path}/${newKey}`]: {
               id: newKey,
               category: name,
@@ -95,7 +93,7 @@ export default function App(props: Props) {
     setLoading(true);
 
     const dbQuery = query(
-      db,
+      groceryDB,
       orderByChild("id"),
       equalTo(props.matches!.id),
       limitToFirst(1),

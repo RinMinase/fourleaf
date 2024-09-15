@@ -3,12 +3,10 @@ import { route } from "preact-router";
 
 import {
   equalTo,
-  getDatabase,
   limitToFirst,
   onValue,
   orderByChild,
   query,
-  ref,
   update,
 } from "firebase/database";
 
@@ -22,6 +20,7 @@ import {
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 import { checkDeviceIfMobile } from "../common/functions";
+import { groceryDB } from "./components/db";
 import CategoryItem from "./components/order-category-item";
 import { sortCategories } from "./components/sort-categories";
 import { Category, ListItem } from "./types";
@@ -33,7 +32,6 @@ type Props = {
 };
 
 const isMobile = checkDeviceIfMobile();
-const db = ref(getDatabase(), "grocery");
 
 export default function App(props: Props) {
   const [isLoading, setLoading] = useState(true);
@@ -69,14 +67,14 @@ export default function App(props: Props) {
       list: newList,
     });
 
-    update(db, updates);
+    update(groceryDB, updates);
   };
 
   const fetchData = async () => {
     setLoading(true);
 
     const dbQuery = query(
-      db,
+      groceryDB,
       orderByChild("id"),
       equalTo(props.matches!.id),
       limitToFirst(1),

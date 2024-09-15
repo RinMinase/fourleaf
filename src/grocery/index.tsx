@@ -5,22 +5,14 @@ import { route } from "preact-router";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
 
-import {
-  getDatabase,
-  ref,
-  onValue,
-  push,
-  child,
-  update,
-  remove,
-} from "firebase/database";
+import { onValue, push, child, update, remove } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
+import { groceryDB } from "./components/db";
 import { List, ListItem } from "./types";
 
 const isMobile = checkDeviceIfMobile();
-const db = ref(getDatabase(), "grocery");
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -49,9 +41,9 @@ export default function App() {
     });
 
     const [name, date] = formValues;
-    const newKey = push(db).key;
+    const newKey = push(groceryDB).key;
 
-    update(db, {
+    update(groceryDB, {
       [`${newKey}`]: {
         id: newKey,
         name,
@@ -73,14 +65,14 @@ export default function App() {
     });
 
     if (result.isConfirmed) {
-      remove(child(db, `/${forDeleteList.id}`));
+      remove(child(groceryDB, `/${forDeleteList.id}`));
     }
   };
 
   const fetchData = async () => {
     setLoading(true);
 
-    onValue(db, (snapshot) => {
+    onValue(groceryDB, (snapshot) => {
       if (snapshot.exists()) {
         setLists(Object.values(snapshot.val()));
         setLoading(false);
