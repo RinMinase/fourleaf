@@ -2,15 +2,6 @@ import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
 
 import {
-  equalTo,
-  limitToFirst,
-  onValue,
-  orderByChild,
-  query,
-  update,
-} from "firebase/database";
-
-import {
   DragDropContext,
   Draggable,
   Droppable,
@@ -18,6 +9,7 @@ import {
 } from "@hello-pangea/dnd";
 
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { child, onValue, update } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
 import { groceryDB } from "./components/db";
@@ -73,14 +65,7 @@ export default function App(props: Props) {
   const fetchData = async () => {
     setLoading(true);
 
-    const dbQuery = query(
-      groceryDB,
-      orderByChild("id"),
-      equalTo(props.matches!.id),
-      limitToFirst(1),
-    );
-
-    onValue(dbQuery, (snapshot) => {
+    onValue(child(groceryDB, `/${props.matches!.id}`), (snapshot) => {
       if (snapshot.exists()) {
         const rawData = snapshot.val();
         const listData = rawData[props.matches!.id] as ListItem;
