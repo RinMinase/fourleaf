@@ -1,34 +1,49 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { checkDeviceIfMobile } from "../common/functions";
 
 import { ListItem as ListItemType } from "./types";
-import { onValue } from "firebase/database";
+import { onValue, Unsubscribe } from "firebase/database";
 import { groceryDB } from "./components/db";
+import ListTile from "./components/desktop-list-tile";
 
 const isMobile = checkDeviceIfMobile();
 
 export default function App() {
-  const [lists, setLists] = useState<Array<Partial<ListItemType>>>([]);
+  const listSubscription = useRef<Unsubscribe>();
+  const listItemSubscription = useRef<Unsubscribe>();
+
+  const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
+  const [lists, setLists] = useState<Array<ListItemType>>([]);
+  const [listData, setListData] = useState<ListItemType>({
+    id: "",
+    name: "",
+    date: "",
+    list: [],
+  });
 
   // Loaders
   const [isListLoading, setListLoading] = useState(false);
+  const [isListDataLoading, setListDataLoading] = useState(false);
 
   const fetchLists = async () => {
     setListLoading(true);
 
-    onValue(groceryDB, (snapshot) => {
-      console.log(snapshot.val());
+    listSubscription.current = onValue(groceryDB, (snapshot) => {
       if (snapshot.exists()) {
         setLists(Object.values(snapshot.val()));
-        setListLoading(false);
-      } else {
-        setListLoading(false);
       }
+
+      setListLoading(false);
     });
   };
 
   useEffect(() => {
     fetchLists();
+
+    () => {
+      if (listSubscription.current) listSubscription.current();
+      if (listItemSubscription.current) listItemSubscription.current();
+    };
   }, []);
 
   if (isMobile) {
@@ -52,22 +67,22 @@ export default function App() {
               <div class="spinner loader" />
             ) : (
               lists.map((list) => (
-                <div
-                  key={list.id}
-                  class="flex items-center min-h-10 max-w-full p-2 cursor-pointer border-b border-slate-400"
-                >
-                  <p class="w-2/3 break-all">{list.name}</p>
-                  <p class="grow mt-auto min-h-full text-xs text-right">
-                    {list.date}
-                  </p>
-                </div>
+                <ListTile
+                  setListData={setListData}
+                  setListDataLoading={setListDataLoading}
+                  setIsCollapseOpen={setIsCollapseOpen}
+                  listItemSubscription={listItemSubscription}
+                  list={list}
+                />
               ))
             )}
           </div>
         </div>
         <div class="h-1/2">category order</div>
       </div>
-      <div class="grow max-w-2/3 lg:max-w-3/4">list</div>
+      <div class="grow max-w-2/3 lg:max-w-3/4">
+        <h1 class="text-xl">{listData.name}</h1>
+      </div>
     </div>
   );
 }
