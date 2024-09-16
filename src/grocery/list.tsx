@@ -1,19 +1,10 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { route } from "preact-router";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 
-import {
-  child,
-  equalTo,
-  limitToFirst,
-  onValue,
-  orderByChild,
-  push,
-  query,
-  update,
-} from "firebase/database";
+import { child, onValue, push, Unsubscribe, update } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
@@ -31,6 +22,8 @@ type Props = {
 const isMobile = checkDeviceIfMobile();
 
 export default function App(props: Props) {
+  const dataSubscription = useRef<Unsubscribe>();
+
   const [isLoading, setLoading] = useState(true);
   const [isVirtualKeyboardOpen, setVirtualKeyboardOpen] = useState(false);
   const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
@@ -92,44 +85,45 @@ export default function App(props: Props) {
   const fetchData = async () => {
     setLoading(true);
 
-    const dbQuery = query(
-      groceryDB,
-      orderByChild("id"),
-      equalTo(props.matches!.id),
-      limitToFirst(1),
-    );
+    dataSubscription.current = onValue(
+      child(groceryDB, `/${props.matches!.id}`),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const listData = snapshot.val() as ListItem;
 
-    onValue(dbQuery, (snapshot) => {
-      if (snapshot.exists()) {
-        const rawData = snapshot.val();
-        const listData = rawData[props.matches!.id] as ListItem;
+          const list = [];
+          for (const prop in listData.list) {
+            list.push(listData.list[prop]);
 
-        const list = [];
-        for (const prop in listData.list) {
-          list.push(listData.list[prop]);
+            const items = [];
+            for (const _prop in listData.list[prop].items) {
+              items.push(listData.list[prop].items[_prop]);
+            }
 
-          const items = [];
-          for (const _prop in listData.list[prop].items) {
-            items.push(listData.list[prop].items[_prop]);
+            listData.list[prop].items = items;
           }
 
-          listData.list[prop].items = items;
+          listData.list = sortCategories(list);
+          const collapse = Array(listData.list.length).fill(true);
+
+          setData(listData);
+          setIsCollapseOpen(collapse);
+          setLoading(false);
         }
-
-        listData.list = sortCategories(list);
-        const collapse = Array(listData.list.length).fill(true);
-
-        setData(listData);
-        setIsCollapseOpen(collapse);
-        setLoading(false);
-      }
-    });
+      },
+    );
   };
 
   useEffect(() => {
     if (props.matches?.id) {
       fetchData();
     }
+
+    () => {
+      if (dataSubscription.current) {
+        dataSubscription.current();
+      }
+    };
   }, []);
 
   useEffect(() => {
