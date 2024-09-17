@@ -2,7 +2,7 @@ import { JSX } from "preact";
 import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
 
 import clsx from "clsx";
-import { child, push, remove, update } from "firebase/database";
+import { child, remove, update } from "firebase/database";
 
 import {
   ChevronDownIcon,
@@ -14,6 +14,7 @@ import { Item, ListItem } from "../../types";
 import Swal from "../grocery-swal";
 import { groceryDB } from "../db";
 import { numericInput } from "../numeric-input";
+import ItemAdd from "./list-item-add";
 
 type Props = {
   lists: Array<ListItem>;
@@ -22,16 +23,8 @@ type Props = {
   setListData: Dispatch<StateUpdater<ListItem>>;
 };
 
-type FormData = {
-  [key: string]: {
-    name: string;
-    qty: string;
-  };
-};
-
 export default function ListItemContainer(props: Props) {
   const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
-  const [formData, setFormData] = useState<FormData>();
 
   const isFinished = (items: Array<Item>) => {
     return items.every((item) => item.price);
@@ -44,32 +37,6 @@ export default function ListItemContainer(props: Props) {
 
       return newValues;
     });
-  };
-
-  const handleAddItem = (categoryId: string) => {
-    if (formData && formData[categoryId].name) {
-      const path = `/${props.listData.id}/list/${categoryId}/items`;
-      const newKey = push(child(groceryDB, path)).key;
-
-      update(groceryDB, {
-        [`${path}/${newKey}`]: {
-          id: newKey,
-          name: formData[categoryId].name,
-          qty: formData[categoryId].qty || 0,
-          price: 0,
-        },
-      });
-
-      const newFormData = structuredClone(formData);
-      newFormData[categoryId] = { name: "", qty: "" };
-
-      setFormData(newFormData);
-
-      const nameField = document.getElementById(`add-name--${categoryId}`);
-      if (nameField) {
-        nameField.focus();
-      }
-    }
   };
 
   const handleDeleteList = async (id: string) => {
@@ -149,17 +116,7 @@ export default function ListItemContainer(props: Props) {
   useEffect(() => {
     if (props.listData.id) {
       const collapse = Array(props.listData.list.length).fill(true);
-
-      let formData: FormData = {};
-      props.listData.list.forEach((listItem) => {
-        formData[listItem.id] = {
-          name: "",
-          qty: "",
-        };
-      });
-
       setIsCollapseOpen(collapse);
-      setFormData(formData);
     } else {
       setIsCollapseOpen([]);
     }
@@ -265,48 +222,7 @@ export default function ListItemContainer(props: Props) {
                   </div>
                 ))}
 
-                <div class="flex items-center justify-end mb-2 gap-2">
-                  <input
-                    id={`add-name--${category.id}`}
-                    type="text"
-                    maxLength={32}
-                    class="w-full border-slate-300 px-2 py-1 rounded"
-                    value={formData![category.id as any].name}
-                    placeholder="Name"
-                    onChange={(e) => {
-                      setFormData((prev) => {
-                        const newState = structuredClone(prev);
-                        newState![category.id].name = e.currentTarget.value;
-
-                        return newState;
-                      });
-                    }}
-                    onKeyUp={(evt) => {
-                      if (evt.key === "Enter") handleAddItem(category.id);
-                    }}
-                  />
-                  <input
-                    {...numericInput}
-                    class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                    placeholder="Qty"
-                    value={formData![category.id as any].qty}
-                    onChange={(e) => {
-                      setFormData((prev) => {
-                        const newState = structuredClone(prev);
-                        newState![category.id].qty = e.currentTarget.value;
-
-                        return newState;
-                      });
-                    }}
-                    onBlur={() => {
-                      if (formData![category.id as any].name)
-                        handleAddItem(category.id);
-                    }}
-                    onKeyUp={(evt) => {
-                      if (evt.key === "Enter") handleAddItem(category.id);
-                    }}
-                  />
-                </div>
+                <ItemAdd listId={props.listData.id} categoryId={category.id} />
               </div>
             )}
           </div>
