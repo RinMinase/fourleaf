@@ -6,7 +6,11 @@ import { onValue, Unsubscribe } from "firebase/database";
 import { groceryDB } from "./components/db";
 import { ListItem as ListItemType } from "./types";
 
-import { ListContainer, ListItemContainer } from "./components/desktop";
+import {
+  ListContainer,
+  ListItemContainer,
+  ListOrderContainer,
+} from "./components/desktop";
 
 const isMobile = checkDeviceIfMobile();
 
@@ -69,8 +73,12 @@ export default function App() {
             listItemSubscription={listItemSubscription}
           />
         </div>
-        <div class="h-1/2">
-          <h1 class="text-xl">Order Categories</h1>
+        <div class="h-1/2 pr-2">
+          <ListOrderContainer
+            listData={listData}
+            isListDataLoading={isListDataLoading}
+            setListData={setListData}
+          />
         </div>
       </div>
       <div class="grow max-w-2/3 lg:max-w-3/4 pl-2 max-h-[calc(100vh-32px-48px)]">
