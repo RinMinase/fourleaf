@@ -62,6 +62,11 @@ export default function ListItemContainer(props: Props) {
               order: newOrderValue,
             },
           });
+
+          const newCollapse = [...isCollapseOpen];
+          newCollapse.push(true);
+
+          setIsCollapseOpen(newCollapse);
         }
       },
     });
