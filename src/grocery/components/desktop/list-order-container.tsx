@@ -56,7 +56,7 @@ export default function OrderContainer(props: Props) {
         <h1 class="text-xl">Order Categories</h1>
       </div>
 
-      <div class="overflow-y-auto mt-3 border border-slate-400 rounded-sm h-[calc(100%-28px-24px)]">
+      <div class="overflow-y-auto mt-3 border border-slate-400 rounded-sm h-[calc(100%-28px-12px)]">
         {props.isListDataLoading ? (
           <div class="spinner loader" />
         ) : (

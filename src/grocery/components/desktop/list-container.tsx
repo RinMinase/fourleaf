@@ -70,7 +70,7 @@ export default function ListContainer(props: Props) {
         </button>
       </div>
 
-      <div class="overflow-y-auto mt-3 border border-slate-400 rounded-sm h-[calc(100%-28px-24px)]">
+      <div class="overflow-y-auto mt-3 border border-slate-400 rounded-sm h-[calc(100%-28px-12px)]">
         {props.isListLoading ? (
           <div class="spinner loader" />
         ) : (
