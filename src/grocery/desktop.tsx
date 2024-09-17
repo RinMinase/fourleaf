@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { checkDeviceIfMobile } from "../common/functions";
 
-import { child, onValue, remove, Unsubscribe } from "firebase/database";
+import { onValue, Unsubscribe } from "firebase/database";
 
 import { groceryDB } from "./components/db";
-import Swal from "./components/grocery-swal";
 import ListContainer from "./components/desktop-list-container";
 import { ListItem as ListItemType } from "./types";
+import ListItemContainer from "./components/desktop-list-item-container";
 
 const isMobile = checkDeviceIfMobile();
 
@@ -14,7 +14,6 @@ export default function App() {
   const listSubscription = useRef<Unsubscribe>();
   const listItemSubscription = useRef<Unsubscribe>();
 
-  const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
   const [lists, setLists] = useState<Array<ListItemType>>([]);
   const [listData, setListData] = useState<ListItemType>({
     id: "",
@@ -39,30 +38,6 @@ export default function App() {
     });
   };
 
-  const handleDeleteList = async (id: string) => {
-    if (id) {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        showDenyButton: true,
-      });
-
-      if (result.isConfirmed) {
-        remove(child(groceryDB, `/${id}`));
-
-        setListData({
-          id: "",
-          name: "",
-          date: "",
-          list: [],
-        });
-
-        if (lists.length === 1) {
-          setLists([]);
-        }
-      }
-    }
-  };
-
   useEffect(() => {
     fetchLists();
 
@@ -71,16 +46,6 @@ export default function App() {
       if (listItemSubscription.current) listItemSubscription.current();
     };
   }, []);
-
-  useEffect(() => {
-    if (listData.id) {
-      const collapse = Array(listData.list.length).fill(true);
-      console.log(collapse);
-      setIsCollapseOpen(collapse);
-    } else {
-      setIsCollapseOpen([]);
-    }
-  }, [listData.id]);
 
   if (isMobile) {
     return (
@@ -108,24 +73,16 @@ export default function App() {
           <h1 class="text-xl">Order Categories</h1>
         </div>
       </div>
-      {listData.id && (
-        <div class="grow max-w-2/3 lg:max-w-3/4 pl-2">
-          <div class="flex">
-            <h1 class="text-xl">{listData.name}</h1>
-            <p class="grow text-xs flex items-end justify-center">
-              {listData.date}
-            </p>
-            <button
-              class="!text-xs font-medium uppercase bg-red-400 hover:bg-red-300 px-4 py-0.5 rounded cursor-pointer"
-              onClick={() => handleDeleteList(listData.id)}
-            >
-              Delete List
-            </button>
-          </div>
-
-          <div></div>
-        </div>
-      )}
+      <div class="grow max-w-2/3 lg:max-w-3/4 pl-2">
+        {listData.id && (
+          <ListItemContainer
+            lists={lists}
+            listData={listData}
+            setLists={setLists}
+            setListData={setListData}
+          />
+        )}
+      </div>
     </div>
   );
 }
