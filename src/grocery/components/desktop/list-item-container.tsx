@@ -2,7 +2,7 @@ import { JSX } from "preact";
 import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
 
 import clsx from "clsx";
-import { child, remove } from "firebase/database";
+import { child, push, remove, update } from "firebase/database";
 
 import {
   ChevronDownIcon,
@@ -30,6 +30,41 @@ export default function ListItemContainer(props: Props) {
 
   const isFinished = (items: Array<Item>) => {
     return items.every((item) => item.price);
+  };
+
+  const handleAddCategory = async () => {
+    await Swal.fire({
+      title: "Input category name",
+      showCancelButton: true,
+      input: "text",
+      preConfirm: (name: string) => {
+        if (!name) {
+          Swal.showValidationMessage("Name is required");
+        } else if (name.length > 32) {
+          Swal.showValidationMessage(
+            "Name should not have more than 32 characters",
+          );
+        } else {
+          const path = `/${props.listData.id}/list`;
+          const newKey = push(child(groceryDB, path)).key;
+
+          let newOrderValue = 1;
+          props.listData.list.forEach((list) => {
+            if (list.order && list.order >= newOrderValue) {
+              newOrderValue = list.order + 1;
+            }
+          });
+
+          update(groceryDB, {
+            [`${path}/${newKey}`]: {
+              id: newKey,
+              category: name,
+              order: newOrderValue,
+            },
+          });
+        }
+      },
+    });
   };
 
   const handleCollapseToggle = (index: number) => {
@@ -96,9 +131,18 @@ export default function ListItemContainer(props: Props) {
     <>
       <div class="flex">
         <h1 class="text-xl">{props.listData.name}</h1>
-        <p class="grow text-xs flex items-end justify-center">
+
+        <p class="grow text-xs flex items-end justify-start pl-2">
           {props.listData.date}
         </p>
+
+        <button
+          class="!text-xs font-medium uppercase bg-green-400 hover:bg-green-300 px-4 py-0.5 rounded cursor-pointer !mr-3"
+          onClick={() => handleAddCategory()}
+        >
+          Add Category
+        </button>
+
         <button
           class="!text-xs font-medium uppercase bg-red-400 hover:bg-red-300 px-4 py-0.5 rounded cursor-pointer"
           onClick={() => handleDeleteList(props.listData.id)}
