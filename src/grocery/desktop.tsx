@@ -72,6 +72,16 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (listData.id) {
+      const collapse = Array(listData.list.length).fill(true);
+      console.log(collapse);
+      setIsCollapseOpen(collapse);
+    } else {
+      setIsCollapseOpen([]);
+    }
+  }, [listData.id]);
+
   if (isMobile) {
     return (
       <div>
@@ -91,7 +101,6 @@ export default function App() {
             isListLoading={isListLoading}
             setListData={setListData}
             setListDataLoading={setListDataLoading}
-            setIsCollapseOpen={setIsCollapseOpen}
             listItemSubscription={listItemSubscription}
           />
         </div>

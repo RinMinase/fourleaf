@@ -12,7 +12,6 @@ type Props = {
   isListLoading: boolean;
   setListData: Dispatch<StateUpdater<ListItem>>;
   setListDataLoading: Dispatch<StateUpdater<boolean>>;
-  setIsCollapseOpen: Dispatch<StateUpdater<boolean[]>>;
   listItemSubscription: MutableRef<Unsubscribe | undefined>;
 };
 
@@ -78,7 +77,6 @@ export default function ListContainer(props: Props) {
             <ListTile
               setListData={props.setListData}
               setListDataLoading={props.setListDataLoading}
-              setIsCollapseOpen={props.setIsCollapseOpen}
               listItemSubscription={props.listItemSubscription}
               list={list}
             />

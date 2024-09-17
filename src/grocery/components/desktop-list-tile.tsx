@@ -9,7 +9,6 @@ import { sortCategories } from "./sort-categories";
 type Props = {
   setListData: Dispatch<StateUpdater<ListItem>>;
   setListDataLoading: Dispatch<StateUpdater<boolean>>;
-  setIsCollapseOpen: Dispatch<StateUpdater<boolean[]>>;
   listItemSubscription: MutableRef<Unsubscribe | undefined>;
   list: ListItem;
 };
@@ -42,10 +41,8 @@ export default function ListTile(props: Props) {
           }
 
           listItem.list = sortCategories(list);
-          const collapse = Array(listItem.list.length).fill(true);
 
           props.setListData(listItem);
-          props.setIsCollapseOpen(collapse);
         }
 
         props.setListDataLoading(false);
