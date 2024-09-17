@@ -82,9 +82,8 @@ const schema = object({
     "At least one part should be checked",
     (parts) => {
       const keys = Object.keys(parts) as Array<MaintenanceTypes>;
-
       const isValid = keys.some((key) => parts[key]);
-      console.log(isValid);
+
       return isValid;
     },
   ),
