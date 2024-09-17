@@ -2,9 +2,9 @@ import { Dispatch, MutableRef, StateUpdater } from "preact/hooks";
 
 import { child, onValue, Unsubscribe } from "firebase/database";
 
-import { ListItem } from "../types";
-import { groceryDB } from "./db";
-import { sortCategories } from "./sort-categories";
+import { ListItem } from "../../types";
+import { groceryDB } from "../db";
+import { sortCategories } from "../sort-categories";
 
 type Props = {
   setListData: Dispatch<StateUpdater<ListItem>>;

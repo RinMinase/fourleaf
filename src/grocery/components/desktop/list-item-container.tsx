@@ -2,9 +2,9 @@ import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
 
 import { child, remove } from "firebase/database";
 
-import { ListItem } from "../types";
-import Swal from "./grocery-swal";
-import { groceryDB } from "./db";
+import { ListItem } from "../../types";
+import Swal from "../grocery-swal";
+import { groceryDB } from "../db";
 
 type Props = {
   lists: Array<ListItem>;

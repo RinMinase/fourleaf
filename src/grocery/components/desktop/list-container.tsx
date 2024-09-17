@@ -2,10 +2,11 @@ import { Dispatch, MutableRef, StateUpdater } from "preact/hooks";
 
 import { push, Unsubscribe, update } from "firebase/database";
 
-import { groceryDB } from "./db";
-import ListTile from "./desktop-list-tile";
-import Swal from "./grocery-swal";
-import { ListItem } from "../types";
+import { groceryDB } from "../db";
+import Swal from "../grocery-swal";
+import { ListItem } from "../../types";
+
+import ListTile from "./list-tile";
 
 type Props = {
   lists: Array<ListItem>;

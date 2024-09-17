@@ -4,9 +4,9 @@ import { checkDeviceIfMobile } from "../common/functions";
 import { onValue, Unsubscribe } from "firebase/database";
 
 import { groceryDB } from "./components/db";
-import ListContainer from "./components/desktop-list-container";
 import { ListItem as ListItemType } from "./types";
-import ListItemContainer from "./components/desktop-list-item-container";
+
+import { ListContainer, ListItemContainer } from "./components/desktop";
 
 const isMobile = checkDeviceIfMobile();
 
