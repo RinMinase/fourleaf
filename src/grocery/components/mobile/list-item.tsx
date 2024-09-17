@@ -1,19 +1,18 @@
 import { JSX } from "preact";
 
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
-import { child, getDatabase, ref, remove, update } from "firebase/database";
+import { child, remove, update } from "firebase/database";
 
 import { Item as ItemType } from "../../types";
 import { numericInput } from "../numeric-input";
 import Swal from "../grocery-swal";
+import { groceryDB } from "../db";
 
 type Props = {
   listId: string;
   categoryId: string;
   item: ItemType;
 };
-
-const db = ref(getDatabase(), "grocery");
 
 export default function Item(props: Props) {
   const handleBlur = (
@@ -23,7 +22,7 @@ export default function Item(props: Props) {
     if (props.item.id) {
       const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}/${type}`;
 
-      update(db, {
+      update(groceryDB, {
         [path]: evt.currentTarget.value,
       });
     }
@@ -40,7 +39,7 @@ export default function Item(props: Props) {
     if (result.isConfirmed) {
       const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}`;
 
-      remove(child(db, path));
+      remove(child(groceryDB, path));
     }
   };
 

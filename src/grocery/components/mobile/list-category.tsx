@@ -2,7 +2,7 @@ import { JSX } from "preact";
 import { Dispatch, StateUpdater } from "preact/hooks";
 
 import clsx from "clsx";
-import { child, getDatabase, ref, remove } from "firebase/database";
+import { child, remove } from "firebase/database";
 
 import {
   ChevronDownIcon,
@@ -12,6 +12,7 @@ import {
 
 import { Category as CategoryType, Item as ItemType } from "../../types";
 import Swal from "../grocery-swal";
+import { groceryDB } from "../db";
 
 import Item from "./list-item";
 import AddNewItem from "./list-add-new-item";
@@ -24,8 +25,6 @@ type Props = {
   category: CategoryType;
   listId: string;
 };
-
-const db = ref(getDatabase(), "grocery");
 
 export default function Category(props: Props) {
   const isFinished = (items: Array<ItemType>) => {
@@ -52,7 +51,7 @@ export default function Category(props: Props) {
     if (result.isConfirmed) {
       const path = `/${props.listId}/list/${props.category.id}`;
 
-      remove(child(db, path));
+      remove(child(groceryDB, path));
     }
   };
 
