@@ -2,17 +2,16 @@ import { useEffect, useState } from "preact/hooks";
 
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { child, getDatabase, push, ref, update } from "firebase/database";
+import { child, push, update } from "firebase/database";
 
 import { numericInput } from "../numeric-input";
+import { groceryDB } from "../db";
 
 type Props = {
   isVirtualKeyboardOpen: boolean;
   listId: string;
   categoryId: string;
 };
-
-const db = ref(getDatabase(), "grocery");
 
 export default function AddNewItem(props: Props) {
   const [data, setData] = useState({ name: "", qty: "" });
@@ -21,9 +20,9 @@ export default function AddNewItem(props: Props) {
   const handleAddItem = () => {
     if (data.name) {
       const path = `/${props.listId}/list/${props.categoryId}/items`;
-      const newKey = push(child(db, path)).key;
+      const newKey = push(child(groceryDB, path)).key;
 
-      update(db, {
+      update(groceryDB, {
         [`${path}/${newKey}`]: {
           id: newKey,
           name: data.name,
