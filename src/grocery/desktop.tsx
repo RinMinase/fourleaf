@@ -73,13 +73,14 @@ export default function App() {
           <h1 class="text-xl">Order Categories</h1>
         </div>
       </div>
-      <div class="grow max-w-2/3 lg:max-w-3/4 pl-2">
+      <div class="grow max-w-2/3 lg:max-w-3/4 pl-2 max-h-[calc(100vh-32px-48px)]">
         {listData.id && (
           <ListItemContainer
             lists={lists}
             listData={listData}
             setLists={setLists}
             setListData={setListData}
+            isListDataLoading={isListDataLoading}
           />
         )}
       </div>

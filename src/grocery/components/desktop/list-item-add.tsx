@@ -44,7 +44,7 @@ export default function ItemAdd(props: Props) {
   };
 
   return (
-    <div class="flex items-center justify-end mb-2 gap-2">
+    <div class="flex items-center justify-end mb-2 gap-2 pl-9">
       <input
         ref={nameRef}
         // id={`add-name--${props.category.id}`}
@@ -65,7 +65,7 @@ export default function ItemAdd(props: Props) {
       />
       <input
         {...numericInput}
-        class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
+        class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
         placeholder="Qty"
         value={formData.qty}
         onChange={(e) => {
@@ -79,6 +79,7 @@ export default function ItemAdd(props: Props) {
           if (evt.key === "Enter") handleAddItem();
         }}
       />
+      <div class="w-36 px-1.5"></div>
     </div>
   );
 }

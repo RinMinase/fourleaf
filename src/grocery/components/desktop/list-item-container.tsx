@@ -22,6 +22,7 @@ type Props = {
   listData: ListItem;
   setLists: Dispatch<StateUpdater<Array<ListItem>>>;
   setListData: Dispatch<StateUpdater<ListItem>>;
+  isListDataLoading: boolean;
 };
 
 export default function ListItemContainer(props: Props) {
@@ -106,65 +107,78 @@ export default function ListItemContainer(props: Props) {
         </button>
       </div>
 
-      <div class="pt-6">
-        {props.listData.list.map((category, categoryIndex) => (
-          <div>
-            <div
-              class={clsx(
-                "flex items-center text-sm font-bold mb-3 border-b border-slate-300 cursor-pointer",
-                {
-                  "text-green-500": isFinished(category.items),
-                },
-              )}
-              onClick={() => handleCollapseToggle(categoryIndex)}
-            >
-              <div class="grow pb-2 h-8 flex items-center">
-                {isCollapseOpen[categoryIndex] ? (
-                  <ChevronDownIcon class="w-4 inline-block" />
-                ) : (
-                  <ChevronRightIcon class="w-4 inline-block" />
-                )}
-                <span class="grow pl-2 select-none">{category.category}</span>
-              </div>
+      <div class="mt-3 border border-slate-400 h-[calc(100%-12px-28px)]">
+        {props.isListDataLoading ? <div class="spinner loader" /> : null}
+
+        <div class="p-2 h-full overflow-y-auto">
+          {props.listData.list.length === 0 ? (
+            <p class="text-sm italic text-center mt-6">
+              &mdash; No categories and items to show &mdash;
+            </p>
+          ) : null}
+
+          {props.listData.list.map((category, categoryIndex) => (
+            <div>
               <div
-                class="w-10 px-2 pb-2"
-                children={
-                  <MinusCircleIcon
-                    class="w-6 cursor-pointer text-red-600"
-                    onClick={(evt) => handleDeleteCategory(evt, category.id)}
-                  />
-                }
-              />
-            </div>
+                class={clsx(
+                  "flex items-center text-sm font-bold mb-3 border-b border-slate-300 cursor-pointer",
+                  {
+                    "text-green-500": isFinished(category.items),
+                  },
+                )}
+                onClick={() => handleCollapseToggle(categoryIndex)}
+              >
+                <div class="grow pb-2 h-8 flex items-center">
+                  {isCollapseOpen[categoryIndex] ? (
+                    <ChevronDownIcon class="w-4 inline-block" />
+                  ) : (
+                    <ChevronRightIcon class="w-4 inline-block" />
+                  )}
+                  <span class="grow pl-2 select-none">{category.category}</span>
+                </div>
+                <div
+                  class="w-10 px-2 pb-2"
+                  children={
+                    <MinusCircleIcon
+                      class="w-6 cursor-pointer text-red-600"
+                      onClick={(evt) => handleDeleteCategory(evt, category.id)}
+                    />
+                  }
+                />
+              </div>
 
-            {isCollapseOpen[categoryIndex] && (
-              <div class="pl-2 pr-2 pb-4">
-                {category.items.length ? (
-                  <div class="flex justify-end items-center gap-2">
-                    <span class="text-sm text-center w-16">Qty</span>
-                    <span class="text-sm text-center w-24">Price</span>
-                  </div>
-                ) : null}
+              {isCollapseOpen[categoryIndex] && (
+                <div class="pl-2 pr-2 pb-4">
+                  {category.items.length ? (
+                    <div class="flex justify-end items-center gap-2">
+                      <span class="text-sm text-center w-16">Qty</span>
+                      <span class="text-sm text-center w-24">Price</span>
+                    </div>
+                  ) : null}
 
-                {category.items.length === 0 ? (
-                  <p class="text-sm italic text-center pb-4 pr-1">
-                    &mdash; No items to show. &mdash;
-                  </p>
-                ) : null}
+                  {category.items.length === 0 ? (
+                    <p class="text-sm italic text-center pb-4 pr-1">
+                      &mdash; No items to show. &mdash;
+                    </p>
+                  ) : null}
 
-                {category.items.map((item) => (
-                  <ItemTile
+                  {category.items.map((item) => (
+                    <ItemTile
+                      listId={props.listData.id}
+                      categoryId={category.id}
+                      item={item}
+                    />
+                  ))}
+
+                  <ItemAdd
                     listId={props.listData.id}
                     categoryId={category.id}
-                    item={item}
                   />
-                ))}
-
-                <ItemAdd listId={props.listData.id} categoryId={category.id} />
-              </div>
-            )}
-          </div>
-        ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
