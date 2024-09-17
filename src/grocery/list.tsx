@@ -9,7 +9,7 @@ import { child, onValue, push, Unsubscribe, update } from "firebase/database";
 import { checkDeviceIfMobile } from "../common/functions";
 import Swal from "./components/grocery-swal";
 import { groceryDB } from "./components/db";
-import Category from "./components/list-category";
+import { Category } from "./components/mobile/";
 import { sortCategories } from "./components/sort-categories";
 import { ListItem, Category as CategoryType } from "./types";
 

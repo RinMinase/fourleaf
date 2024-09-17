@@ -13,7 +13,7 @@ import { child, onValue, update } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
 import { groceryDB } from "./components/db";
-import CategoryItem from "./components/order-category-item";
+import { CategoryItem } from "./components/mobile";
 import { sortCategories } from "./components/sort-categories";
 import { Category, ListItem } from "./types";
 

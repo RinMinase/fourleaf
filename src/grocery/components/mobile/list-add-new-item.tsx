@@ -4,7 +4,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { child, getDatabase, push, ref, update } from "firebase/database";
 
-import { numericInput } from "./numeric-input";
+import { numericInput } from "../numeric-input";
 
 type Props = {
   isVirtualKeyboardOpen: boolean;

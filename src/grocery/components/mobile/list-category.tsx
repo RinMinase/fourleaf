@@ -10,8 +10,9 @@ import {
   MinusCircleIcon,
 } from "@heroicons/react/24/outline";
 
-import { Category as CategoryType, Item as ItemType } from "../types";
-import Swal from "./grocery-swal";
+import { Category as CategoryType, Item as ItemType } from "../../types";
+import Swal from "../grocery-swal";
+
 import Item from "./list-item";
 import AddNewItem from "./list-add-new-item";
 
