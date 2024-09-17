@@ -2,7 +2,7 @@ import { JSX } from "preact";
 import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
 
 import clsx from "clsx";
-import { child, remove, update } from "firebase/database";
+import { child, remove } from "firebase/database";
 
 import {
   ChevronDownIcon,
@@ -13,8 +13,9 @@ import {
 import { Item, ListItem } from "../../types";
 import Swal from "../grocery-swal";
 import { groceryDB } from "../db";
-import { numericInput } from "../numeric-input";
+
 import ItemAdd from "./list-item-add";
+import ItemTile from "./list-item-tile";
 
 type Props = {
   lists: Array<ListItem>;
@@ -79,38 +80,6 @@ export default function ListItemContainer(props: Props) {
 
       remove(child(groceryDB, path));
     }
-  };
-
-  const handleDeleteItem = async (
-    evt: JSX.TargetedMouseEvent<any>,
-    categoryId: string,
-    itemId: string,
-  ) => {
-    evt.stopPropagation();
-
-    const result = await Swal.fire({
-      text: "Are you sure?",
-      showDenyButton: true,
-    });
-
-    if (result.isConfirmed) {
-      const path = `/${props.listData.id}/list/${categoryId}/items/${itemId}`;
-
-      remove(child(groceryDB, path));
-    }
-  };
-
-  const handleBlur = (
-    evt: JSX.TargetedFocusEvent<HTMLInputElement>,
-    type: "name" | "qty" | "price",
-    categoryId: string,
-    itemId: string,
-  ) => {
-    const path = `/${props.listData.id}/list/${categoryId}/items/${itemId}/${type}`;
-
-    update(groceryDB, {
-      [path]: evt.currentTarget.value,
-    });
   };
 
   useEffect(() => {
@@ -184,42 +153,11 @@ export default function ListItemContainer(props: Props) {
                 ) : null}
 
                 {category.items.map((item) => (
-                  <div key={item.id} class="flex items-center mb-3 gap-2">
-                    <div
-                      class="w-8 h-7 px-1 cursor-pointer flex items-center"
-                      onClick={(evt) =>
-                        handleDeleteItem(evt, category.id, item.id)
-                      }
-                      children={
-                        <MinusCircleIcon class="w-5 min-w-5 text-red-600" />
-                      }
-                    />
-                    <input
-                      type="text"
-                      maxLength={32}
-                      class="w-full border-slate-300 px-2 py-1 rounded"
-                      defaultValue={item.name}
-                      onBlur={(evt) =>
-                        handleBlur(evt, "name", category.id, item.id)
-                      }
-                    />
-                    <input
-                      {...numericInput}
-                      class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                      defaultValue={`${item.qty || 0}`}
-                      onBlur={(evt) =>
-                        handleBlur(evt, "qty", category.id, item.id)
-                      }
-                    />
-                    <input
-                      {...numericInput}
-                      defaultValue={`${item.price || 0}`}
-                      class="w-24 h-7 text-center border-slate-300 px-2 py-1 rounded"
-                      onBlur={(evt) =>
-                        handleBlur(evt, "price", category.id, item.id)
-                      }
-                    />
-                  </div>
+                  <ItemTile
+                    listId={props.listData.id}
+                    categoryId={category.id}
+                    item={item}
+                  />
                 ))}
 
                 <ItemAdd listId={props.listData.id} categoryId={category.id} />
