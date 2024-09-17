@@ -88,7 +88,7 @@ export default function Category(props: Props) {
       {props.isCollapseOpen && (
         <div class="pl-2 pr-2">
           {props.category.items.length ? (
-            <div class="flex justify-end items-center">
+            <div class="flex justify-end items-center gap-2">
               <span class="text-sm text-center w-12">Qty</span>
               <span class="text-sm text-center w-16">Price</span>
             </div>
