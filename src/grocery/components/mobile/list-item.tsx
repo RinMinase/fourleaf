@@ -5,7 +5,7 @@ import { child, remove, update } from "firebase/database";
 
 import { Item as ItemType } from "../../types";
 import { numericInput } from "../numeric-input";
-import Swal from "../grocery-swal";
+import Swal, { OpenErrorSwal } from "../grocery-swal";
 import { groceryDB } from "../db";
 
 type Props = {
@@ -24,7 +24,7 @@ export default function Item(props: Props) {
 
       update(groceryDB, {
         [path]: evt.currentTarget.value,
-      });
+      }).catch(OpenErrorSwal);
     }
   };
 
@@ -39,7 +39,7 @@ export default function Item(props: Props) {
     if (result.isConfirmed) {
       const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}`;
 
-      remove(child(groceryDB, path));
+      remove(child(groceryDB, path)).catch(OpenErrorSwal);
     }
   };
 

@@ -15,6 +15,7 @@ import { checkDeviceIfMobile } from "../common/functions";
 import { groceryDB } from "./components/db";
 import { CategoryItem } from "./components/mobile";
 import { sortCategories } from "./components/sort-categories";
+import { OpenErrorSwal } from "./components/grocery-swal";
 import { Category, ListItem } from "./types";
 
 type Props = {
@@ -59,31 +60,37 @@ export default function App(props: Props) {
       list: newList,
     });
 
-    update(groceryDB, updates);
+    update(groceryDB, updates).catch(OpenErrorSwal);
   };
 
   const fetchData = async () => {
     setLoading(true);
 
-    onValue(child(groceryDB, `/${props.matches!.id}`), (snapshot) => {
-      if (snapshot.exists()) {
-        const rawData = snapshot.val();
-        const listData = rawData[props.matches!.id] as ListItem;
+    onValue(
+      child(groceryDB, `/${props.matches!.id}`),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const rawData = snapshot.val();
+          const listData = rawData[props.matches!.id] as ListItem;
 
-        const list: Array<Partial<Category>> = [];
-        for (const categoryId in listData.list) {
-          list.push({
-            id: listData.list[categoryId].id,
-            category: listData.list[categoryId].category,
-            order: listData.list[categoryId].order,
-          });
+          const list: Array<Partial<Category>> = [];
+          for (const categoryId in listData.list) {
+            list.push({
+              id: listData.list[categoryId].id,
+              category: listData.list[categoryId].category,
+              order: listData.list[categoryId].order,
+            });
+          }
+
+          listData.list = sortCategories(list as any);
+          setData(listData);
+          setLoading(false);
+        } else {
+          route("/grocery");
         }
-
-        listData.list = sortCategories(list as any);
-        setData(listData);
-        setLoading(false);
-      }
-    });
+      },
+      OpenErrorSwal,
+    );
   };
 
   useEffect(() => {

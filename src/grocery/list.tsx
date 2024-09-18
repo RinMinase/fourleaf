@@ -7,7 +7,7 @@ import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 import { child, onValue, push, Unsubscribe, update } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
-import Swal from "./components/grocery-swal";
+import Swal, { OpenErrorSwal } from "./components/grocery-swal";
 import { groceryDB } from "./components/db";
 import { Category } from "./components/mobile/";
 import { sortCategories } from "./components/sort-categories";
@@ -76,7 +76,7 @@ export default function App(props: Props) {
               category: name,
               order: newOrderValue,
             },
-          });
+          }).catch(OpenErrorSwal);
         }
       },
     });
@@ -109,8 +109,11 @@ export default function App(props: Props) {
           setData(listData);
           setIsCollapseOpen(collapse);
           setLoading(false);
+        } else {
+          route("/grocery");
         }
       },
+      OpenErrorSwal,
     );
   };
 

@@ -6,6 +6,7 @@ import { child, push, update } from "firebase/database";
 
 import { numericInput } from "../numeric-input";
 import { groceryDB } from "../db";
+import { OpenErrorSwal } from "../grocery-swal";
 
 type Props = {
   isVirtualKeyboardOpen: boolean;
@@ -29,7 +30,7 @@ export default function AddNewItem(props: Props) {
           qty: data.qty || 0,
           price: 0,
         },
-      });
+      }).catch(OpenErrorSwal);
     }
 
     setShowFields(null);

@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { Category as CategoryType, Item as ItemType } from "../../types";
-import Swal from "../grocery-swal";
+import Swal, { OpenErrorSwal } from "../grocery-swal";
 import { groceryDB } from "../db";
 
 import Item from "./list-item";
@@ -51,7 +51,7 @@ export default function Category(props: Props) {
     if (result.isConfirmed) {
       const path = `/${props.listId}/list/${props.category.id}`;
 
-      remove(child(groceryDB, path));
+      remove(child(groceryDB, path)).catch(OpenErrorSwal);
     }
   };
 

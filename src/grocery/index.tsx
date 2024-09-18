@@ -8,7 +8,7 @@ import { MinusCircleIcon } from "@heroicons/react/24/outline";
 import { onValue, push, child, update, remove } from "firebase/database";
 
 import { checkDeviceIfMobile } from "../common/functions";
-import Swal from "./components/grocery-swal";
+import Swal, { OpenErrorSwal } from "./components/grocery-swal";
 import { groceryDB } from "./components/db";
 import { List, ListItem } from "./types";
 
@@ -70,25 +70,26 @@ export default function App() {
     });
 
     if (result.isConfirmed) {
-      remove(child(groceryDB, `/${forDeleteList.id}`));
-
-      if (lists.length === 1) {
-        setLists([]);
-      }
+      remove(child(groceryDB, `/${forDeleteList.id}`)).catch(OpenErrorSwal);
     }
   };
 
   const fetchData = async () => {
     setLoading(true);
 
-    onValue(groceryDB, (snapshot) => {
-      if (snapshot.exists()) {
-        setLists(Object.values(snapshot.val()));
-        setLoading(false);
-      } else {
-        setLoading(false);
-      }
-    });
+    onValue(
+      groceryDB,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          setLists(Object.values(snapshot.val()));
+          setLoading(false);
+        } else {
+          setLists([]);
+          setLoading(false);
+        }
+      },
+      OpenErrorSwal,
+    );
   };
 
   useEffect(() => {

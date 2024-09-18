@@ -20,4 +20,15 @@ const Swal = SweetAlert.mixin({
   allowOutsideClick: false,
 });
 
+export const OpenErrorSwal = async () => {
+  const response = await Swal.fire({
+    title: "An error occured, please reload the page",
+    confirmButtonColor: "#f87171",
+  });
+
+  if (response.isConfirmed) {
+    location.reload();
+  }
+};
+
 export default Swal;
