@@ -37,6 +37,8 @@ export default function App() {
     listSubscription.current = onValue(groceryDB, (snapshot) => {
       if (snapshot.exists()) {
         setLists(Object.values(snapshot.val()));
+      } else {
+        setLists([]);
       }
 
       setListLoading(false);
@@ -93,7 +95,6 @@ export default function App() {
           <ListItemContainer
             lists={lists}
             listData={listData}
-            setLists={setLists}
             setListData={setListData}
             isListDataLoading={isListDataLoading}
           />

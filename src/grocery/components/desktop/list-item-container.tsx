@@ -20,7 +20,6 @@ import ItemTile from "./list-item-tile";
 type Props = {
   lists: Array<ListItem>;
   listData: ListItem;
-  setLists: Dispatch<StateUpdater<Array<ListItem>>>;
   setListData: Dispatch<StateUpdater<ListItem>>;
   isListDataLoading: boolean;
 };
@@ -97,10 +96,6 @@ export default function ListItemContainer(props: Props) {
           date: "",
           list: [],
         });
-
-        if (props.lists.length === 1) {
-          props.setLists([]);
-        }
       }
     }
   };
