@@ -14,10 +14,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "animate.css";
 import "scss-spinners";
 
-import "@fontsource/inter/latin-400.css";
-import "@fontsource/inter/latin-500.css";
-import "@fontsource/inter/latin-700.css";
-
 import "./main.css";
 
 const Layout = () => {
