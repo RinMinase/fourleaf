@@ -23,6 +23,11 @@ const GroceryList = () => import("./grocery/list").then((c) => c.default);
 const GroceryOrder = () => import("./grocery/order").then((c) => c.default);
 const GroceryDesktop = () => import("./grocery/desktop").then((c) => c.default);
 
+const TravelMobile = () => import("./travel").then((c) => c.default);
+const TravelList = () => import("./travel/list").then((c) => c.default);
+const TravelOrder = () => import("./travel/order").then((c) => c.default);
+const TravelDesktop = () => import("./travel/desktop").then((c) => c.default);
+
 const Routes = ({ onChange }: Props) => (
   <Router onChange={onChange}>
     <Route path="/" component={Notes} />
@@ -32,6 +37,11 @@ const Routes = ({ onChange }: Props) => (
     <AsyncRoute path="/grocery/:id" getComponent={GroceryList} />
     <AsyncRoute path="/grocery/:id/order" getComponent={GroceryOrder} />
     <AsyncRoute path="/grocery-desktop" getComponent={GroceryDesktop} />
+
+    <AsyncRoute path="/travel" getComponent={TravelMobile} />
+    <AsyncRoute path="/travel/:id" getComponent={TravelList} />
+    <AsyncRoute path="/travel/:id/order" getComponent={TravelOrder} />
+    <AsyncRoute path="/travel-desktop" getComponent={TravelDesktop} />
 
     <AsyncRoute path="/bills" getComponent={Bills} />
     <AsyncRoute path="/journal" getComponent={Journal} />
