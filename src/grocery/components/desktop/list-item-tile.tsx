@@ -18,7 +18,7 @@ export default function ItemTile(props: Props) {
     evt.stopPropagation();
 
     const result = await Swal.fire({
-      text: "Are you sure?",
+      text: `Are you sure you want to delete "${props.item.name}" item?`,
       showDenyButton: true,
     });
 
