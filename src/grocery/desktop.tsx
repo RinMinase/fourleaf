@@ -65,7 +65,7 @@ export default function App() {
   }
 
   return (
-    <div class="flex max-h-full h-full">
+    <div class="flex h-full max-h-[calc(100vh-32px-48px)]">
       <div class="w-1/3 lg:w-1/4 flex flex-col">
         <div
           class={clsx("h-1/2 pr-2", {
@@ -90,7 +90,7 @@ export default function App() {
           </div>
         ) : null}
       </div>
-      <div class="grow max-w-2/3 lg:max-w-3/4 pl-2 max-h-[calc(100vh-32px-48px)]">
+      <div class="grow max-w-2/3 lg:max-w-3/4 pl-2 max-h-full">
         {listData.id && (
           <ListItemContainer
             lists={lists}
