@@ -1,9 +1,14 @@
 {
   "name": "fourleaf",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
+  "private": true,
+  "author": "Rin Minase",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RinMinase/fourleaf"
+  },  "scripts": {
     "dev": "vite",
     "build": "tsc && vite build"
   },
