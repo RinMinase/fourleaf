@@ -120,7 +120,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* Bugs found in Alpha 23 */
 * {
-  font-family: Inter, sans-serif;
+  font-family: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 .z-9999 {
