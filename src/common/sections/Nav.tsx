@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-
+import { RefObject } from "preact";
 import clsx from "clsx";
 import { signOut } from "firebase/auth";
 
@@ -33,10 +33,6 @@ const menu: Array<Menu> = [
     route: "/journal",
     name: "Journal",
   },
-  {
-    route: "/gas",
-    name: "Gas Monitoring",
-  },
 ];
 
 const menuLists: Array<Menu> = [
@@ -62,11 +58,24 @@ const menuLists: Array<Menu> = [
   },
 ];
 
+const menuMonitoring: Array<Menu> = [
+  {
+    route: "/gas",
+    name: "Gas Monitoring",
+  },
+  {
+    route: "/electricity",
+    name: "Electricity Monitoring",
+  },
+];
+
 export default function Nav({ isAuth, currRoute }: Props) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isListMenuOpen, setListMenuOpen] = useState(false);
+  const [isMonitoringMenuOpen, setMonitoringMenuOpen] = useState(false);
 
   const listMenuSourceRef = useRef<HTMLLIElement>(null);
+  const monitoringMenuSourceRef = useRef<HTMLLIElement>(null);
 
   const handleLogout = () => {
     if (auth) signOut(auth);
@@ -75,6 +84,55 @@ export default function Nav({ isAuth, currRoute }: Props) {
 
   const isRoute = (path: string): boolean => {
     return currRoute === path;
+  };
+
+  const renderNavigation = (
+    subMenuOpen: boolean,
+    menuSourceRef: RefObject<HTMLLIElement>,
+    menu: Array<Menu>,
+  ) => {
+    if (!subMenuOpen) return null;
+
+    const bounds = menuSourceRef.current?.getBoundingClientRect();
+    const x = bounds?.x ?? 0;
+    const width = bounds?.width ?? 0;
+
+    return (
+      <div
+        class="flex flex-col absolute w-[100vw] h-[100vh] z-9999 text-center w-full h-full top-0 left-0"
+        onClick={() => {
+          setListMenuOpen(false);
+          setMonitoringMenuOpen(false);
+        }}
+      >
+        <div
+          class="w-48 bg-white rounded"
+          style={{
+            position: "absolute",
+            top: 48 + 6,
+            // w-48 = 192px / 2 = 96px
+            left: x - 96 + width / 2,
+          }}
+        >
+          <ul class="border border-slate-300 rounded">
+            {menu.map((item) => {
+              if (item.mobile) return null;
+
+              return (
+                <li class="select-none [&:not(:last-of-type)]:border-b border-slate-300 cursor-pointer hover:bg-slate-200">
+                  <a
+                    href={isRoute(item.route) ? undefined : item.route}
+                    class="block py-2"
+                  >
+                    {item.name}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -108,7 +166,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
                   <a
                     href={isRoute(item.route) ? "#" : item.route}
                     class={clsx(
-                      "inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
+                      "inline-block select-none py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
                       {
                         "text-blue-500 cursor-default active": isRoute(
                           item.route,
@@ -123,12 +181,18 @@ export default function Nav({ isAuth, currRoute }: Props) {
               );
             })}
             <li
-              id="test_id_x"
               ref={listMenuSourceRef}
-              class="cursor-pointer inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800"
+              class="cursor-pointer select-none inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800"
               onClick={() => setListMenuOpen(true)}
             >
               Lists
+            </li>
+            <li
+              ref={monitoringMenuSourceRef}
+              class="cursor-pointer select-none inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800"
+              onClick={() => setMonitoringMenuOpen(true)}
+            >
+              Monitoring
             </li>
           </ul>
         ) : (
@@ -223,6 +287,27 @@ export default function Nav({ isAuth, currRoute }: Props) {
                   </li>
                 );
               })}
+              {menuMonitoring.map((item) => {
+                if (item.desktop && isMobile) return null;
+
+                return (
+                  <li class="border-b border-gray-300">
+                    <a
+                      href={isRoute(item.route) ? "#" : item.route}
+                      class={clsx("block py-5 px-4", {
+                        "bg-slate-200 active": isRoute(item.route),
+                      })}
+                      onClick={
+                        isRoute(item.route)
+                          ? undefined
+                          : () => setMenuOpen(false)
+                      }
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                );
+              })}
               {isAuth ? (
                 <li class="border-y border-gray-300">
                   <a href="#" class="block py-5 px-4" onClick={handleLogout}>
@@ -246,46 +331,13 @@ export default function Nav({ isAuth, currRoute }: Props) {
       )}
 
       {/* Lists navigation */}
+      {renderNavigation(isListMenuOpen, listMenuSourceRef, menuLists)}
 
-      {isListMenuOpen ? (
-        <div
-          id="list_nav_overlay"
-          class="flex flex-col absolute w-[100vw] h-[100vh] z-9999 text-center w-full h-full top-0 left-0"
-          onClick={() => setListMenuOpen(false)}
-        >
-          <div
-            id="list_nav"
-            class="w-48 bg-white rounded"
-            style={{
-              position: "absolute",
-              top: 48 + 6,
-              // w-48 = 192px / 2 = 96px
-              // list li = 66px / 2 = 33px
-              left:
-                (listMenuSourceRef.current?.getBoundingClientRect().x ?? 0) -
-                96 +
-                33,
-            }}
-          >
-            <ul class="border border-slate-300 rounded">
-              {menuLists.map((item) => {
-                if (item.mobile) return null;
-
-                return (
-                  <li class="[&:not(:last-of-type)]:border-b border-slate-300 cursor-pointer hover:bg-slate-200">
-                    <a
-                      href={isRoute(item.route) ? undefined : item.route}
-                      class="block py-2"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      ) : null}
+      {renderNavigation(
+        isMonitoringMenuOpen,
+        monitoringMenuSourceRef,
+        menuMonitoring,
+      )}
     </>
   );
 }
