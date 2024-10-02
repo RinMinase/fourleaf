@@ -10,7 +10,7 @@ import {
   MinusCircleIcon,
 } from "@heroicons/react/24/outline";
 
-import { Item, ListItem } from "../../types";
+import { Category, Item, ListItem } from "../../types";
 import Swal from "../grocery-swal";
 import { groceryDB } from "../db";
 
@@ -102,17 +102,17 @@ export default function ListItemContainer(props: Props) {
 
   const handleDeleteCategory = async (
     evt: JSX.TargetedMouseEvent<any>,
-    categoryId: string,
+    category: Category,
   ) => {
     evt.stopPropagation();
 
     const result = await Swal.fire({
-      text: "Are you sure?",
+      text: `Are you sure you want to delete \"${category.category}\" category?`,
       showDenyButton: true,
     });
 
     if (result.isConfirmed) {
-      const path = `/${props.listData.id}/list/${categoryId}`;
+      const path = `/${props.listData.id}/list/${category.id}`;
 
       remove(child(groceryDB, path));
     }
@@ -185,7 +185,7 @@ export default function ListItemContainer(props: Props) {
                   children={
                     <MinusCircleIcon
                       class="w-6 cursor-pointer text-red-600"
-                      onClick={(evt) => handleDeleteCategory(evt, category.id)}
+                      onClick={(evt) => handleDeleteCategory(evt, category)}
                     />
                   }
                 />
@@ -222,6 +222,10 @@ export default function ListItemContainer(props: Props) {
               )}
             </div>
           ))}
+
+          {/* Invisible field since there are no more focus elements */}
+          {/* Tab after the last field focuses the URL bar */}
+          <input type="text" class="opacity-0 h-0" />
         </div>
       </div>
     </>

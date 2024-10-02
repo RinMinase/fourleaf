@@ -10,6 +10,7 @@ type Props = {
 
 export default function ItemAdd(props: Props) {
   const nameRef = useRef<HTMLInputElement>(null);
+  const qtyRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -35,22 +36,22 @@ export default function ItemAdd(props: Props) {
         qty: "",
       });
 
-      // const nameField = document.getElementById(`add-name--${categoryId}`);
       if (nameRef.current) {
+        nameRef.current.scrollIntoView();
         nameRef.current.focus();
-        // nameField.focus();
       }
     }
   };
 
   return (
-    <div class="flex items-center justify-end mb-2 gap-2 pl-9">
+    <div class="flex items-center mb-2 gap-2">
+      <div class="w-7"></div>
+
       <input
         ref={nameRef}
-        // id={`add-name--${props.category.id}`}
         type="text"
         maxLength={32}
-        class="w-full border-slate-300 px-2 py-1 rounded"
+        class="grow border-slate-300 px-2 py-1 rounded"
         value={formData.name}
         placeholder="Name"
         onChange={(e) => {
@@ -65,6 +66,7 @@ export default function ItemAdd(props: Props) {
       />
       <input
         {...numericInput}
+        ref={qtyRef}
         class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
         placeholder="Qty"
         value={formData.qty}
@@ -76,10 +78,10 @@ export default function ItemAdd(props: Props) {
         }}
         onBlur={handleAddItem}
         onKeyUp={(evt) => {
-          if (evt.key === "Enter") handleAddItem();
+          if (evt.key === "Enter") qtyRef.current?.blur();
         }}
       />
-      <div class="w-36 px-1.5"></div>
+      <div class="w-24"></div>
     </div>
   );
 }
