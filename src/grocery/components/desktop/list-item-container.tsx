@@ -8,6 +8,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   MinusCircleIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 
 import { Category, Item, ListItem } from "../../types";
@@ -118,6 +119,13 @@ export default function ListItemContainer(props: Props) {
     }
   };
 
+  const handleEditCategory = async (
+    evt: JSX.TargetedMouseEvent<any>,
+    category: Category,
+  ) => {
+    evt.stopPropagation();
+  };
+
   useEffect(() => {
     if (props.listData.id) {
       const collapse = Array(props.listData.list.length).fill(true);
@@ -181,7 +189,16 @@ export default function ListItemContainer(props: Props) {
                   <span class="grow pl-2 select-none">{category.category}</span>
                 </div>
                 <div
-                  class="w-10 px-2 pb-2"
+                  class="w-10 px-1.5 pb-2"
+                  children={
+                    <PencilSquareIcon
+                      class="w-6 cursor-pointer text-gray-400"
+                      onClick={(evt) => handleEditCategory(evt, category)}
+                    />
+                  }
+                />
+                <div
+                  class="w-10 px-1.5 pb-2"
                   children={
                     <MinusCircleIcon
                       class="w-6 cursor-pointer text-red-600"
