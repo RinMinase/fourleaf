@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 import clsx from "clsx";
 import { signOut } from "firebase/auth";
@@ -26,16 +26,6 @@ const menu: Array<Menu> = [
     name: "Notes",
   },
   {
-    route: "/grocery",
-    name: "Grocery",
-    mobile: true,
-  },
-  {
-    route: "/grocery-desktop",
-    name: "Grocery",
-    desktop: true,
-  },
-  {
     route: "/bills",
     name: "Bills",
   },
@@ -49,8 +39,34 @@ const menu: Array<Menu> = [
   },
 ];
 
+const menuLists: Array<Menu> = [
+  {
+    route: "/grocery",
+    name: "Grocery",
+    mobile: true,
+  },
+  {
+    route: "/grocery-desktop",
+    name: "Grocery",
+    desktop: true,
+  },
+  {
+    route: "/travel-expenses",
+    name: "Travel Expenses",
+    mobile: true,
+  },
+  {
+    route: "/travel-expenses-desktop",
+    name: "Travel Expenses",
+    desktop: true,
+  },
+];
+
 export default function Nav({ isAuth, currRoute }: Props) {
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isListMenuOpen, setListMenuOpen] = useState(false);
+
+  const listMenuSourceRef = useRef<HTMLLIElement>(null);
 
   const handleLogout = () => {
     if (auth) signOut(auth);
@@ -106,6 +122,14 @@ export default function Nav({ isAuth, currRoute }: Props) {
                 </li>
               );
             })}
+            <li
+              id="test_id_x"
+              ref={listMenuSourceRef}
+              class="cursor-pointer inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800"
+              onClick={() => setListMenuOpen(true)}
+            >
+              Lists
+            </li>
           </ul>
         ) : (
           <div class="grow" />
@@ -178,6 +202,27 @@ export default function Nav({ isAuth, currRoute }: Props) {
                   </li>
                 );
               })}
+              {menuLists.map((item) => {
+                if (item.desktop && isMobile) return null;
+
+                return (
+                  <li class="border-b border-gray-300">
+                    <a
+                      href={isRoute(item.route) ? "#" : item.route}
+                      class={clsx("block py-5 px-4", {
+                        "bg-slate-200 active": isRoute(item.route),
+                      })}
+                      onClick={
+                        isRoute(item.route)
+                          ? undefined
+                          : () => setMenuOpen(false)
+                      }
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                );
+              })}
               {isAuth ? (
                 <li class="border-y border-gray-300">
                   <a href="#" class="block py-5 px-4" onClick={handleLogout}>
@@ -199,6 +244,48 @@ export default function Nav({ isAuth, currRoute }: Props) {
           </div>
         </nav>
       )}
+
+      {/* Lists navigation */}
+
+      {isListMenuOpen ? (
+        <div
+          id="list_nav_overlay"
+          class="flex flex-col absolute w-[100vw] h-[100vh] z-9999 text-center w-full h-full top-0 left-0"
+          onClick={() => setListMenuOpen(false)}
+        >
+          <div
+            id="list_nav"
+            class="w-48 bg-white rounded"
+            style={{
+              position: "absolute",
+              top: 48 + 6,
+              // w-48 = 192px / 2 = 96px
+              // list li = 66px / 2 = 33px
+              left:
+                (listMenuSourceRef.current?.getBoundingClientRect().x ?? 0) -
+                96 +
+                33,
+            }}
+          >
+            <ul class="border border-slate-300 rounded">
+              {menuLists.map((item) => {
+                if (item.mobile) return null;
+
+                return (
+                  <li class="[&:not(:last-of-type)]:border-b border-slate-300 cursor-pointer hover:bg-slate-200">
+                    <a
+                      href={isRoute(item.route) ? undefined : item.route}
+                      class="block py-2"
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }
