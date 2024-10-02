@@ -51,12 +51,12 @@ const menuLists: Array<Menu> = [
     desktop: true,
   },
   {
-    route: "/travel-expenses",
+    route: "/travel",
     name: "Travel Expenses",
     mobile: true,
   },
   {
-    route: "/travel-expenses-desktop",
+    route: "/travel-desktop",
     name: "Travel Expenses",
     desktop: true,
   },
