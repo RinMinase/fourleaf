@@ -121,7 +121,7 @@ export default function ListItemContainer(props: Props) {
 
   const handleEditCategory = async (
     evt: JSX.TargetedMouseEvent<any>,
-    category: Category,
+    _category: Category,
   ) => {
     evt.stopPropagation();
   };
