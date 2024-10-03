@@ -70,10 +70,9 @@ export default function App(props: Props) {
       child(groceryDB, `/${props.matches!.id}`),
       (snapshot) => {
         if (snapshot.exists()) {
-          const rawData = snapshot.val();
-          const listData = rawData[props.matches!.id] as ListItem;
-
+          const listData = snapshot.val();
           const list: Array<Partial<Category>> = [];
+
           for (const categoryId in listData.list) {
             list.push({
               id: listData.list[categoryId].id,
@@ -124,7 +123,7 @@ export default function App(props: Props) {
         <span>{data.name || "..."}</span>
       </p>
 
-      {data.list.length === 0 ? (
+      {!isLoading && data.list.length === 0 ? (
         <p class="text-sm italic text-center mt-12">
           &mdash; No categories to order &mdash;
         </p>
