@@ -4,7 +4,7 @@
 _Add info here_
 
 ## Introduction
-This project uses Preact (Faster & Leaner React) with Vite and deployed to Netlify using Circle CI
+This project uses Preact (Faster & Leaner React) with Vite and deployed to Netlify
 
 ## Getting Started
 
