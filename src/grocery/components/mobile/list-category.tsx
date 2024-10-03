@@ -31,6 +31,16 @@ export default function Category(props: Props) {
     return items.every((item) => item.price);
   };
 
+  const calculateSubTotal = (items: Array<ItemType>) => {
+    let subtotal = 0;
+
+    items.forEach((item) => {
+      if (item.price) subtotal += item.price * (item.qty || 0);
+    });
+
+    return subtotal;
+  };
+
   const handleCollapseToggle = (index: number) => {
     props.setIsCollapseOpen((prev) => {
       const newValues = [...prev];
@@ -73,6 +83,11 @@ export default function Category(props: Props) {
             <ChevronRightIcon class="w-4 inline-block" />
           )}
           <span class="grow pl-2 select-none">{props.category.category}</span>
+        </div>
+        <div class="w-20 inline-block border border-slate-300 rounded-sm px-2 mb-2 mr-2 select-none text-center font-normal">
+          {calculateSubTotal(props.category.items)
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
         </div>
         <div
           class="w-10 px-2 pb-2"
