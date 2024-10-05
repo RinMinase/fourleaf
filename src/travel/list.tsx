@@ -104,10 +104,15 @@ export default function App(props: Props) {
           }
 
           listData.list = sortCategories(list);
-          const collapse = Array(listData.list.length).fill(true);
 
           setData(listData);
-          setIsCollapseOpen(collapse);
+
+          if (!isLoading) {
+            // collapse only set on page load
+            const collapse = Array(listData.list.length).fill(true);
+            setIsCollapseOpen(collapse);
+          }
+
           setLoading(false);
         } else {
           route("/travel");
