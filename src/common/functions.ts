@@ -23,3 +23,10 @@ export function checkDeviceIfMobile(): boolean {
 
   return check;
 }
+
+export function getYearsInArray(start: number, stop: number, step: number) {
+  return Array.from(
+    { length: (stop - start) / step + 1 },
+    (_, i) => start + i * step,
+  );
+}

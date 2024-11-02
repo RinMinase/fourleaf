@@ -16,7 +16,6 @@ export default function App() {
   const [maintenance, setMaintenance] = useState<Maintenance>({});
   const [lastMaintenance, setLastMaintenance] = useState<LastMaintenance>({});
   const [graphEfficiency, setGraphEfficiency] = useState({});
-  const [graphOdo, setGraphOdo] = useState([]);
   const [graphGas, setGraphGas] = useState({});
 
   const fetchData = async (
@@ -41,7 +40,6 @@ export default function App() {
 
       setGraphEfficiency(() => data.graph.efficiency);
       setGraphGas(() => data.graph.gas);
-      setGraphOdo(() => data.graph.odometer);
     } catch (err) {
       console.error(err);
     } finally {
@@ -134,11 +132,7 @@ export default function App() {
 
           <div class="flex flex-col mt-10">
             <p class="text-2xl font-bold">Charts</p>
-            <Charts
-              graphEfficiency={graphEfficiency}
-              graphGas={graphGas}
-              graphOdo={graphOdo}
-            />
+            <Charts graphEfficiency={graphEfficiency} graphGas={graphGas} />
           </div>
         </div>
 
