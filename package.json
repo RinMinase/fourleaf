@@ -23,7 +23,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "firebase": "^10.14.0",
+    "firebase": "^11.0.1",
     "lodash-es": "^4.17.21",
     "preact": "^10.24.3",
     "preact-async-route": "^2.2.1",
