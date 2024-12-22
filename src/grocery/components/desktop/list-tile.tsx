@@ -20,6 +20,55 @@ type Props = {
 };
 
 export default function ListTile(props: Props) {
+  const handleEditList = async (evt: JSX.TargetedMouseEvent<any>) => {
+    evt.stopPropagation();
+
+    const today = new Date(props.list.date).toISOString().substring(0, 10);
+
+    const { value: formValues } = await Swal.fire({
+      title: "Edit List",
+      showCancelButton: true,
+      html: `
+        <input
+          id="swal-input1"
+          placeholder="Name"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          value="${props.list.name}"
+          onfocus="this.setSelectionRange(this.value.length,this.value.length);"
+        />
+
+        <input
+          id="swal-input2"
+          type="date"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 text-sm h-9 shadow-none mt-3"
+          value="${today}"
+        />`,
+      focusConfirm: false,
+      preConfirm: () => {
+        const name = (document.getElementById("swal-input1") as any).value;
+        const date = (document.getElementById("swal-input2") as any).value;
+
+        if (!name) {
+          Swal.showValidationMessage("Name should not be blank");
+          document
+            .getElementById("swal-input1")
+            ?.classList.add("!border-red-400");
+        }
+
+        return [name, date];
+      },
+    });
+
+    if (formValues) {
+      const [name, date] = formValues;
+
+      update(child(groceryDB, `/${props.list.id}`), {
+        name,
+        date,
+      });
+    }
+  };
+
   const handleToggleHideList = async (evt: JSX.TargetedMouseEvent<any>) => {
     evt.stopPropagation();
 
@@ -95,9 +144,7 @@ export default function ListTile(props: Props) {
       </p>
       <div
         class="ml-2 h-5 w-5 flex items-center justify-center text-gray-400 hover:bg-gray-500 hover:text-white rounded cursor-pointer"
-        onClick={(evt) => {
-          evt.stopPropagation();
-        }}
+        onClick={handleEditList}
         children={<PencilSquareIcon class="w-4" />}
       />
       <div

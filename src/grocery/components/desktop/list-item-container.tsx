@@ -121,9 +121,44 @@ export default function ListItemContainer(props: Props) {
 
   const handleEditCategory = async (
     evt: JSX.TargetedMouseEvent<any>,
-    _category: Category,
+    category: Category,
   ) => {
     evt.stopPropagation();
+
+    const { value: name } = await Swal.fire({
+      title: "Edit Category",
+      showCancelButton: true,
+      html: `
+        <input
+          id="swal-input1"
+          placeholder="Name"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          value="${category.category}"
+          onfocus="this.setSelectionRange(this.value.length,this.value.length);"
+        />`,
+      focusConfirm: false,
+      preConfirm: () => {
+        const name = (document.getElementById("swal-input1") as any).value;
+
+        if (!name) {
+          Swal.showValidationMessage("Name is required");
+        } else if (name.length > 32) {
+          Swal.showValidationMessage(
+            "Name should not have more than 32 characters",
+          );
+        }
+
+        return name;
+      },
+    });
+
+    if (name) {
+      const path = `/${props.listData.id}/list/${category.id}`;
+
+      update(child(groceryDB, path), {
+        category: name,
+      });
+    }
   };
 
   useEffect(() => {
