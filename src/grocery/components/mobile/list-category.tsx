@@ -1,13 +1,14 @@
 import { JSX } from "preact";
 import { Dispatch, StateUpdater } from "preact/hooks";
-
 import clsx from "clsx";
-import { child, remove } from "firebase/database";
+
+import { child, remove, update } from "firebase/database";
 
 import {
   ChevronDownIcon,
   ChevronRightIcon,
   MinusCircleIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 
 import { Category as CategoryType, Item as ItemType } from "../../types";
@@ -55,6 +56,45 @@ export default function Category(props: Props) {
     }
   };
 
+  const handleEditCategory = async (evt: JSX.TargetedMouseEvent<any>) => {
+    evt.stopPropagation();
+
+    const { value: name } = await Swal.fire({
+      title: "Edit Category",
+      showCancelButton: true,
+      html: `
+        <input
+          id="swal-input1"
+          placeholder="Name"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          value="${props.category.category}"
+          onfocus="this.setSelectionRange(this.value.length,this.value.length);"
+        />`,
+      focusConfirm: false,
+      preConfirm: () => {
+        const name = (document.getElementById("swal-input1") as any).value;
+
+        if (!name) {
+          Swal.showValidationMessage("Name is required");
+        } else if (name.length > 32) {
+          Swal.showValidationMessage(
+            "Name should not have more than 32 characters",
+          );
+        }
+
+        return name;
+      },
+    });
+
+    if (name) {
+      const path = `/${props.listId}/list/${props.category.id}`;
+
+      update(child(groceryDB, path), {
+        category: name,
+      });
+    }
+  };
+
   return (
     <div class="pb-3">
       <div
@@ -74,6 +114,15 @@ export default function Category(props: Props) {
           )}
           <span class="grow pl-2 select-none">{props.category.category}</span>
         </div>
+        <div
+          class="w-10 px-2 pb-2"
+          children={
+            <PencilSquareIcon
+              class="w-6 cursor-pointer text-gray-500"
+              onClick={handleEditCategory}
+            />
+          }
+        />
         <div
           class="w-10 px-2 pb-2"
           children={

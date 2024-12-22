@@ -13,6 +13,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
   MinusCircleIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 
 import { onValue, push, child, update, remove } from "firebase/database";
@@ -83,6 +84,58 @@ export default function App() {
 
     if (result.isConfirmed) {
       remove(child(groceryDB, `/${forDeleteList.id}`)).catch(OpenErrorSwal);
+    }
+  };
+
+  const handleEditList = async (
+    evt: JSX.TargetedMouseEvent<any>,
+    forEditList: ListItem,
+  ) => {
+    evt.stopPropagation();
+
+    const today = new Date(forEditList.date).toISOString().substring(0, 10);
+
+    const { value: formValues } = await Swal.fire({
+      title: "Edit List",
+      showCancelButton: true,
+      html: `
+        <input
+          id="swal-input1"
+          placeholder="Name"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          value="${forEditList.name}"
+          onfocus="this.setSelectionRange(this.value.length,this.value.length);"
+        />
+
+        <input
+          id="swal-input2"
+          type="date"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 text-sm h-9 shadow-none mt-3"
+          value="${today}"
+        />`,
+      focusConfirm: false,
+      preConfirm: () => {
+        const name = (document.getElementById("swal-input1") as any).value;
+        const date = (document.getElementById("swal-input2") as any).value;
+
+        if (!name) {
+          Swal.showValidationMessage("Name should not be blank");
+          document
+            .getElementById("swal-input1")
+            ?.classList.add("!border-red-400");
+        }
+
+        return [name, date];
+      },
+    });
+
+    if (formValues) {
+      const [name, date] = formValues;
+
+      update(child(groceryDB, `/${forEditList.id}`), {
+        name,
+        date,
+      });
     }
   };
 
@@ -204,7 +257,12 @@ export default function App() {
               <p class="inline-block w-28 text-right">{list.date}</p>
             </div>
             <div
-              class="w-7 py-3 ml-3"
+              class="py-3 px-2 ml-2"
+              onClick={(evt) => handleEditList(evt, list)}
+              children={<PencilSquareIcon class="w-6 text-gray-400" />}
+            />
+            <div
+              class="py-3 px-2"
               onClick={(evt) => handleToggleHideList(evt, list)}
               children={
                 list.hidden ? (
