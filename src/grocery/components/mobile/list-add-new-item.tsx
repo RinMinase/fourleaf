@@ -50,7 +50,7 @@ export default function AddNewItem(props: Props) {
           <input
             type="text"
             maxLength={32}
-            class="w-full border-slate-300 px-2 py-1 rounded"
+            class="w-full border border-slate-300 px-2 py-1 rounded"
             value={data.name}
             placeholder="Name"
             onChange={(e) =>
@@ -62,7 +62,7 @@ export default function AddNewItem(props: Props) {
           />
           <input
             {...numericInput}
-            class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
+            class="w-12 h-7 text-center border border-slate-300 px-2 py-1 rounded"
             placeholder="Qty"
             value={data.qty}
             onChange={(e) =>
