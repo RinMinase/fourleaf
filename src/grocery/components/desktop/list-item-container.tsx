@@ -245,12 +245,6 @@ export default function ListItemContainer(props: Props) {
 
               {isCollapseOpen[categoryIndex] && (
                 <div class="pl-2 pr-2 pb-4">
-                  {category.items.length === 0 ? (
-                    <p class="text-sm italic text-center pb-4 pr-1">
-                      &mdash; No items to show. &mdash;
-                    </p>
-                  ) : null}
-
                   {category.items.map((item) => (
                     <ItemTile
                       listId={props.listData.id}
