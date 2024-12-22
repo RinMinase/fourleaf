@@ -48,7 +48,7 @@ export default function AddNewItem(props: Props) {
         <>
           <input
             type="text"
-            maxLength={32}
+            maxLength={128}
             class="w-full border-slate-300 px-2 py-1 rounded"
             value={data.name}
             placeholder="Name"
