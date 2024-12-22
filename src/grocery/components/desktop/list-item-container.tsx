@@ -29,7 +29,7 @@ export default function ListItemContainer(props: Props) {
   const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
 
   const isFinished = (items: Array<Item>) => {
-    return items.every((item) => item.price);
+    return items.every((item) => item.done);
   };
 
   const handleAddCategory = async () => {
@@ -210,13 +210,6 @@ export default function ListItemContainer(props: Props) {
 
               {isCollapseOpen[categoryIndex] && (
                 <div class="pl-2 pr-2 pb-4">
-                  {category.items.length ? (
-                    <div class="flex justify-end items-center gap-2">
-                      <span class="text-sm text-center w-16">Qty</span>
-                      <span class="text-sm text-center w-24">Price</span>
-                    </div>
-                  ) : null}
-
                   {category.items.length === 0 ? (
                     <p class="text-sm italic text-center pb-4 pr-1">
                       &mdash; No items to show. &mdash;

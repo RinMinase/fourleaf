@@ -27,7 +27,6 @@ export default function ItemAdd(props: Props) {
           id: newKey,
           name: formData.name,
           qty: formData.qty || 0,
-          price: 0,
         },
       });
 
@@ -45,13 +44,13 @@ export default function ItemAdd(props: Props) {
 
   return (
     <div class="flex items-center mb-2 gap-2">
-      <div class="w-7"></div>
+      <div class="min-w-7 max-w-7 h-px"></div>
 
       <input
         ref={nameRef}
         type="text"
         maxLength={32}
-        class="grow border-slate-300 px-2 py-1 rounded"
+        class="w-full border border-slate-300 px-2 py-1 rounded"
         value={formData.name}
         placeholder="Name"
         onChange={(e) => {
@@ -67,7 +66,7 @@ export default function ItemAdd(props: Props) {
       <input
         {...numericInput}
         ref={qtyRef}
-        class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
+        class="w-16 h-7 text-center border border-slate-300 px-2 py-1 rounded"
         placeholder="Qty"
         value={formData.qty}
         onChange={(e) => {
@@ -81,7 +80,7 @@ export default function ItemAdd(props: Props) {
           if (evt.key === "Enter") qtyRef.current?.blur();
         }}
       />
-      <div class="w-24"></div>
+      <div class="min-w-24 max-w-24 h-px"></div>
     </div>
   );
 }

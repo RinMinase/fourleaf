@@ -1,7 +1,7 @@
 import { JSX } from "preact";
 
 import { numericInput } from "../numeric-input";
-import Swal from "../grocery-swal";
+import Swal, { OpenErrorSwal } from "../grocery-swal";
 import { child, remove, update } from "firebase/database";
 import { groceryDB } from "../db";
 import { Item } from "../../types";
@@ -14,6 +14,17 @@ type Props = {
 };
 
 export default function ItemTile(props: Props) {
+  const handleBlur = (
+    evt: JSX.TargetedFocusEvent<HTMLInputElement>,
+    type: "name" | "qty",
+  ) => {
+    const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}/${type}`;
+
+    update(groceryDB, {
+      [path]: evt.currentTarget.value,
+    });
+  };
+
   const handleDeleteItem = async (evt: JSX.TargetedMouseEvent<any>) => {
     evt.stopPropagation();
 
@@ -29,15 +40,19 @@ export default function ItemTile(props: Props) {
     }
   };
 
-  const handleBlur = (
-    evt: JSX.TargetedFocusEvent<HTMLInputElement>,
-    type: "name" | "qty" | "price",
+  const handleToggleDone = (
+    evt: JSX.TargetedMouseEvent<HTMLButtonElement>,
+    value: boolean,
   ) => {
-    const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}/${type}`;
+    evt.stopPropagation();
 
-    update(groceryDB, {
-      [path]: evt.currentTarget.value,
-    });
+    if (props.item.id) {
+      const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}/`;
+
+      update(child(groceryDB, path), {
+        done: value,
+      }).catch(OpenErrorSwal);
+    }
   };
 
   return (
@@ -50,22 +65,31 @@ export default function ItemTile(props: Props) {
       <input
         type="text"
         maxLength={32}
-        class="w-full border-slate-300 px-2 py-1 rounded"
+        class="w-full border border-slate-300 px-2 py-1 rounded"
         defaultValue={props.item.name}
         onBlur={(evt) => handleBlur(evt, "name")}
       />
       <input
         {...numericInput}
-        class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
+        class="w-16 h-7 text-center border border-slate-300 px-2 py-1 rounded"
         defaultValue={`${props.item.qty || 0}`}
         onBlur={(evt) => handleBlur(evt, "qty")}
       />
-      <input
-        {...numericInput}
-        defaultValue={`${props.item.price || 0}`}
-        class="w-24 h-7 text-center border-slate-300 px-2 py-1 rounded"
-        onBlur={(evt) => handleBlur(evt, "price")}
-      />
+      {props.item.done ? (
+        <button
+          class="bg-green-400 !text-xs uppercase px-3 py-1 rounded min-w-24 max-w-24 cursor-pointer"
+          onClick={(evt) => handleToggleDone(evt, false)}
+        >
+          Done
+        </button>
+      ) : (
+        <button
+          class="bg-red-400 !text-xs uppercase px-3 py-1 rounded min-w-24 max-w-24 cursor-pointer"
+          onClick={(evt) => handleToggleDone(evt, true)}
+        >
+          Pending
+        </button>
+      )}
     </div>
   );
 }
