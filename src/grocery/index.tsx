@@ -131,7 +131,8 @@ export default function App() {
           if (!showHiddenLists && item.hidden) return null;
           return item;
         })
-        .filter((x) => !!x);
+        .filter((x) => !!x)
+        .reverse();
 
       setLists(newLists);
     } else {
