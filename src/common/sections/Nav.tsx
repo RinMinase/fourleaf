@@ -99,7 +99,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
 
     return (
       <div
-        class="flex flex-col absolute w-[100vw] h-[100vh] z-9999 text-center w-full h-full top-0 left-0"
+        class="flex flex-col absolute z-9999 text-center w-full h-full top-0 left-0"
         onClick={() => {
           setListMenuOpen(false);
           setMonitoringMenuOpen(false);
@@ -149,7 +149,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
         id="nav"
         class="flex items-center sm:py-2 sm:px-4 justify-between md:justify-center max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-blue-dark sticky md:relative top-0 inset-x-0"
       >
-        <a href="#" class="flex items-center gap-4 h-7 order-2 md:order-none">
+        <a href="/" class="flex items-center gap-4 h-7 order-2 md:order-none">
           <img src="/favicon.png" class="h-full w-7" />
           <span class="hidden md:inline-block text-xl text-white font-bold">
             Fourleaf
