@@ -67,7 +67,7 @@ export default function Item(props: Props) {
       />
       <input
         type="text"
-        maxLength={32}
+        maxLength={128}
         class="w-full border !border-slate-300 px-2 py-1 rounded"
         defaultValue={props.item.name}
         onBlur={(evt) => handleBlur(evt, "name")}

@@ -49,7 +49,7 @@ export default function ItemAdd(props: Props) {
       <input
         ref={nameRef}
         type="text"
-        maxLength={32}
+        maxLength={128}
         class="w-full border border-slate-300 px-2 py-1 rounded"
         value={formData.name}
         placeholder="Name"
