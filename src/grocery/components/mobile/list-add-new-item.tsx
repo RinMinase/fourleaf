@@ -28,7 +28,6 @@ export default function AddNewItem(props: Props) {
           id: newKey,
           name: data.name,
           qty: data.qty || 0,
-          price: 0,
         },
       }).catch(OpenErrorSwal);
     }
