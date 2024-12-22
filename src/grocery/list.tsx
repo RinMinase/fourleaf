@@ -11,7 +11,7 @@ import Swal, { OpenErrorSwal } from "./components/grocery-swal";
 import { groceryDB } from "./components/db";
 import { Category } from "./components/mobile/";
 import { sortCategories } from "./components/sort-categories";
-import { ListItem, Category as CategoryType } from "./types";
+import { ListItem } from "./types";
 
 type Props = {
   matches?: {
@@ -34,18 +34,6 @@ export default function App(props: Props) {
     date: "",
     list: [],
   });
-
-  const calculateTotal = (lists: Array<CategoryType>) => {
-    let total = 0;
-
-    lists.forEach((list) => {
-      list.items.forEach((item) => {
-        if (item.price) total += item.price * (item.qty || 0);
-      });
-    });
-
-    return total;
-  };
 
   const handleAddCategory = async () => {
     await Swal.fire({
@@ -182,16 +170,6 @@ export default function App(props: Props) {
           <ChevronLeftIcon class="w-5" />
           <span class="px-1.5">Back</span>
         </div>
-        {!isLoading ? (
-          <div>
-            <span class="pr-3">Total:</span>
-            <span class="inline-block border border-slate-300 rounded-sm px-3 py-1">
-              {calculateTotal(data.list)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </span>
-          </div>
-        ) : null}
       </div>
 
       <div class="flex my-3">

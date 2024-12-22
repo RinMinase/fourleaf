@@ -17,7 +17,7 @@ type Props = {
 export default function Item(props: Props) {
   const handleBlur = (
     evt: JSX.TargetedFocusEvent<HTMLInputElement>,
-    type: "name" | "qty" | "price",
+    type: "name" | "qty",
   ) => {
     if (props.item.id) {
       const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}/${type}`;
@@ -43,6 +43,21 @@ export default function Item(props: Props) {
     }
   };
 
+  const handleToggleDone = (
+    evt: JSX.TargetedMouseEvent<HTMLButtonElement>,
+    value: boolean,
+  ) => {
+    evt.stopPropagation();
+
+    if (props.item.id) {
+      const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}/`;
+
+      update(child(groceryDB, path), {
+        done: value,
+      }).catch(OpenErrorSwal);
+    }
+  };
+
   return (
     <div key={props.item.id} class="flex items-center mb-3 gap-2">
       <div
@@ -53,22 +68,31 @@ export default function Item(props: Props) {
       <input
         type="text"
         maxLength={32}
-        class="w-full border-slate-300 px-2 py-1 rounded"
+        class="w-full border !border-slate-300 px-2 py-1 rounded"
         defaultValue={props.item.name}
         onBlur={(evt) => handleBlur(evt, "name")}
       />
       <input
         {...numericInput}
-        class="w-12 h-7 text-center border-slate-300 px-2 py-1 rounded"
+        class="w-12 h-7 text-center border !border-slate-300 px-2 py-1 rounded"
         defaultValue={`${props.item.qty || 0}`}
         onBlur={(evt) => handleBlur(evt, "qty")}
       />
-      <input
-        {...numericInput}
-        defaultValue={`${props.item.price || 0}`}
-        class="w-16 h-7 text-center border-slate-300 px-2 py-1 rounded"
-        onBlur={(evt) => handleBlur(evt, "price")}
-      />
+      {props.item.done ? (
+        <button
+          class="bg-green-400 !text-xs uppercase px-3 py-1 rounded w-36"
+          onClick={(evt) => handleToggleDone(evt, false)}
+        >
+          Done
+        </button>
+      ) : (
+        <button
+          class="bg-red-400 !text-xs uppercase px-3 py-1 rounded w-36"
+          onClick={(evt) => handleToggleDone(evt, true)}
+        >
+          Pending
+        </button>
+      )}
     </div>
   );
 }

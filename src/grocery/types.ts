@@ -3,6 +3,7 @@ export interface Item {
   name: string;
   qty?: number;
   price?: number;
+  done?: boolean;
 }
 
 export interface Category {
