@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { onValue, Unsubscribe } from "firebase/database";
 
 import { groceryDB } from "./components/db";
-import { ListItem as ListItemType } from "./types";
+import { List as ListType, ListItem as ListItemType } from "./types";
 
 import {
   ListContainer,
@@ -19,7 +19,9 @@ export default function App() {
   const listSubscription = useRef<Unsubscribe>();
   const listItemSubscription = useRef<Unsubscribe>();
 
-  const [lists, setLists] = useState<Array<ListItemType>>([]);
+  const [showHiddenLists, setShowHiddenLists] = useState(false);
+  const [unfilteredList, setUnfilteredList] = useState<ListType>([]);
+  const [lists, setLists] = useState<ListType>([]);
   const [listData, setListData] = useState<ListItemType>({
     id: "",
     name: "",
@@ -36,14 +38,30 @@ export default function App() {
 
     listSubscription.current = onValue(groceryDB, (snapshot) => {
       if (snapshot.exists()) {
-        setLists(Object.values(snapshot.val()));
+        setUnfilteredList(Object.values(snapshot.val()));
       } else {
-        setLists([]);
+        setUnfilteredList([]);
       }
 
       setListLoading(false);
     });
   };
+
+  useEffect(() => {
+    if (unfilteredList.length) {
+      const newLists: ListType = unfilteredList
+        .map((item) => {
+          if (!showHiddenLists && item.hidden) return null;
+          return item;
+        })
+        .filter((x) => !!x)
+        .reverse();
+
+      setLists(newLists);
+    } else {
+      setLists([]);
+    }
+  }, [showHiddenLists, unfilteredList]);
 
   useEffect(() => {
     fetchLists();
@@ -75,8 +93,10 @@ export default function App() {
           <ListContainer
             lists={lists}
             isListLoading={isListLoading}
+            showHiddenLists={showHiddenLists}
             setListData={setListData}
             setListDataLoading={setListDataLoading}
+            setShowHiddenLists={setShowHiddenLists}
             listItemSubscription={listItemSubscription}
           />
         </div>

@@ -4,15 +4,17 @@ import { push, Unsubscribe, update } from "firebase/database";
 
 import { groceryDB } from "../db";
 import Swal from "../grocery-swal";
-import { ListItem } from "../../types";
+import { List, ListItem } from "../../types";
 
 import ListTile from "./list-tile";
 
 type Props = {
-  lists: Array<ListItem>;
+  lists: List;
   isListLoading: boolean;
+  showHiddenLists: boolean;
   setListData: Dispatch<StateUpdater<ListItem>>;
   setListDataLoading: Dispatch<StateUpdater<boolean>>;
+  setShowHiddenLists: Dispatch<StateUpdater<boolean>>;
   listItemSubscription: MutableRef<Unsubscribe | undefined>;
 };
 
@@ -63,7 +65,14 @@ export default function ListContainer(props: Props) {
         <h1 class="grow text-xl">Lists</h1>
 
         <button
-          class="!text-xs font-medium uppercase bg-green-400 hover:bg-green-300 px-4 py-0.5 rounded cursor-pointer"
+          class="!text-xs font-medium uppercase bg-gray-300 hover:bg-gray-400 px-4 py-0.5 !mr-2 w-32 rounded cursor-pointer"
+          onClick={() => props.setShowHiddenLists((val) => !val)}
+        >
+          {props.showHiddenLists ? "Hide Hidden" : "Show Hidden"}
+        </button>
+
+        <button
+          class="!text-xs font-medium uppercase bg-green-400 hover:bg-green-500 px-4 py-0.5 rounded cursor-pointer"
           onClick={handleAddList}
         >
           Add List
