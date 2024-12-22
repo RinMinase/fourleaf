@@ -17,6 +17,7 @@ export interface ListItem {
   name: string;
   date: string;
   list: Array<Category>;
+  hidden?: boolean;
 }
 
 export interface List extends Array<ListItem> {}

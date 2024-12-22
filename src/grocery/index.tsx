@@ -2,8 +2,17 @@ import { JSX } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
 
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { MinusCircleIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon as EyeIconSolid,
+  EyeSlashIcon as EyeSlashIconSolid,
+  PlusCircleIcon,
+} from "@heroicons/react/24/solid";
+
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  MinusCircleIcon,
+} from "@heroicons/react/24/outline";
 
 import { onValue, push, child, update, remove } from "firebase/database";
 
@@ -16,6 +25,8 @@ const isMobile = checkDeviceIfMobile();
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
+  const [showHiddenLists, setShowHiddenLists] = useState(false);
+  const [unfilteredList, setUnfilteredList] = useState<List>([]);
   const [lists, setLists] = useState<List>([]);
 
   const handleAddList = async () => {
@@ -74,6 +85,26 @@ export default function App() {
     }
   };
 
+  const handleToggleHideList = async (
+    evt: JSX.TargetedMouseEvent<any>,
+    forHideList: ListItem,
+  ) => {
+    evt.stopPropagation();
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      showDenyButton: true,
+    });
+
+    if (result.isConfirmed) {
+      const currValue = forHideList.hidden || false;
+
+      update(child(groceryDB, `/${forHideList.id}`), {
+        hidden: !currValue,
+      }).catch(OpenErrorSwal);
+    }
+  };
+
   const fetchData = async () => {
     setLoading(true);
 
@@ -81,16 +112,31 @@ export default function App() {
       groceryDB,
       (snapshot) => {
         if (snapshot.exists()) {
-          setLists(Object.values(snapshot.val()));
+          setUnfilteredList(Object.values(snapshot.val()));
           setLoading(false);
         } else {
-          setLists([]);
+          setUnfilteredList([]);
           setLoading(false);
         }
       },
       OpenErrorSwal,
     );
   };
+
+  useEffect(() => {
+    if (unfilteredList.length) {
+      const newLists: List = unfilteredList
+        .map((item) => {
+          if (!showHiddenLists && item.hidden) return null;
+          return item;
+        })
+        .filter((x) => !!x);
+
+      setLists(newLists);
+    } else {
+      setLists([]);
+    }
+  }, [showHiddenLists, unfilteredList]);
 
   useEffect(() => {
     fetchData();
@@ -112,11 +158,24 @@ export default function App() {
         <span>Grocery Lists</span>
 
         {!isLoading ? (
-          <div
-            class="w-7 h-7 text-right flex items-center justify-center cursor-pointer"
-            onClick={handleAddList}
-            children={<PlusCircleIcon class="w-7" />}
-          />
+          <div class="flex gap-4">
+            <div
+              class="w-7 h-7 text-right flex items-center justify-center cursor-pointer"
+              onClick={() => setShowHiddenLists((val) => !val)}
+              children={
+                showHiddenLists ? (
+                  <EyeSlashIconSolid class="w-7" />
+                ) : (
+                  <EyeIconSolid class="w-7" />
+                )
+              }
+            />
+            <div
+              class="w-7 h-7 text-right flex items-center justify-center cursor-pointer"
+              onClick={handleAddList}
+              children={<PlusCircleIcon class="w-7" />}
+            />
+          </div>
         ) : null}
       </h1>
 
@@ -138,6 +197,17 @@ export default function App() {
               <p class="inline-block ml-2 grow">{list.name}</p>
               <p class="inline-block w-28 text-right">{list.date}</p>
             </div>
+            <div
+              class="w-7 py-3 ml-3"
+              onClick={(evt) => handleToggleHideList(evt, list)}
+              children={
+                list.hidden ? (
+                  <EyeIcon class="w-6 text-gray-400" />
+                ) : (
+                  <EyeSlashIcon class="w-6 text-gray-400" />
+                )
+              }
+            />
           </div>
         ))}
       </div>
