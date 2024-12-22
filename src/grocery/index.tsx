@@ -1,6 +1,7 @@
 import { JSX } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
+import clsx from "clsx";
 
 import {
   EyeIcon as EyeIconSolid,
@@ -193,7 +194,11 @@ export default function App() {
               onClick={(evt) => handleDeleteList(evt, list)}
               children={<MinusCircleIcon class="w-6 text-red-600" />}
             />
-            <div class="grow flex justify-between items-center py-4 ">
+            <div
+              class={clsx("grow flex justify-between items-center py-4", {
+                "text-gray-400": list.hidden,
+              })}
+            >
               <p class="inline-block ml-2 grow">{list.name}</p>
               <p class="inline-block w-28 text-right">{list.date}</p>
             </div>
@@ -202,7 +207,7 @@ export default function App() {
               onClick={(evt) => handleToggleHideList(evt, list)}
               children={
                 list.hidden ? (
-                  <EyeIcon class="w-6 text-gray-400" />
+                  <EyeIcon class="w-6" />
                 ) : (
                   <EyeSlashIcon class="w-6 text-gray-400" />
                 )
