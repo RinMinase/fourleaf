@@ -25,6 +25,7 @@ type Props = {
   setIsCollapseOpen: Dispatch<StateUpdater<boolean[]>>;
   category: CategoryType;
   listId: string;
+  search: string;
 };
 
 export default function Category(props: Props) {
@@ -142,13 +143,17 @@ export default function Category(props: Props) {
             </p>
           ) : null}
 
-          {props.category.items.map((item) => (
-            <Item
-              listId={props.listId}
-              categoryId={props.category.id}
-              item={item}
-            />
-          ))}
+          {props.category.items
+            .filter((item) => {
+              return item.name.includes(props.search);
+            })
+            .map((item) => (
+              <Item
+                listId={props.listId}
+                categoryId={props.category.id}
+                item={item}
+              />
+            ))}
 
           <AddNewItem
             isVirtualKeyboardOpen={props.isVirtualKeyboardOpen}

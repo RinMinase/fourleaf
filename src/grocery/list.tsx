@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { route } from "preact-router";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronLeftIcon,
+  ListBulletIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 
 import { child, onValue, push, Unsubscribe, update } from "firebase/database";
 
@@ -27,6 +31,7 @@ export default function App(props: Props) {
   const [isLoading, setLoading] = useState(true);
   const [isVirtualKeyboardOpen, setVirtualKeyboardOpen] = useState(false);
   const [isCollapseOpen, setIsCollapseOpen] = useState<Array<boolean>>([]);
+  const [search, setSearch] = useState("");
 
   const [data, setData] = useState<ListItem>({
     id: "",
@@ -189,6 +194,18 @@ export default function App(props: Props) {
           </>
         ) : null}
       </div>
+      <div class="pb-2 relative">
+        <input
+          type="text"
+          class="border border-slate-300 w-full py-2 pl-4 pr-10 rounded"
+          placeholder="Search for Item Names"
+          onChange={(evt) => setSearch(evt.currentTarget.value)}
+        />
+        <div
+          class="w-6 absolute top-1.5 right-2"
+          children={<MagnifyingGlassIcon />}
+        />
+      </div>
 
       {isLoading && <div class="loader"></div>}
 
@@ -207,6 +224,7 @@ export default function App(props: Props) {
             setIsCollapseOpen={setIsCollapseOpen}
             category={category}
             listId={props.matches!.id}
+            search={search}
           />
         ))}
       </div>
