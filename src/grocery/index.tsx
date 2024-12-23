@@ -24,6 +24,7 @@ import { groceryDB } from "./components/db";
 import { List, ListItem } from "./types";
 
 const isMobile = checkDeviceIfMobile();
+const currUnixDate = new Date().setUTCHours(0, 0, 0, 0).valueOf();
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -182,10 +183,17 @@ export default function App() {
       const newLists: List = unfilteredList
         .map((item) => {
           if (!showHiddenLists && item.hidden) return null;
-          return item;
+          return {
+            ...item,
+            dateValue: new Date(item.date).valueOf(),
+          };
         })
         .filter((x) => !!x)
-        .reverse();
+        .sort((a, b) => {
+          if (a.dateValue > b.dateValue) return -1;
+          else if (a.dateValue > b.dateValue) return 1;
+          return 0;
+        });
 
       setLists(newLists);
     } else {
@@ -253,8 +261,20 @@ export default function App() {
                 "text-gray-400": list.hidden,
               })}
             >
-              <p class="inline-block ml-2 grow">{list.name}</p>
-              <p class="inline-block w-28 text-right">{list.date}</p>
+              <p
+                class={clsx("inline-block ml-2 grow", {
+                  "text-green-600 font-medium": list.dateValue! > currUnixDate,
+                })}
+              >
+                {list.name}
+              </p>
+              <p
+                class={clsx("inline-block w-28 text-right", {
+                  "text-green-600 font-medium": list.dateValue! > currUnixDate,
+                })}
+              >
+                {list.date}
+              </p>
             </div>
             <div
               class="py-3 px-2 ml-2"

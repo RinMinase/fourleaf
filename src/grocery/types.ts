@@ -19,6 +19,9 @@ export interface ListItem {
   date: string;
   list: Array<Category>;
   hidden?: boolean;
+
+  // computed
+  dateValue?: number;
 }
 
 export interface List extends Array<ListItem> {}
