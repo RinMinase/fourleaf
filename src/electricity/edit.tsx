@@ -1,11 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import clsx from "clsx";
-
-import { child, get, getDatabase, push, ref, update } from "firebase/database";
-
-import { defaultValues, Form, resolver } from "./validation";
 import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
+import clsx from "clsx";
+
+import { child, get, update } from "firebase/database";
+
+import { defaultValues, Form, resolver } from "./validation";
 import { electricityDB, ElectricityReading } from "./types";
 
 type Props = {
