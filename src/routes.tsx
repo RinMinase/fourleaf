@@ -28,6 +28,11 @@ const TravelList = () => import("./travel/list").then((c) => c.default);
 const TravelOrder = () => import("./travel/order").then((c) => c.default);
 const TravelDesktop = () => import("./travel/desktop").then((c) => c.default);
 
+const Electricity = () => import("./electricity").then((c) => c.default);
+const ElectricityAdd = () => import("./electricity/add").then((c) => c.default);
+const ElectricityEdit = () =>
+  import("./electricity/edit").then((c) => c.default);
+
 const Routes = ({ onChange }: Props) => (
   <Router onChange={onChange}>
     <Route path="/" component={Notes} />
@@ -49,6 +54,10 @@ const Routes = ({ onChange }: Props) => (
     <AsyncRoute path="/gas" getComponent={Gas} />
     <AsyncRoute path="/gas/add-fuel" getComponent={GasAddFuel} />
     <AsyncRoute path="/gas/add-maintenance" getComponent={GasAddMaintenance} />
+
+    <AsyncRoute path="/electricity" getComponent={Electricity} />
+    <AsyncRoute path="/electricity/add" getComponent={ElectricityAdd} />
+    <AsyncRoute path="/electricity/edit/:id" getComponent={ElectricityEdit} />
 
     <Route default component={Page404} />
   </Router>
