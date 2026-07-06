@@ -12,7 +12,7 @@ import "./http";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import "animate.css";
-import "scss-spinners";
+import "scss-spinners/dist/spinners.min.css";
 
 import "./main.css";
 
