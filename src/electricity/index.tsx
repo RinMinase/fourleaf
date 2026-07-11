@@ -55,6 +55,30 @@ export default function App() {
     }
   };
 
+  const handleExport = async (e: any) => {
+    e.preventDefault();
+
+    const data = readings.map(({ date, reading }) => ({
+      date,
+      reading,
+    }));
+
+    const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(data, null, 2)
+    )}`;
+
+    const timestamp = format(new Date(), 'yyyyMMdd-HHmmss');
+    const filename = `${timestamp}_readings.json`;
+
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', jsonString);
+    downloadAnchor.setAttribute('download', filename);
+
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -64,12 +88,21 @@ export default function App() {
       <div class="flex justify-between">
         <h1 class="text-3xl font-bold mb-3">Electricity</h1>
 
-        <a
-          href="/electricity/add"
-          class="flex items-center justify-center w-28 h-11 rounded-xl border-none bg-green-400"
-        >
-          Add Data
-        </a>
+        <div class="flex gap-2">
+          <a
+            href=""
+            class="hidden sm:flex items-center justify-center w-32 h-11 rounded-xl border-none bg-gray-300"
+            onClick={handleExport}
+          >
+            Export JSON
+          </a>
+          <a
+            href="/electricity/add"
+            class="flex items-center justify-center w-28 h-11 rounded-xl border-none bg-green-400"
+          >
+            Add Data
+          </a>
+        </div>
       </div>
 
       <table class="w-full max-w-[400px] mt-6">
