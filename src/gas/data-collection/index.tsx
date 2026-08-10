@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
 
@@ -7,7 +7,7 @@ import {
   TrashIcon as DeleteIcon,
 } from "@heroicons/react/24/solid";
 
-import { child, get, push, remove, update } from "firebase/database";
+import { child, get, remove } from "firebase/database";
 
 import {
   // DataForImport,

@@ -3,7 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import { route } from "preact-router";
 import clsx from "clsx";
 
-import { child, get, push, update } from "firebase/database";
+import { child, get, update } from "firebase/database";
 
 import { defaultValues, Form, resolver } from "./validation";
 import { gasDB, GasReading } from "./types";
