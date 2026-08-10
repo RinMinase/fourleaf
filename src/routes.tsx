@@ -16,6 +16,16 @@ const GasAddFuel = () => import("./gas/add-fuel").then((c) => c.default);
 const GasAddMaintenance = () =>
   import("./gas/add-maintenance").then((c) => c.default);
 
+const GasData = () => import("./gas/data-collection").then((c) => c.default);
+const GasDataAdd = () =>
+  import("./gas/data-collection/add-gas").then((c) => c.default);
+const GasDataEdit = () =>
+  import("./gas/data-collection/edit-gas").then((c) => c.default);
+const MntDataAdd = () =>
+  import("./gas/data-collection/add-mnt").then((c) => c.default);
+const MntDataEdit = () =>
+  import("./gas/data-collection/edit-mnt").then((c) => c.default);
+
 const Bills = () => import("./bills").then((c) => c.default);
 
 const Grocery = () => import("./grocery").then((c) => c.default);
@@ -54,6 +64,18 @@ const Routes = ({ onChange }: Props) => (
     <AsyncRoute path="/gas" getComponent={Gas} />
     <AsyncRoute path="/gas/add-fuel" getComponent={GasAddFuel} />
     <AsyncRoute path="/gas/add-maintenance" getComponent={GasAddMaintenance} />
+
+    <AsyncRoute path="/gas-data-collection" getComponent={GasData} />
+    <AsyncRoute path="/gas-data-collection/add-gas" getComponent={GasDataAdd} />
+    <AsyncRoute
+      path="/gas-data-collection/edit-gas/:id"
+      getComponent={GasDataEdit}
+    />
+    <AsyncRoute path="/gas-data-collection/add-mnt" getComponent={MntDataAdd} />
+    <AsyncRoute
+      path="/gas-data-collection/edit-mnt/:id"
+      getComponent={MntDataEdit}
+    />
 
     <AsyncRoute path="/electricity" getComponent={Electricity} />
     <AsyncRoute path="/electricity/add" getComponent={ElectricityAdd} />

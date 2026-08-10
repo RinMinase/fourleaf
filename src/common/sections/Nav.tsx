@@ -59,9 +59,13 @@ const menuLists: Array<Menu> = [
 ];
 
 const menuMonitoring: Array<Menu> = [
+  // {
+  //   route: "/gas",
+  //   name: "Gas Monitoring",
+  // },
   {
-    route: "/gas",
-    name: "Gas Monitoring",
+    route: "/gas-data-collection",
+    name: "Gas Data Collection",
   },
   {
     route: "/electricity",
