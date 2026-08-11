@@ -55,6 +55,14 @@ export default function App() {
     }
   };
 
+  const handleKeypressOnlyNumeric = (evt: any) => {
+    const regex = new RegExp("[0-9\.]");
+
+    if (!regex.test(evt.key)) {
+      evt.preventDefault();
+    }
+  };
+
   return (
     <div class="flex flex-wrap gap-3">
       <div class="flex gap-2 sm:gap-4 flex-row-reverse sm:flex-row w-full items-center mb-4">
@@ -131,7 +139,7 @@ export default function App() {
               error: errors.price_per_liter,
             })}
             disabled={loading}
-            onKeyPress={handleKeypressOnlyNumbers}
+            onKeyPress={handleKeypressOnlyNumeric}
             {...register("price_per_liter")}
           />
           <label>Price per Liter</label>
@@ -145,7 +153,7 @@ export default function App() {
               error: errors.liters_filled,
             })}
             disabled={loading}
-            onKeyPress={handleKeypressOnlyNumbers}
+            onKeyPress={handleKeypressOnlyNumeric}
             {...register("liters_filled")}
           />
           <label>Liters Filled</label>
