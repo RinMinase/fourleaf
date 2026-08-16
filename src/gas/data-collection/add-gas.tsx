@@ -98,7 +98,7 @@ export default function App() {
               max="9"
               step="1"
               {...register("from_bars", { valueAsNumber: true })}
-              className="w-full accent-orange-500 cursor-pointer"
+              className="w-full accent-orange-500 cursor-pointer touch-pan-y"
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function App() {
               max="9"
               step="1"
               {...register("to_bars", { valueAsNumber: true })}
-              className="w-full accent-green-500 cursor-pointer"
+              className="w-full accent-green-500 cursor-pointer touch-pan-y"
             />
           </div>
         </div>
