@@ -1,13 +1,13 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "preact/hooks";
 import { route } from "preact-router";
+import { format } from "date-fns";
 import clsx from "clsx";
 
 import { push, update } from "firebase/database";
 
 import { defaultValues, Form, resolver } from "./validation";
 import { gasDB } from "./types";
-import { format } from "date-fns";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
