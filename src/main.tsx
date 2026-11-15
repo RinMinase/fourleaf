@@ -10,7 +10,6 @@ import Nav from "./common/sections/Nav";
 
 import "./http";
 
-import "react-loading-skeleton/dist/skeleton.css";
 import "animate.css";
 import "scss-spinners/dist/spinners.min.css";
 
