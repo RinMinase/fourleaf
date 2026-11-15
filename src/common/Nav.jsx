@@ -37,7 +37,7 @@ export default function Nav({ isAuth }) {
     <>
       <nav
         id="nav"
-        class="flex items-center sm:py-2 sm:px-4 justify-between md:justify-center max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-slate-900 sticky md:relative top-0 inset-x-0"
+        class="flex items-center sm:py-2 sm:px-4 justify-between max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-slate-900 sticky md:relative top-0 inset-x-0"
       >
         <a href="/" class="flex items-center gap-4 h-7 order-2 md:order-0">
           <img src="/favicon.png" class="h-full w-7" />

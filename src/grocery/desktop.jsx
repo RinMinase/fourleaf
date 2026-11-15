@@ -79,7 +79,7 @@ export default function GroceryDesktop() {
   }
 
   return (
-    <div class="flex h-full max-h-[calc(100vh-32px-48px)]">
+    <div class="flex h-full grow max-h-[calc(100vh-32px-48px)]">
       <div class="w-1/3 lg:w-1/4 flex flex-col">
         <div
           class={clsx("h-1/2 pr-2", {

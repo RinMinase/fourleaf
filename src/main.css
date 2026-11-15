@@ -3,42 +3,42 @@
 /* inter-200 - latin */
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 200;
-  src: url('/fonts/inter-v20-latin-200.woff2') format('woff2');
+  src: url("/fonts/inter-v20-latin-200.woff2") format("woff2");
 }
 /* inter-300 - latin */
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 300;
-  src: url('/fonts/inter-v20-latin-300.woff2') format('woff2');
+  src: url("/fonts/inter-v20-latin-300.woff2") format("woff2");
 }
 /* inter-regular - latin */
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/inter-v20-latin-regular.woff2') format('woff2');
+  src: url("/fonts/inter-v20-latin-regular.woff2") format("woff2");
 }
 /* inter-500 - latin */
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
-  src: url('/fonts/inter-v20-latin-500.woff2') format('woff2');
+  src: url("/fonts/inter-v20-latin-500.woff2") format("woff2");
 }
 /* inter-700 - latin */
 @font-face {
   font-display: swap;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
-  src: url('/fonts/inter-v20-latin-700.woff2') format('woff2');
+  src: url("/fonts/inter-v20-latin-700.woff2") format("woff2");
 }
 
 /**
@@ -59,83 +59,32 @@
   --text-5xs--line-height: 0.75rem;
 }
 
-/**
- * Additional Styles
- */
+@layer base {
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
 
-html {
-  height: 100%;
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield !important;
+    appearance: none;
+    margin: 0;
+  }
+
 }
 
-body {
-  min-height: 100%;
-  display: flex;
-}
+@layer components {
+  .custom-input {
+    @apply relative;
 
-#app {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
+    & > label {
+      @apply absolute -top-2.5 left-2 text-2xs inline-block bg-white px-2 py-1;
+    }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: textfield !important;
-  appearance: none;
-  margin: 0;
-}
-
-.custom-input {
-  position: relative;
-}
-
-.custom-input > label {
-  position: absolute;
-  top: -10px;
-  left: 8px;
-
-  font-size: 11px;
-  display: inline-block;
-  background-color: #fff;
-  padding: 4px 8px;
-}
-
-.custom-input > input {
-  position: relative;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 45px;
-
-  padding: 8px 12px;
-  font-size: 16px;
-  line-height: 24px;
-  border-radius: 4px;
-  border: 1px solid #9e9e9e;
-}
-
-.custom-input > input.error {
-  border: 1px solid #f44336;
-}
-
-.custom-input > .error-message {
-  display: block;
-
-  color: #f44336;
-  font-size: 10px;
-
-  min-height: 15px;
+    & > input {
+      @apply relative top-0 left-0 w-full h-11.25 px-3 py-2 text-base leading-6 rounded-sm border border-stone-400 outline-0;
+    }
+  }
 }

@@ -84,13 +84,15 @@ function Layout() {
 
   return (
     <LocationProvider>
-      <GlobalAuthGuard user={user} loading={loading} />
+      <div class="flex flex-col grow min-w-screen min-h-screen">
+        <GlobalAuthGuard user={user} loading={loading} />
 
-      <Nav isAuth={isAuth} />
+        <Nav isAuth={isAuth} />
 
-      <main class="p-4 grow">
-        <Routes />
-      </main>
+        <main class="p-4 grow flex flex-col">
+          <Routes />
+        </main>
+      </div>
     </LocationProvider>
   );
 }

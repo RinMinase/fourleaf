@@ -35,7 +35,7 @@ export default function Login() {
   };
 
   return (
-    <div class="flex h-full flex-col">
+    <div class="flex flex-col grow">
       <div class="flex grow flex-col w-full gap-y-4 justify-center items-center">
         <h1 class="text-2xl font-bold mb-3 text-center">
           Login to Fourleaf 🍀
