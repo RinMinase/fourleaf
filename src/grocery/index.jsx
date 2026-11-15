@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
-import { onValue, push, child, update, remove, getDatabase, ref } from "firebase/database";
+import { onValue, push, child, update, remove, ref, getDatabase } from "firebase/database";
 import clsx from "clsx";
 
 import {

@@ -12,18 +12,18 @@ import "scss-spinners/dist/spinners.min.css";
 import "./main.css";
 
 // Route Imports
-import Login from "./login"; // migrated
-import Notes from "./notes"; // migrated
+import Login from "./login";
+import Notes from "./notes";
 
-import Grocery from "./grocery"; // migrated
-import GroceryDesktop from "./grocery/desktop"; // migrated
-import GroceryList from "./grocery/list"; // migrated
-import GroceryOrder from "./grocery/order"; // migrated
+import Grocery from "./grocery";
+import GroceryDesktop from "./grocery/desktop";
+import GroceryList from "./grocery/list";
+import GroceryOrder from "./grocery/order";
 
-// import TravelMobile from "./travel";
-// import TravelList from "./travel/list";
-// import TravelOrder from "./travel/order";
-// import TravelDesktop from "./travel/desktop";
+import TravelMobile from "./travel";
+import TravelDesktop from "./travel/desktop";
+import TravelList from "./travel/list";
+import TravelOrder from "./travel/order";
 
 function Routes() {
   return (
@@ -36,10 +36,10 @@ function Routes() {
       <Route path="/grocery/:id" component={GroceryList} />
       <Route path="/grocery/:id/order" component={GroceryOrder} />
 
-      {/* <Route path="/travel" component={TravelMobile} />
+      <Route path="/travel" component={TravelMobile} />
+      <Route path="/travel-desktop" component={TravelDesktop} />
       <Route path="/travel/:id" component={TravelList} />
       <Route path="/travel/:id/order" component={TravelOrder} />
-      <Route path="/travel-desktop" component={TravelDesktop} /> */}
 
       <Route default component={() => (<h1>404: Not Found</h1>)} />
     </Router>
@@ -51,7 +51,7 @@ function GlobalAuthGuard({ user, loading }) {
   const { path, route } = useLocation();
 
   useEffect(() => {
-    if (loading) return; // wait for Firebase session check
+    if (loading) return; // wait for firebase session check
 
     const isLoginRoute = path.includes("login");
 

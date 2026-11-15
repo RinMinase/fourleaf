@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { child, push, remove, update } from "firebase/database";
+import { child, getDatabase, push, ref, remove, update } from "firebase/database";
 import clsx from "clsx";
 
 import {

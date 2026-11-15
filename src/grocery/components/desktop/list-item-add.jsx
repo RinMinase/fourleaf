@@ -1,5 +1,5 @@
 import { useRef, useState } from "preact/hooks";
-import { child, push, update } from "firebase/database";
+import { child, getDatabase, push, ref, update } from "firebase/database";
 
 import { numericInput } from "../../../common/functions";
 
