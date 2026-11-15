@@ -36,12 +36,5 @@
     "@types/lodash-es": "4.17.12",
     "typescript": "7.0.2",
     "vite": "8.3.8"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "bracketSpacing": true,
-    "trailingComma": "all",
-    "arrowParens": "always",
-    "endOfLine": "lf"
   }
 }
