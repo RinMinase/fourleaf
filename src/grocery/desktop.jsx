@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { getDatabase, onValue, ref } from "firebase/database";
 import clsx from "clsx";
 
-import { checkDeviceIfMobile } from "../common/functions";
-
-import ListContainer from './components/desktop/list-container';
-import ListItemContainer from './components/desktop/list-item-container';
-import ListOrderContainer from './components/desktop/list-order-container';
+import { useResponsive } from "../common/functions";
+import ListContainer from "./components/desktop/list-container";
+import ListItemContainer from "./components/desktop/list-item-container";
+import ListOrderContainer from "./components/desktop/list-order-container";
 
 const groceryDB = ref(getDatabase(), "grocery");
-const isMobile = checkDeviceIfMobile();
 
 export default function GroceryDesktop() {
+  const { isMobile } = useResponsive();
+
   const listSubscription = useRef();
   const listItemSubscription = useRef();
 

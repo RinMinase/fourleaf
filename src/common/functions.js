@@ -1,25 +1,8 @@
+import { useEffect, useState } from "preact/hooks";
+
 export function emptyStringToNull(value, originalValue) {
   if (typeof originalValue === "string" && originalValue === "") return null;
   return value;
-}
-
-export function checkDeviceIfMobile() {
-  if (typeof window !== 'undefined' && window.innerWidth < 768) {
-    return true;
-  }
-
-  const ua = navigator.userAgent;
-
-  // iPhones, iPods, and Chrome on iOS
-  const isIosPhoneOrChrome = /iphone|ipod|crios/i.test(ua);
-
-  // iPads running iPadOS (reports as Macintosh with touch support)
-  const isIpad = /macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
-
-  // on ipad, consider mobile ONLY on portrait mode
-  if (isIpad) return window.innerHeight > window.innerWidth;
-
-  return isIosPhoneOrChrome;
 }
 
 export function getYearsInArray(start, stop, step) {
@@ -39,7 +22,34 @@ export const numericInput = {
   },
 };
 
-export const sortCategoryOrder = (list) => (list.sort((a, b) => {
-  if (a.order && b.order) return a.order - b.order;
-  return 1;
-}));
+export function sortCategoryOrder(list) {
+  return (list.sort((a, b) => {
+    if (a.order && b.order) return a.order - b.order;
+    return 1;
+  }))
+};
+
+/**
+ * Hooks
+ */
+const breakpoints = { sm: 640, md: 768, lg: 1024, xl: 1280, "2xl": 1536 };
+
+export function useResponsive() {
+  const [width, setWidth] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 0,
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return {
+    width,
+    isMobile: width < breakpoints.md, // xs, sm
+    isTablet: width >= breakpoints.md && width < breakpoints.lg, // md, < lg
+    isDesktop: width >= breakpoints.lg, // lg++
+  };
+}

@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { useLocation, useRoute } from "preact-iso";
-import { child, getDatabase, onValue, push, ref, update } from "firebase/database";
+import { child, getDatabase, onValue, push, ref, update } from "firebase/database"; // prettier-ignore
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 
-import { checkDeviceIfMobile, sortCategoryOrder } from "../common/functions";
+import { sortCategoryOrder, useResponsive } from "../common/functions";
 import { OpenErrorSwal, Swal } from "./components/travel-swal";
 import CategoryList from "./components/mobile/list-category";
 
 const travelDb = ref(getDatabase(), "travel");
-const isMobile = checkDeviceIfMobile();
 
 export default function App() {
   const location = useLocation();
   const route = useRoute();
   const listId = route.params.id;
+  const { isMobile } = useResponsive();
 
   const dataSubscription = useRef();
 
@@ -50,7 +50,9 @@ export default function App() {
         if (!name) {
           Swal.showValidationMessage("Name is required");
         } else if (name.length > 32) {
-          Swal.showValidationMessage("Name should not have more than 32 characters");
+          Swal.showValidationMessage(
+            "Name should not have more than 32 characters",
+          );
         } else {
           const path = `/${listId}/list`;
           const newKey = push(child(travelDb, path)).key;
@@ -137,12 +139,12 @@ export default function App() {
     }
 
     if ("visualViewport" in window) {
-      (window.visualViewport).addEventListener("resize", handleKeyboard);
+      window.visualViewport.addEventListener("resize", handleKeyboard);
     }
 
     return () => {
       if ("visualViewport" in window) {
-        (window.visualViewport).removeEventListener("resize", handleKeyboard);
+        window.visualViewport.removeEventListener("resize", handleKeyboard);
       }
     };
   }, []);

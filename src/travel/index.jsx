@@ -3,14 +3,14 @@ import { useLocation } from "preact-iso";
 import { getDatabase, onValue, push, ref, update } from "firebase/database";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
-import { checkDeviceIfMobile } from "../common/functions";
+import { useResponsive } from "../common/functions";
 import { OpenErrorSwal, Swal } from "./components/travel-swal";
 
 const travelDb = ref(getDatabase(), "travel");
-const isMobile = checkDeviceIfMobile();
 
 export default function Travel() {
   const location = useLocation();
+  const { isMobile } = useResponsive();
 
   const [isLoading, setLoading] = useState(true);
   const [lists, setLists] = useState([]);

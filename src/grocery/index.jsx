@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
-import { onValue, push, child, update, remove, ref, getDatabase } from "firebase/database";
+import { onValue, push, child, update, remove, ref, getDatabase } from "firebase/database"; // prettier-ignore
 import clsx from "clsx";
 
 import {
@@ -16,15 +16,15 @@ import {
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 
-import { checkDeviceIfMobile } from "../common/functions";
+import { useResponsive } from "../common/functions";
 import { OpenErrorSwal, Swal } from "./components/grocery-swal";
 
 const groceryDB = ref(getDatabase(), "grocery");
-const isMobile = checkDeviceIfMobile();
 const currUnixDate = new Date().setUTCHours(0, 0, 0, 0);
 
 export default function Grocery() {
   const location = useLocation();
+  const { isMobile } = useResponsive();
 
   const [isLoading, setLoading] = useState(true);
   const [showHiddenLists, setShowHiddenLists] = useState(false);
@@ -109,8 +109,8 @@ export default function Grocery() {
         />`,
       focusConfirm: false,
       preConfirm: () => {
-        const name = (document.getElementById("swal-input1")).value;
-        const date = (document.getElementById("swal-input2")).value;
+        const name = document.getElementById("swal-input1").value;
+        const date = document.getElementById("swal-input2").value;
 
         if (!name) {
           Swal.showValidationMessage("Name should not be blank");

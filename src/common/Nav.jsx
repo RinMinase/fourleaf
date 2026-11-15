@@ -1,12 +1,10 @@
 import { useEffect, useState } from "preact/hooks";
+import { useLocation } from "preact-iso";
 import { signOut } from "firebase/auth";
 import clsx from "clsx";
 
 import { auth } from "../firebase";
-import { checkDeviceIfMobile } from "./functions";
-import { useLocation } from "preact-iso";
-
-const isMobile = checkDeviceIfMobile();
+import { useResponsive } from "./functions";
 
 const menu = [
   {
@@ -36,7 +34,8 @@ const menu = [
 ];
 
 export default function Nav({ isAuth }) {
-  const location = useLocation()
+  const location = useLocation();
+  const { isMobile } = useResponsive();
 
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -78,7 +77,8 @@ export default function Nav({ isAuth }) {
                     class={clsx(
                       "inline-block select-none py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
                       {
-                        "text-blue-500 cursor-default active": location.path === item.route,
+                        "text-blue-500 cursor-default active":
+                          location.path === item.route,
                       },
                     )}
                     onClick={() => setMenuOpen(false)}

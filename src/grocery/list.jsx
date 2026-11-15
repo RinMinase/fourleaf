@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { useLocation, useRoute } from "preact-iso";
-import { child, getDatabase, onValue, push, ref, update } from "firebase/database";
+import { child, getDatabase, onValue, push, ref, update } from "firebase/database"; // prettier-ignore
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
 import {
@@ -9,17 +9,17 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 
-import { checkDeviceIfMobile, sortCategoryOrder } from "../common/functions";
+import { sortCategoryOrder, useResponsive } from "../common/functions";
 import { OpenErrorSwal, Swal } from "./components/grocery-swal";
 import CategoryList from "./components/mobile/list-category";
 
 const groceryDB = ref(getDatabase(), "grocery");
-const isMobile = checkDeviceIfMobile();
 
 export default function GroceryList() {
   const location = useLocation();
   const route = useRoute();
   const listId = route.params.id;
+  const { isMobile } = useResponsive();
 
   const dataSubscription = useRef();
 
@@ -44,14 +44,17 @@ export default function GroceryList() {
         if (!name) {
           Swal.showValidationMessage("Name is required");
         } else if (name.length > 32) {
-          Swal.showValidationMessage("Name should not have more than 32 characters");
+          Swal.showValidationMessage(
+            "Name should not have more than 32 characters",
+          );
         } else {
           const path = `/${listId}/list`;
           const newKey = push(child(groceryDB, path)).key;
 
           let newOrderValue = 1;
           data.list.forEach((list) => {
-            if (list.order && list.order >= newOrderValue) newOrderValue = list.order + 1;
+            if (list.order && list.order >= newOrderValue)
+              newOrderValue = list.order + 1;
           });
 
           update(groceryDB, {
@@ -128,12 +131,12 @@ export default function GroceryList() {
     }
 
     if ("visualViewport" in window) {
-      (window.visualViewport).addEventListener("resize", handleKeyboard);
+      window.visualViewport.addEventListener("resize", handleKeyboard);
     }
 
     return () => {
       if ("visualViewport" in window) {
-        (window.visualViewport).removeEventListener("resize", handleKeyboard);
+        window.visualViewport.removeEventListener("resize", handleKeyboard);
       }
     };
   }, []);

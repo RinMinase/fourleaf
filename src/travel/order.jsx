@@ -1,24 +1,19 @@
 import { useEffect, useState } from "preact/hooks";
 import { useLocation, useRoute } from "preact-iso";
 import { child, getDatabase, onValue, ref, update } from "firebase/database";
-import { ChevronLeftIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline"; // prettier-ignore
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-} from "@hello-pangea/dnd";
-
-import { checkDeviceIfMobile, sortCategoryOrder } from "../common/functions";
+import { sortCategoryOrder, useResponsive } from "../common/functions";
 import { OpenErrorSwal } from "./components/travel-swal";
 
 const travelDb = ref(getDatabase(), "travel");
-const isMobile = checkDeviceIfMobile();
 
-export default function App(props) {
+export default function App() {
   const location = useLocation();
   const route = useRoute();
   const listId = route.params.id;
+  const { isMobile } = useResponsive();
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState({
