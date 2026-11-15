@@ -19,7 +19,6 @@ lerna-debug.log*
 
 # Node/NPM/Yarn cache/storage/lock files
 node_modules/
-package-lock.json
 
 # Firebase cache directory
 .firebase/
