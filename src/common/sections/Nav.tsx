@@ -25,14 +25,6 @@ const menu: Array<Menu> = [
     route: "/",
     name: "Notes",
   },
-  {
-    route: "/bills",
-    name: "Bills",
-  },
-  {
-    route: "/journal",
-    name: "Journal",
-  },
 ];
 
 const menuLists: Array<Menu> = [
@@ -58,28 +50,11 @@ const menuLists: Array<Menu> = [
   },
 ];
 
-const menuMonitoring: Array<Menu> = [
-  // {
-  //   route: "/gas",
-  //   name: "Gas Monitoring",
-  // },
-  {
-    route: "/gas-data-collection",
-    name: "Gas Data Collection",
-  },
-  {
-    route: "/electricity",
-    name: "Electricity Monitoring",
-  },
-];
-
 export default function Nav({ isAuth, currRoute }: Props) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isListMenuOpen, setListMenuOpen] = useState(false);
-  const [isMonitoringMenuOpen, setMonitoringMenuOpen] = useState(false);
 
   const listMenuSourceRef = useRef<HTMLLIElement>(null);
-  const monitoringMenuSourceRef = useRef<HTMLLIElement>(null);
 
   const handleLogout = () => {
     if (auth) signOut(auth);
@@ -106,7 +81,6 @@ export default function Nav({ isAuth, currRoute }: Props) {
         class="flex flex-col absolute z-9999 text-center w-full h-full top-0 left-0"
         onClick={() => {
           setListMenuOpen(false);
-          setMonitoringMenuOpen(false);
         }}
       >
         <div
@@ -123,7 +97,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
               if (item.mobile) return null;
 
               return (
-                <li class="select-none [&:not(:last-of-type)]:border-b border-slate-300 cursor-pointer hover:bg-slate-200">
+                <li class="select-none not-last-of-type:border-b border-slate-300 cursor-pointer hover:bg-slate-200">
                   <a
                     href={isRoute(item.route) ? undefined : item.route}
                     class="block py-2"
@@ -153,7 +127,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
         id="nav"
         class="flex items-center sm:py-2 sm:px-4 justify-between md:justify-center max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-blue-dark sticky md:relative top-0 inset-x-0"
       >
-        <a href="/" class="flex items-center gap-4 h-7 order-2 md:order-none">
+        <a href="/" class="flex items-center gap-4 h-7 order-2 md:order-0">
           <img src="/favicon.png" class="h-full w-7" />
           <span class="hidden md:inline-block text-xl text-white font-bold">
             Fourleaf
@@ -190,13 +164,6 @@ export default function Nav({ isAuth, currRoute }: Props) {
               onClick={() => setListMenuOpen(true)}
             >
               Lists
-            </li>
-            <li
-              ref={monitoringMenuSourceRef}
-              class="cursor-pointer select-none inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800"
-              onClick={() => setMonitoringMenuOpen(true)}
-            >
-              Monitoring
             </li>
           </ul>
         ) : (
@@ -291,27 +258,6 @@ export default function Nav({ isAuth, currRoute }: Props) {
                   </li>
                 );
               })}
-              {menuMonitoring.map((item) => {
-                if (item.desktop && isMobile) return null;
-
-                return (
-                  <li class="border-b border-gray-300">
-                    <a
-                      href={isRoute(item.route) ? "#" : item.route}
-                      class={clsx("block py-5 px-4", {
-                        "bg-slate-200 active": isRoute(item.route),
-                      })}
-                      onClick={
-                        isRoute(item.route)
-                          ? undefined
-                          : () => setMenuOpen(false)
-                      }
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                );
-              })}
               {isAuth ? (
                 <li class="border-y border-gray-300">
                   <a href="#" class="block py-5 px-4" onClick={handleLogout}>
@@ -336,12 +282,6 @@ export default function Nav({ isAuth, currRoute }: Props) {
 
       {/* Lists navigation */}
       {renderNavigation(isListMenuOpen, listMenuSourceRef, menuLists)}
-
-      {renderNavigation(
-        isMonitoringMenuOpen,
-        monitoringMenuSourceRef,
-        menuMonitoring,
-      )}
     </>
   );
 }
