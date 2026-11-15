@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000,
     host: true,
   },
-  css: {
-    transformer: "lightningcss",
+  build: {
+    chunkSizeWarningLimit: 1500,
   },
 });
