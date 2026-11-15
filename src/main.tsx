@@ -8,8 +8,6 @@ import { auth } from "./firebase";
 import Routes from "./routes";
 import Nav from "./common/sections/Nav";
 
-import "./http";
-
 import "animate.css";
 import "scss-spinners/dist/spinners.min.css";
 
