@@ -1,6 +1,6 @@
 import { render } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { useLocation } from "preact-iso";
+import { LocationProvider, useLocation } from "preact-iso";
 
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -15,47 +15,50 @@ import "scss-spinners/dist/spinners.min.css";
 
 import "./main.css";
 
-const Layout = () => {
-  const location = useLocation();
-  const [isAuth, setAuth] = useState(false);
-  const [currRoute, setRoute] = useState("/");
+const GlobalAuthGuard = ({ user, loading }: any) => {
+  const { path, route } = useLocation();
 
   useEffect(() => {
-    if (auth) {
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setAuth(true);
-        }
+    if (loading) return; // wait for Firebase session check
 
-        // redirect to landing page if user is already logged in
-        if (user && window.location.pathname.includes("login")) {
-          location.route("/");
-        }
+    const isLoginRoute = path.includes("login");
 
-        if (!user) {
-          location.route("/login");
-          setAuth(false);
-        }
-      });
+    if (user && isLoginRoute) {
+      route('/', true);
+    } else if (!user && !isLoginRoute) {
+      route('/login', true);
     }
+  }, [user, loading, path]);
+
+  return null;
+}
+
+const Layout = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth as any, (currUser) => {
+      setUser(currUser as any);
+      setLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
 
-  const handleRouteChange = () => {
-    if (!isAuth) {
-      location.route("/login");
-    }
+  if (loading) return null;
 
-    setRoute(window.location.pathname);
-  };
+  const isAuth = !!user;
 
   return (
-    <>
-      <Nav isAuth={isAuth} currRoute={currRoute} />
+    <LocationProvider>
+      <GlobalAuthGuard user={user} loading={loading} />
+
+      <Nav isAuth={isAuth} />
 
       <main class="p-4 grow">
-        <Routes onChange={handleRouteChange} />
+        <Routes />
       </main>
-    </>
+    </LocationProvider>
   );
 };
 

@@ -5,10 +5,10 @@ import { signOut } from "firebase/auth";
 
 import { auth } from "../../firebase";
 import { checkDeviceIfMobile } from "../functions";
+import { useLocation } from "preact-iso";
 
 type Props = {
   isAuth: boolean;
-  currRoute: string;
 };
 
 type Menu = {
@@ -50,7 +50,9 @@ const menuLists: Array<Menu> = [
   },
 ];
 
-export default function Nav({ isAuth, currRoute }: Props) {
+export default function Nav({ isAuth }: Props) {
+  const location = useLocation()
+
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isListMenuOpen, setListMenuOpen] = useState(false);
 
@@ -59,10 +61,6 @@ export default function Nav({ isAuth, currRoute }: Props) {
   const handleLogout = () => {
     if (auth) signOut(auth);
     setMenuOpen(false);
-  };
-
-  const isRoute = (path: string): boolean => {
-    return currRoute === path;
   };
 
   const renderNavigation = (
@@ -99,7 +97,7 @@ export default function Nav({ isAuth, currRoute }: Props) {
               return (
                 <li class="select-none not-last-of-type:border-b border-slate-300 cursor-pointer hover:bg-slate-200">
                   <a
-                    href={isRoute(item.route) ? undefined : item.route}
+                    href={location.path === item.route ? '#' : item.route}
                     class="block py-2"
                   >
                     {item.name}
@@ -142,13 +140,11 @@ export default function Nav({ isAuth, currRoute }: Props) {
               return (
                 <li>
                   <a
-                    href={isRoute(item.route) ? "#" : item.route}
+                    href={location.path === item.route ? "#" : item.route}
                     class={clsx(
                       "inline-block select-none py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
                       {
-                        "text-blue-500 cursor-default active": isRoute(
-                          item.route,
-                        ),
+                        "text-blue-500 cursor-default active": location.path === item.route,
                       },
                     )}
                     onClick={() => setMenuOpen(false)}
@@ -222,12 +218,12 @@ export default function Nav({ isAuth, currRoute }: Props) {
                 return (
                   <li class="border-b border-gray-300">
                     <a
-                      href={isRoute(item.route) ? "#" : item.route}
+                      href={location.path === item.route ? "#" : item.route}
                       class={clsx("block py-5 px-4", {
-                        "bg-slate-200 active": isRoute(item.route),
+                        "bg-slate-200 active": location.path === item.route,
                       })}
                       onClick={
-                        isRoute(item.route)
+                        location.path === item.route
                           ? undefined
                           : () => setMenuOpen(false)
                       }
@@ -243,12 +239,12 @@ export default function Nav({ isAuth, currRoute }: Props) {
                 return (
                   <li class="border-b border-gray-300">
                     <a
-                      href={isRoute(item.route) ? "#" : item.route}
+                      href={location.path === item.route ? "#" : item.route}
                       class={clsx("block py-5 px-4", {
-                        "bg-slate-200 active": isRoute(item.route),
+                        "bg-slate-200 active": location.path === item.route,
                       })}
                       onClick={
-                        isRoute(item.route)
+                        location.path === item.route
                           ? undefined
                           : () => setMenuOpen(false)
                       }

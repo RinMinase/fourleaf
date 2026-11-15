@@ -13,12 +13,8 @@ import TravelList from "./travel/list"
 import TravelOrder from "./travel/order"
 import TravelDesktop from "./travel/desktop"
 
-type Props = {
-  onChange: () => void;
-};
-
-const Routes = ({ onChange }: Props) => (
-  <Router onRouteChange={onChange}>
+const Routes = () => (
+  <Router>
     <Route path="/" component={Notes} />
     <Route path="/login" component={Login} />
 
