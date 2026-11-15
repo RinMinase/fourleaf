@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { route } from "preact-router";
+import { useLocation } from "preact-iso";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { ChevronLeftIcon, ListBulletIcon } from "@heroicons/react/24/outline";
@@ -22,6 +22,7 @@ type Props = {
 const isMobile = checkDeviceIfMobile();
 
 export default function App(props: Props) {
+  const location = useLocation();
   const dataSubscription = useRef<Unsubscribe>();
 
   const [isLoading, setLoading] = useState(true);
@@ -115,7 +116,7 @@ export default function App(props: Props) {
 
           setLoading(false);
         } else {
-          route("/travel");
+          location.route("/travel");
         }
       },
       OpenErrorSwal,
@@ -177,7 +178,7 @@ export default function App(props: Props) {
       <div class="flex justify-between items-center">
         <div
           class="h-7 flex items-center cursor-pointer font-medium"
-          onClick={() => route("/travel")}
+          onClick={() => location.route("/travel")}
         >
           <ChevronLeftIcon class="w-5" />
           <span class="px-1.5">Back</span>
@@ -200,7 +201,7 @@ export default function App(props: Props) {
           <>
             <div
               class="w-7 mr-1.5 pr-1 flex items-center justify-end cursor-pointer"
-              onClick={() => route(`/travel/${data.id}/order`)}
+              onClick={() => location.route(`/travel/${data.id}/order`)}
               children={<ListBulletIcon class="w-6" />}
             />
             <div

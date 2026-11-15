@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { route } from "preact-router";
+import { useLocation } from "preact-iso";
 
 import {
   DragDropContext,
@@ -27,6 +27,8 @@ type Props = {
 const isMobile = checkDeviceIfMobile();
 
 export default function App(props: Props) {
+  const location = useLocation();
+
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<ListItem>({
     id: "",
@@ -85,7 +87,7 @@ export default function App(props: Props) {
           setData(listData);
           setLoading(false);
         } else {
-          route("/travel");
+          location.route("/travel");
         }
       },
       OpenErrorSwal,
@@ -112,7 +114,7 @@ export default function App(props: Props) {
     <div>
       <div
         class="h-7 flex items-center cursor-pointer font-medium"
-        onClick={() => route(`/travel/${props.matches?.id}`)}
+        onClick={() => location.route(`/travel/${props.matches?.id}`)}
       >
         <ChevronLeftIcon class="w-5" />
         <span class="px-1.5">Back</span>

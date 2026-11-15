@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { route } from "preact-router";
+import { useLocation } from "preact-iso";
 
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 
@@ -13,6 +13,8 @@ import { List } from "./types";
 const isMobile = checkDeviceIfMobile();
 
 export default function App() {
+  const location = useLocation();
+
   const [isLoading, setLoading] = useState(true);
   const [lists, setLists] = useState<List>([]);
 
@@ -109,7 +111,7 @@ export default function App() {
           <div
             key={list.id}
             class="flex items-center border-b border-slate-500 cursor-pointer"
-            onClick={() => route(`/travel/${list.id}`)}
+            onClick={() => location.route(`/travel/${list.id}`)}
           >
             <div class="grow flex justify-between items-center py-4 ">
               <p class="inline-block ml-2 grow">{list.name}</p>

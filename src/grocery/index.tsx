@@ -1,6 +1,6 @@
 import { JSX } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { route } from "preact-router";
+import { useLocation } from "preact-iso";
 import clsx from "clsx";
 
 import {
@@ -27,6 +27,8 @@ const isMobile = checkDeviceIfMobile();
 const currUnixDate = new Date().setUTCHours(0, 0, 0, 0).valueOf();
 
 export default function App() {
+  const location = useLocation();
+
   const [isLoading, setLoading] = useState(true);
   const [showHiddenLists, setShowHiddenLists] = useState(false);
   const [unfilteredList, setUnfilteredList] = useState<List>([]);
@@ -249,7 +251,7 @@ export default function App() {
           <div
             key={list.id}
             class="flex items-center border-b border-slate-500 cursor-pointer"
-            onClick={() => route(`/grocery/${list.id}`)}
+            onClick={() => location.route(`/grocery/${list.id}`)}
           >
             <div
               class="w-7 py-3"

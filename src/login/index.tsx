@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import { route } from "preact-router";
+import { useLocation } from "preact-iso";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -8,6 +8,8 @@ import { auth } from "../firebase";
 import { defaultValues, Form, resolver } from "./validation";
 
 export default function App() {
+  const location = useLocation();
+
   const [isLoading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
 
@@ -23,7 +25,7 @@ export default function App() {
     if (auth) {
       await signInWithEmailAndPassword(auth, data.email, data.password)
         .then(() => {
-          route("/");
+          location.route("/");
         })
         .catch((error) => {
           console.error(error.code, error.message);

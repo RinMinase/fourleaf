@@ -1,6 +1,6 @@
 import { render } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { route } from "preact-router";
+import { useLocation } from "preact-iso";
 
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -17,6 +17,7 @@ import "scss-spinners/dist/spinners.min.css";
 import "./main.css";
 
 const Layout = () => {
+  const location = useLocation();
   const [isAuth, setAuth] = useState(false);
   const [currRoute, setRoute] = useState("/");
 
@@ -29,11 +30,11 @@ const Layout = () => {
 
         // redirect to landing page if user is already logged in
         if (user && window.location.pathname.includes("login")) {
-          route("/");
+          location.route("/");
         }
 
         if (!user) {
-          route("/login");
+          location.route("/login");
           setAuth(false);
         }
       });
@@ -42,7 +43,7 @@ const Layout = () => {
 
   const handleRouteChange = () => {
     if (!isAuth) {
-      route("/login");
+      location.route("/login");
     }
 
     setRoute(window.location.pathname);
