@@ -1,5 +1,68 @@
 @import "tailwindcss";
 
+/* inter-200 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 200;
+  src: url('/fonts/inter-v20-latin-200.woff2') format('woff2');
+}
+/* inter-300 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/inter-v20-latin-300.woff2') format('woff2');
+}
+/* inter-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/inter-v20-latin-regular.woff2') format('woff2');
+}
+/* inter-500 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/inter-v20-latin-500.woff2') format('woff2');
+}
+/* inter-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/inter-v20-latin-700.woff2') format('woff2');
+}
+
+/**
+ * Tailwind Styles
+ */
+@theme {
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --text-2xs: 0.6875rem; /* 11px */
+  --text-2xs--line-height: 1rem;
+  --text-3xs: 0.625rem; /* 10px */
+  --text-3xs--line-height: 0.875rem;
+  --text-4xs: 0.5625rem; /* 9px */
+  --text-4xs--line-height: 0.75rem;
+  --text-5xs: 0.5rem; /* 8px */
+  --text-5xs--line-height: 0.75rem;
+}
+
+/**
+ * Additional Styles
+ */
+
 html {
   height: 100%;
 }
@@ -116,30 +179,4 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .animate__animated.animate__fadeInRight {
   --animate-duration: 0.25s;
-}
-
-/* Bugs found in Alpha 23 */
-* {
-  font-family: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-
-.z-9999 {
-  z-index: 9999;
-}
-
-.z-9990 {
-  z-index: 9990;
-}
-
-.z-9980 {
-  z-index: 9980;
-}
-
-.z-9970 {
-  z-index: 9970;
-}
-
-.z-9960 {
-  z-index: 9960;
 }
