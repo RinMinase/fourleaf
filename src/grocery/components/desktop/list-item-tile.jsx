@@ -69,14 +69,14 @@ export default function ItemTile(props) {
       />
       {props.item.done ? (
         <button
-          class="bg-green-400 !text-xs uppercase px-3 py-1 rounded min-w-24 max-w-24 cursor-pointer"
+          class="bg-green-400 text-xs! uppercase px-3 py-1 rounded min-w-24 max-w-24 cursor-pointer"
           onClick={(evt) => handleToggleDone(evt, false)}
         >
           Done
         </button>
       ) : (
         <button
-          class="bg-red-400 !text-xs uppercase px-3 py-1 rounded min-w-24 max-w-24 cursor-pointer"
+          class="bg-red-400 text-xs! uppercase px-3 py-1 rounded min-w-24 max-w-24 cursor-pointer"
           onClick={(evt) => handleToggleDone(evt, true)}
         >
           Pending

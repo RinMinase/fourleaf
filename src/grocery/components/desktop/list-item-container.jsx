@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { child, getDatabase, push, ref, remove, update } from "firebase/database"; // prettier-ignore
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import {
   ChevronDownIcon,
@@ -125,7 +125,7 @@ export default function ListItemContainer(props) {
         <input
           id="swal-input1"
           placeholder="Name"
-          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 mb-4! text-sm h-9 shadow-none mt-3"
           value="${category.category}"
           onfocus="this.setSelectionRange(this.value.length,this.value.length);"
         />`,
@@ -173,14 +173,14 @@ export default function ListItemContainer(props) {
         </p>
 
         <button
-          class="!text-xs font-medium uppercase bg-green-400 hover:bg-green-300 px-4 py-0.5 rounded cursor-pointer !mr-3"
+          class="text-xs! font-medium uppercase bg-green-400 hover:bg-green-300 px-4 py-0.5 rounded cursor-pointer mr-3!"
           onClick={() => handleAddCategory()}
         >
           Add Category
         </button>
 
         <button
-          class="!text-xs font-medium uppercase bg-red-400 hover:bg-red-300 px-4 py-0.5 rounded cursor-pointer"
+          class="text-xs! font-medium uppercase bg-red-400 hover:bg-red-300 px-4 py-0.5 rounded cursor-pointer"
           onClick={() => handleDeleteList(props.listData.id)}
         >
           Delete List
@@ -200,11 +200,9 @@ export default function ListItemContainer(props) {
           {props.listData.list.map((category, categoryIndex) => (
             <div>
               <div
-                class={clsx(
+                class={twMerge(
                   "flex items-center text-sm font-bold mb-3 border-b border-slate-300 cursor-pointer",
-                  {
-                    "text-green-500": isFinished(category.items),
-                  },
+                  isFinished(category.items) && "text-green-500",
                 )}
                 onClick={() => handleCollapseToggle(categoryIndex)}
               >

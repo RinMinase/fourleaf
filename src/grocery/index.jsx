@@ -1,7 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
 import { onValue, push, child, update, remove, ref, getDatabase } from "firebase/database"; // prettier-ignore
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import {
   EyeIcon as EyeIconSolid,
@@ -38,7 +38,7 @@ export default function Grocery() {
       title: "Add List",
       showCancelButton: true,
       html: `
-        <input id="swal-input1" placeholder="Name" class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3">
+        <input id="swal-input1" placeholder="Name" class="w-full border border-slate-300 rounded px-2 py-1.5 mb-4! text-sm h-9 shadow-none mt-3">
         <input id="swal-input2" type="date" class="w-full border border-slate-300 rounded px-2 py-1.5 text-sm h-9 shadow-none mt-3" value="${today}">`,
       focusConfirm: false,
       preConfirm: () => {
@@ -96,7 +96,7 @@ export default function Grocery() {
         <input
           id="swal-input1"
           placeholder="Name"
-          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 mb-4! text-sm h-9 shadow-none mt-3"
           value="${forEditList.name}"
           onfocus="this.setSelectionRange(this.value.length,this.value.length);"
         />
@@ -247,21 +247,24 @@ export default function Grocery() {
               children={<MinusCircleIcon class="w-6 text-red-600" />}
             />
             <div
-              class={clsx("grow flex justify-between items-center py-4", {
-                "text-gray-400": list.hidden,
-              })}
+              class={twMerge(
+                "grow flex justify-between items-center py-4",
+                list.hidden && "text-gray-400",
+              )}
             >
               <p
-                class={clsx("inline-block ml-2 grow", {
-                  "text-green-600 font-medium": list.dateValue > currUnixDate,
-                })}
+                class={twMerge(
+                  "inline-block ml-2 grow",
+                  list.dateValue > currUnixDate && "text-green-600 font-medium",
+                )}
               >
                 {list.name}
               </p>
               <p
-                class={clsx("inline-block w-28 text-right", {
-                  "text-green-600 font-medium": list.dateValue > currUnixDate,
-                })}
+                class={twMerge(
+                  "inline-block w-28 text-right",
+                  list.dateValue > currUnixDate && "text-green-600 font-medium",
+                )}
               >
                 {list.date}
               </p>

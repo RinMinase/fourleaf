@@ -28,7 +28,7 @@ export default function ListContainer(props) {
         <input
           id="swal-input1"
           placeholder="Name"
-          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 mb-4! text-sm h-9 shadow-none mt-3"
         />
 
         <input
@@ -74,14 +74,14 @@ export default function ListContainer(props) {
         <h1 class="grow text-xl">Lists</h1>
 
         <button
-          class="!text-xs font-medium uppercase bg-gray-300 hover:bg-gray-400 px-4 py-0.5 !mr-2 w-32 rounded cursor-pointer"
+          class="text-xs! font-medium uppercase bg-gray-300 hover:bg-gray-400 px-4 py-0.5 mr-2! w-32 rounded cursor-pointer"
           onClick={() => props.setShowHiddenLists((val) => !val)}
         >
           {props.showHiddenLists ? "Hide Hidden" : "Show Hidden"}
         </button>
 
         <button
-          class="!text-xs font-medium uppercase bg-green-400 hover:bg-green-500 px-4 py-0.5 rounded cursor-pointer"
+          class="text-xs! font-medium uppercase bg-green-400 hover:bg-green-500 px-4 py-0.5 rounded cursor-pointer"
           onClick={handleAddList}
         >
           Add List

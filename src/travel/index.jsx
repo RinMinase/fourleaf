@@ -22,7 +22,7 @@ export default function Travel() {
       title: "Add List",
       showCancelButton: true,
       html: `
-        <input id="swal-input1" placeholder="Name" class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3">
+        <input id="swal-input1" placeholder="Name" class="w-full border border-slate-300 rounded px-2 py-1.5 mb-4! text-sm h-9 shadow-none mt-3">
         <input id="swal-input2" type="date" class="w-full border border-slate-300 rounded px-2 py-1.5 text-sm h-9 shadow-none mt-3" value="${today}">`,
       focusConfirm: false,
       preConfirm: () => {
@@ -33,7 +33,7 @@ export default function Travel() {
           Swal.showValidationMessage("Name should not be blank");
           document
             .getElementById("swal-input1")
-            ?.classList.add("!border-red-400");
+            ?.classList.add("border-red-400!");
         }
 
         return [name, date];

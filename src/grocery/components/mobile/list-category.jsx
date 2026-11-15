@@ -1,5 +1,5 @@
 import { child, getDatabase, ref, remove, update } from "firebase/database";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import {
   ChevronDownIcon,
@@ -64,7 +64,7 @@ export default function CategoryList(props) {
         <input
           id="swal-input1"
           placeholder="Name"
-          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 mb-4! text-sm h-9 shadow-none mt-3"
           value="${props.category.category}"
           onfocus="this.setSelectionRange(this.value.length,this.value.length);"
         />`,
@@ -93,11 +93,9 @@ export default function CategoryList(props) {
   return (
     <div class="pb-3">
       <div
-        class={clsx(
+        class={twMerge(
           "flex items-center text-sm font-bold mb-3 border-b border-slate-300 cursor-pointer",
-          {
-            "text-green-500": isFinished(props.category.items),
-          },
+          isFinished(props.category.items) && "text-green-500",
         )}
         onClick={() => handleCollapseToggle(props.collapseIndex)}
       >

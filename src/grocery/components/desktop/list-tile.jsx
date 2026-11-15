@@ -1,7 +1,7 @@
 import { child, getDatabase, onValue, ref, update } from "firebase/database";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import { sortCategoryOrder } from "../../../common/functions";
 import { OpenErrorSwal, Swal } from "../../components/grocery-swal";
@@ -30,7 +30,7 @@ export default function ListTile(props) {
         <input
           id="swal-input1"
           placeholder="Name"
-          class="w-full border border-slate-300 rounded px-2 py-1.5 !mb-4 text-sm h-9 shadow-none mt-3"
+          class="w-full border border-slate-300 rounded px-2 py-1.5 mb-4! text-sm h-9 shadow-none mt-3"
           value="${props.list.name}"
           onfocus="this.setSelectionRange(this.value.length,this.value.length);"
         />
@@ -127,16 +127,15 @@ export default function ListTile(props) {
       onClick={() => fetchListData(props.list.id)}
     >
       <p
-        class={clsx("grow break-all", {
-          "text-gray-500": props.list.hidden,
-        })}
+        class={twMerge("grow break-all", props.list.hidden && "text-gray-500")}
       >
         {props.list.name}
       </p>
       <p
-        class={clsx("min-h-full text-xs text-right", {
-          "text-gray-500": props.list.hidden,
-        })}
+        class={twMerge(
+          "min-h-full text-xs text-right",
+          props.list.hidden && "text-gray-500",
+        )}
       >
         {props.list.date}
       </p>

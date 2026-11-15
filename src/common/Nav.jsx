@@ -1,7 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
 import { signOut } from "firebase/auth";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import { auth } from "../firebase";
 import { useResponsive } from "./functions";
@@ -56,12 +56,10 @@ export default function Nav({ isAuth }) {
                 <li>
                   <a
                     href={location.path === item.route ? "#" : item.route}
-                    class={clsx(
+                    class={twMerge(
                       "inline-block select-none py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800",
-                      {
-                        "text-blue-500 cursor-default active":
-                          location.path === item.route,
-                      },
+                      location.path === item.route &&
+                        "text-blue-500 cursor-default active",
                     )}
                     onClick={() => setMenuOpen(false)}
                   >
@@ -127,9 +125,10 @@ export default function Nav({ isAuth }) {
                   <li class="border-b border-gray-300">
                     <a
                       href={location.path === item.route ? "#" : item.route}
-                      class={clsx("block py-5 px-4", {
-                        "bg-slate-200 active": location.path === item.route,
-                      })}
+                      class={twMerge(
+                        "block py-5 px-4",
+                        location.path === item.route && "bg-slate-200 active",
+                      )}
                       onClick={
                         location.path === item.route
                           ? undefined

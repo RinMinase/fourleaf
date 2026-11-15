@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { getDatabase, onValue, ref } from "firebase/database";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 import { useResponsive } from "../common/functions";
 import ListContainer from "./components/desktop/list-container";
@@ -82,9 +82,10 @@ export default function GroceryDesktop() {
     <div class="flex h-full grow max-h-[calc(100vh-32px-48px)]">
       <div class="w-1/3 lg:w-1/4 flex flex-col">
         <div
-          class={clsx("h-1/2 pr-2", {
-            "h-full": !listData.id || !listData.list.length,
-          })}
+          class={twMerge(
+            "h-1/2 pr-2",
+            (!listData.id || !listData.list.length) && "h-full",
+          )}
         >
           <ListContainer
             lists={lists}
