@@ -75,7 +75,9 @@ export default function CategoryList(props) {
         if (!name) {
           Swal.showValidationMessage("Name is required");
         } else if (name.length > 32) {
-          Swal.showValidationMessage("Name should not have more than 32 characters");
+          Swal.showValidationMessage(
+            "Name should not have more than 32 characters",
+          );
         }
 
         return name;

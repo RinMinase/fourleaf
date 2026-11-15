@@ -43,8 +43,8 @@ export default function ListTile(props) {
         />`,
       focusConfirm: false,
       preConfirm: () => {
-        const name = (document.getElementById("swal-input1")).value;
-        const date = (document.getElementById("swal-input2")).value;
+        const name = document.getElementById("swal-input1").value;
+        const date = document.getElementById("swal-input2").value;
 
         if (!name) {
           Swal.showValidationMessage("Name should not be blank");

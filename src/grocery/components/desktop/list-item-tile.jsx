@@ -15,7 +15,6 @@ const groceryDB = ref(getDatabase(), "grocery");
  * @param {Item} props.item
  */
 export default function ItemTile(props) {
-
   /**
    * @param {*} evt
    * @param {"name" | "qty"} type

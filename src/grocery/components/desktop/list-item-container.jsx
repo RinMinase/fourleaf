@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { child, getDatabase, push, ref, remove, update } from "firebase/database";
+import { child, getDatabase, push, ref, remove, update } from "firebase/database"; // prettier-ignore
 import clsx from "clsx";
 
 import {
@@ -25,7 +25,7 @@ const groceryDB = ref(getDatabase(), "grocery");
  * @param {boolean} props.isListDataLoading
  */
 export default function ListItemContainer(props) {
-  const [isCollapseOpen, setIsCollapseOpen] = useState < Array < boolean >> ([]);
+  const [isCollapseOpen, setIsCollapseOpen] = useState([]);
 
   const isFinished = (items) => {
     return items.every((item) => item.done);

@@ -1,11 +1,6 @@
 import { getDatabase, ref, update } from "firebase/database";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-} from "@hello-pangea/dnd";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 
 const groceryDB = ref(getDatabase(), "grocery");
 

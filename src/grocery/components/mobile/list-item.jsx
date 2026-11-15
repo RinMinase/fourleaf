@@ -22,7 +22,9 @@ export default function ListItem(props) {
   const handleBlur = (evt, type) => {
     if (props.item.id) {
       const path = `/${props.listId}/list/${props.categoryId}/items/${props.item.id}/${type}`;
-      update(groceryDB, { [path]: evt.currentTarget.value }).catch(OpenErrorSwal);
+      update(groceryDB, { [path]: evt.currentTarget.value }).catch(
+        OpenErrorSwal,
+      );
     }
   };
 

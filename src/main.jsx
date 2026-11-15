@@ -41,7 +41,7 @@ function Routes() {
       <Route path="/travel/:id" component={TravelList} />
       <Route path="/travel/:id/order" component={TravelOrder} />
 
-      <Route default component={() => (<h1>404: Not Found</h1>)} />
+      <Route default component={() => <h1>404: Not Found</h1>} />
     </Router>
   );
 }
@@ -56,9 +56,9 @@ function GlobalAuthGuard({ user, loading }) {
     const isLoginRoute = path.includes("login");
 
     if (user && isLoginRoute) {
-      route('/', true);
+      route("/", true);
     } else if (!user && !isLoginRoute) {
-      route('/login', true);
+      route("/login", true);
     }
   }, [user, loading, path]);
 
@@ -93,6 +93,6 @@ function Layout() {
       </main>
     </LocationProvider>
   );
-};
+}
 
 render(<Layout />, document.getElementById("app"));

@@ -16,7 +16,7 @@ const travelDb = ref(getDatabase(), "travel");
  */
 export default function AddNewItem(props) {
   const [data, setData] = useState({ name: "", value: "" });
-  const [showFields, setShowFields] = useState < string | null > (null);
+  const [showFields, setShowFields] = useState(null);
 
   const handleAddItem = () => {
     if (data.name) {
