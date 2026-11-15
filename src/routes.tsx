@@ -1,4 +1,4 @@
-import { Router, Route } from "preact-router";
+import { Router, Route } from "preact-iso";
 
 import Login from "./login";
 import Notes from "./notes";
@@ -18,7 +18,7 @@ type Props = {
 };
 
 const Routes = ({ onChange }: Props) => (
-  <Router onChange={onChange}>
+  <Router onRouteChange={onChange}>
     <Route path="/" component={Notes} />
     <Route path="/login" component={Login} />
 
