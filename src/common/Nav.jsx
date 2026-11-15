@@ -2,8 +2,8 @@ import { useEffect, useState } from "preact/hooks";
 import { signOut } from "firebase/auth";
 import clsx from "clsx";
 
-import { auth } from "../../firebase";
-import { checkDeviceIfMobile } from "../functions";
+import { auth } from "../firebase";
+import { checkDeviceIfMobile } from "./functions";
 import { useLocation } from "preact-iso";
 
 const isMobile = checkDeviceIfMobile();

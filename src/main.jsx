@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "./firebase";
 
-import Nav from "./common/sections/Nav";
+import Nav from "./common/Nav";
 
 import "animate.css";
 import "scss-spinners/dist/spinners.min.css";
