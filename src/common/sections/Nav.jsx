@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { signOut } from "firebase/auth";
 import clsx from "clsx";
 
@@ -13,9 +13,6 @@ const menu = [
     route: "/",
     name: "Notes",
   },
-];
-
-const menuLists = [
   {
     route: "/grocery",
     name: "Grocery",
@@ -28,12 +25,12 @@ const menuLists = [
   },
   {
     route: "/travel",
-    name: "Travel Expenses",
+    name: "Travel",
     mobile: true,
   },
   {
     route: "/travel-desktop",
-    name: "Travel Expenses",
+    name: "Travel",
     desktop: true,
   },
 ];
@@ -42,57 +39,10 @@ export default function Nav({ isAuth }) {
   const location = useLocation()
 
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isListMenuOpen, setListMenuOpen] = useState(false);
-
-  const listMenuSourceRef = useRef < HTMLLIElement > (null);
 
   const handleLogout = () => {
     if (auth) signOut(auth);
     setMenuOpen(false);
-  };
-
-  const renderNavigation = (subMenuOpen, menuRef, menu) => {
-    if (!subMenuOpen) return null;
-
-    const bounds = menuRef.current?.getBoundingClientRect();
-    const x = bounds?.x ?? 0;
-    const width = bounds?.width ?? 0;
-
-    return (
-      <div
-        class="flex flex-col absolute z-9999 text-center w-full h-full top-0 left-0"
-        onClick={() => {
-          setListMenuOpen(false);
-        }}
-      >
-        <div
-          class="w-48 bg-white rounded"
-          style={{
-            position: "absolute",
-            top: 48 + 6,
-            // w-48 = 192px / 2 = 96px
-            left: x - 96 + width / 2,
-          }}
-        >
-          <ul class="border border-slate-300 rounded">
-            {menu.map((item) => {
-              if (item.mobile) return null;
-
-              return (
-                <li class="select-none not-last-of-type:border-b border-slate-300 cursor-pointer hover:bg-slate-200">
-                  <a
-                    href={location.path === item.route ? '#' : item.route}
-                    class="block py-2"
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -138,13 +88,6 @@ export default function Nav({ isAuth }) {
                 </li>
               );
             })}
-            <li
-              ref={listMenuSourceRef}
-              class="cursor-pointer select-none inline-block py-2 px-4 [&:hover:not(.active)]:text-sky-300 [&:hover:not(.active)]:bg-slate-800"
-              onClick={() => setListMenuOpen(true)}
-            >
-              Lists
-            </li>
           </ul>
         ) : (
           <div class="grow" />
@@ -217,27 +160,6 @@ export default function Nav({ isAuth }) {
                   </li>
                 );
               })}
-              {menuLists.map((item) => {
-                if (item.desktop && isMobile) return null;
-
-                return (
-                  <li class="border-b border-gray-300">
-                    <a
-                      href={location.path === item.route ? "#" : item.route}
-                      class={clsx("block py-5 px-4", {
-                        "bg-slate-200 active": location.path === item.route,
-                      })}
-                      onClick={
-                        location.path === item.route
-                          ? undefined
-                          : () => setMenuOpen(false)
-                      }
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                );
-              })}
               {isAuth ? (
                 <li class="border-y border-gray-300">
                   <a href="#" class="block py-5 px-4" onClick={handleLogout}>
@@ -259,9 +181,6 @@ export default function Nav({ isAuth }) {
           </div>
         </nav>
       )}
-
-      {/* Lists navigation */}
-      {renderNavigation(isListMenuOpen, listMenuSourceRef, menuLists)}
     </>
   );
 }

@@ -4,6 +4,10 @@ export function emptyStringToNull(value, originalValue) {
 }
 
 export function checkDeviceIfMobile() {
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    return true;
+  }
+
   const ua = navigator.userAgent;
 
   // iPhones, iPods, and Chrome on iOS
