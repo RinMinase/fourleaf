@@ -1,43 +1,36 @@
 import { useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
-import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../firebase";
-import { defaultValues, resolver } from "./validation";
 
 export default function Login() {
   const location = useLocation();
 
-  const [isLoading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ defaultValues, resolver, mode: "onChange" });
-
-  const handleSubmitForm = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
 
     if (auth) {
-      await signInWithEmailAndPassword(auth, data.email, data.password)
-        .then(() => {
-          location.route("/");
-        })
-        .catch((error) => {
-          console.error(error.code, error.message);
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        location.route("/");
+      } catch (error) {
+        console.error(error.code, error.message);
 
-          if (error.code === "auth/invalid-credential") {
-            setLoginError("Invalid credentials");
-          } else {
-            setLoginError("Unknown error");
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        if (error.code === "auth/invalid-credential") {
+          setError("Invalid credentials");
+        } else {
+          setError("Unknown error");
+        }
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -48,56 +41,52 @@ export default function Login() {
           Login to Fourleaf 🍀
         </h1>
 
-        <form
-          class="flex flex-col w-full items-center"
-          novalidate
-          onSubmit={handleSubmit(handleSubmitForm)}
-        >
+        <form class="flex flex-col w-full items-center" onSubmit={handleSubmit}>
           <div class="flex flex-col gap-y-4 w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
             <div class="custom-input">
               <input
+                required
                 type="email"
                 autocomplete="username"
-                {...register("email")}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <label>Email</label>
-              <span class="error-message">{errors.email?.message}</span>
             </div>
 
             <div class="custom-input">
               <input
+                required
                 type="password"
                 autocomplete="current-password"
-                {...register("password")}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <label>Password</label>
-              <span class="error-message">{errors.password?.message}</span>
             </div>
           </div>
 
-          {loginError && (
-            <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
+          {error && (
+            <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mt-4">
               <p class="text-sm text-red-500 border-red-300 rounded-md border w-full h-8 flex items-center justify-center">
-                Error: {loginError}
+                Error: {error}
               </p>
             </div>
           )}
 
           <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
-            {isLoading ? (
+            {loading ? (
               <button
-                class="w-full h-11 rounded-xl border-none mt-4 bg-slate-300"
                 disabled
+                type="button"
+                class="w-full h-11 rounded-xl border-none mt-4 bg-slate-300"
               >
-                <div>
-                  <div class="spinner bubble"></div>
-                </div>
+                <div class="spinner bubble" />
               </button>
             ) : (
               <button
+                disabled={loading}
                 class="w-full h-11 rounded-xl border-none bg-green mt-4 font-bold uppercase text-white"
-                type="submit"
-                disabled={isLoading}
               >
                 Login
               </button>
