@@ -75,22 +75,12 @@ export default function Login() {
           )}
 
           <div class="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
-            {loading ? (
-              <button
-                disabled
-                type="button"
-                class="w-full h-11 rounded-xl border-none mt-4 bg-slate-300"
-              >
-                <div class="spinner bubble" />
-              </button>
-            ) : (
-              <button
-                disabled={loading}
-                class="w-full h-11 rounded-xl border-none bg-green mt-4 font-bold uppercase text-white"
-              >
-                Login
-              </button>
-            )}
+            <button
+              disabled={loading}
+              class="w-full h-11 rounded-xl border-none bg-green-600 cursor-pointer mt-4 font-bold uppercase text-white disabled:bg-slate-300"
+            >
+              Login
+            </button>
           </div>
         </form>
       </div>

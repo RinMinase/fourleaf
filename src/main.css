@@ -89,19 +89,6 @@ input[type="number"] {
   appearance: textfield;
 }
 
-.spinner.bubble {
-  width: 15px;
-  height: 15px;
-  background: #fff;
-}
-
-.spinner.bubble::before,
-.spinner.bubble::after {
-  height: 100%;
-  width: 100%;
-  background: #fff;
-}
-
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -151,32 +138,4 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 10px;
 
   min-height: 15px;
-}
-
-.bg-green {
-  background-color: #66bb6a;
-}
-
-.bg-red {
-  background-color: #f87171;
-}
-
-.bg-red-light {
-  background-color: #e57373;
-}
-
-.bg-orange {
-  background-color: #ffb74d;
-}
-
-.bg-blue {
-  background-color: #38bdf8;
-}
-
-.bg-blue-dark {
-  background-color: #111827;
-}
-
-.animate__animated.animate__fadeInRight {
-  --animate-duration: 0.25s;
 }

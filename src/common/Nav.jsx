@@ -7,30 +7,11 @@ import { auth } from "../firebase";
 import { useResponsive } from "./functions";
 
 const menu = [
-  {
-    route: "/",
-    name: "Notes",
-  },
-  {
-    route: "/grocery",
-    name: "Grocery",
-    mobile: true,
-  },
-  {
-    route: "/grocery-desktop",
-    name: "Grocery",
-    desktop: true,
-  },
-  {
-    route: "/travel",
-    name: "Travel",
-    mobile: true,
-  },
-  {
-    route: "/travel-desktop",
-    name: "Travel",
-    desktop: true,
-  },
+  { route: "/", name: "Notes" },
+  { route: "/grocery", name: "Grocery", mobile: true },
+  { route: "/grocery-desktop", name: "Grocery", desktop: true },
+  { route: "/travel", name: "Travel", mobile: true },
+  { route: "/travel-desktop", name: "Travel", desktop: true },
 ];
 
 export default function Nav({ isAuth }) {
@@ -56,7 +37,7 @@ export default function Nav({ isAuth }) {
     <>
       <nav
         id="nav"
-        class="flex items-center sm:py-2 sm:px-4 justify-between md:justify-center max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-blue-dark sticky md:relative top-0 inset-x-0"
+        class="flex items-center sm:py-2 sm:px-4 justify-between md:justify-center max-h-14 h-14 md:max-h-12 md:h-12 text-white z-9999 bg-slate-900 sticky md:relative top-0 inset-x-0"
       >
         <a href="/" class="flex items-center gap-4 h-7 order-2 md:order-0">
           <img src="/favicon.png" class="h-full w-7" />
@@ -65,7 +46,8 @@ export default function Nav({ isAuth }) {
           </span>
         </a>
 
-        {isAuth ? (
+        {/* Desktop: Menu List */}
+        {isAuth && (
           <ul class="hidden md:flex grow gap-2 justify-center list-none">
             {menu.map((item) => {
               if (item.mobile && !isMobile) return null;
@@ -89,10 +71,9 @@ export default function Nav({ isAuth }) {
               );
             })}
           </ul>
-        ) : (
-          <div class="grow" />
         )}
 
+        {/* Desktop: Login / Logout */}
         {isAuth ? (
           <div class="hidden md:flex justify-end items-center gap-2 cursor-pointer h-8 w-24 text-white">
             <a
@@ -111,8 +92,8 @@ export default function Nav({ isAuth }) {
           </div>
         )}
 
-        {/* Buffer element */}
-        <div class="flex md:hidden w-14 h-px order-1"></div>
+        {/* Mobile: Buffer element */}
+        <div class="flex md:hidden w-14 h-px order-1" />
 
         {/* Mobile Hamburger */}
         <div
@@ -129,7 +110,7 @@ export default function Nav({ isAuth }) {
           id="mobile_menu"
           class="flex flex-col md:hidden fixed z-9999 text-center w-full h-full top-0 left-0"
         >
-          <div class="animate__animated flex justify-end h-14 bg-blue-dark">
+          <div class="animate__animated flex justify-end h-14 bg-slate-900">
             <div
               class="cursor-pointer pl-4 pr-5 pt-2"
               onClick={() => setMenuOpen(false)}
@@ -138,7 +119,7 @@ export default function Nav({ isAuth }) {
             </div>
           </div>
           <div class="grow bg-gray-100">
-            <ul class="animate__animated animate__fadeInRight mobile-menu bg-white">
+            <ul class="animate__animated animate__fadeInRight [animation-duration:0.25s]! mobile-menu bg-white">
               {menu.map((item) => {
                 if (item.desktop && isMobile) return null;
 
